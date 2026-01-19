@@ -1,0 +1,116 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #fff, #999);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 1.2rem;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.form {
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+}
+
+.formGroup {
+    margin-bottom: 2rem;
+}
+
+.label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.input,
+.textarea,
+.select {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.submitBtn {
+    width: 100%;
+}
+
+.successMsg {
+    margin-top: 1rem;
+    color: #4ade80;
+    font-weight: 600;
+    text-align: center;
+}
+
+.errorMsg {
+    margin-top: 1rem;
+    color: #ef4444;
+    font-weight: 600;
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-top: 2rem;
+}
+
+.infoBlock h3 {
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.infoBlock p {
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+}

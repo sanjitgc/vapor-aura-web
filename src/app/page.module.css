@@ -1,0 +1,66 @@
+.main {
+    min-height: 100vh;
+}
+
+.features {
+    padding: 8rem 2rem;
+    background: var(--background);
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.sectionTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #fff, #999);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sectionSubtitle {
+    color: #888;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.featureCard {
+    padding: 3rem 2rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.cardText {
+    color: #aaa;
+    line-height: 1.6;
+}
+
+.cta {
+    text-align: center;
+}

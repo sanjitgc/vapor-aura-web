@@ -1,0 +1,86 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #888;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.message {
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.disclaimer {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .actions {
+        flex-direction: column;
+    }
+
+    .modal {
+        padding: 2rem;
+    }
+}
