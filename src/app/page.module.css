@@ -1,11 +1,31 @@
 .main {
     min-height: 100vh;
+    background-image:
+        radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.24) 0%, transparent 52%),
+        radial-gradient(circle at 100% 0%, rgba(239, 68, 68, 0.2) 0%, transparent 34%);
+}
+
+.scrollSection {
+    scroll-margin-top: calc(var(--header-height) + 10px);
 }
 
 .features {
-    padding: 8rem 2rem;
-    background: var(--background);
+    padding: 7rem 1.5rem;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(34, 197, 94, 0.12), transparent 42%),
+        radial-gradient(circle at 85% 100%, rgba(239, 68, 68, 0.1), transparent 47%);
     position: relative;
+}
+
+.productHints {
+    min-height: calc(100vh - var(--header-height));
+    padding: 4.5rem 1.5rem 5rem;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(34, 197, 94, 0.12), transparent 42%),
+        radial-gradient(circle at 85% 100%, rgba(239, 68, 68, 0.1), transparent 47%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
 }
 
 .container {
@@ -15,14 +35,23 @@
 
 .sectionHeader {
     text-align: center;
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
+}
+
+.productHeader {
+    text-align: center;
+    margin-bottom: 2.5rem;
 }
 
 .sectionTitle {
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-family: inherit;
     margin-bottom: 1rem;
-    background: linear-gradient(to right, #fff, #999);
+    background: linear-gradient(to right, #fff, #cfcfcf);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -30,20 +59,20 @@
 
 .sectionSubtitle {
     color: #888;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.1vw, 1.15rem);
     max-width: 600px;
     margin: 0 auto;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
 }
 
 .featureCard {
-    padding: 3rem 2rem;
+    padding: 2.5rem 1.75rem;
     text-align: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -63,4 +92,183 @@
 
 .cta {
     text-align: center;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.1rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.productCard {
+    text-align: center;
+    padding: 1.6rem 1rem 1.4rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(150deg, rgba(13, 13, 13, 0.92), rgba(6, 6, 6, 0.98));
+    transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.productCard:hover {
+    transform: translateY(-3px);
+    border-color: rgba(34, 197, 94, 0.45);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), 0 0 20px rgba(34, 197, 94, 0.16);
+}
+
+.iconWrap {
+    width: 170px;
+    height: 120px;
+    margin: 0 auto 0.65rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04) 52%, rgba(255, 255, 255, 0) 78%),
+        radial-gradient(circle at center, rgba(145, 145, 145, 0.18), rgba(80, 80, 80, 0.08) 65%, transparent 85%);
+}
+
+.iconImage {
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.iconImageTall {
+    width: 88px;
+}
+
+.productTitle {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: #f6f6f6;
+}
+
+.productText {
+    font-size: 0.93rem;
+    line-height: 1.55;
+    color: #ababab;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.testimonialsSection {
+    padding: 4rem 1.5rem 5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
+}
+
+.testimonialGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.1rem;
+}
+
+.testimonialCard {
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonialLogoWrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04) 52%, rgba(255, 255, 255, 0) 78%),
+        radial-gradient(circle at center, rgba(145, 145, 145, 0.18), rgba(80, 80, 80, 0.08) 65%, transparent 85%);
+}
+
+.testimonialLogo {
+    width: 38px;
+    height: auto;
+}
+
+.testimonialText {
+    color: #b8b8b8;
+    font-size: 0.93rem;
+    line-height: 1.6;
+    margin-bottom: 0.95rem;
+    flex: 1;
+}
+
+.rating {
+    color: var(--primary);
+    letter-spacing: 0.14em;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.testimonialName {
+    font-size: 1rem;
+    color: #f6f6f6;
+    font-weight: 700;
+}
+
+@media (max-width: 640px) {
+    .features {
+        padding: 5.5rem 1rem;
+    }
+
+    .productHints {
+        min-height: auto;
+        padding: 3.75rem 1rem 4rem;
+    }
+
+    .sectionHeader {
+        margin-bottom: 2.5rem;
+    }
+
+    .grid {
+        gap: 1.25rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .productHeader {
+        margin-bottom: 1.8rem;
+    }
+
+    .productGrid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .testimonialGrid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .iconWrap {
+        width: 148px;
+        height: 106px;
+    }
+
+    .iconImage {
+        width: 116px;
+    }
+
+    .iconImageTall {
+        width: 80px;
+    }
+}
+
+@media (max-width: 980px) and (min-width: 641px) {
+    .productGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 720px;
+    }
+
+    .testimonialGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

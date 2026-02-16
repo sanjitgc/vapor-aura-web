@@ -3,16 +3,29 @@
     padding: 8rem 2rem 4rem;
     max-width: 1200px;
     margin: 0 auto;
+    background: transparent;
+    background-image: none;
 }
 
 .header {
     text-align: center;
     margin-bottom: 4rem;
+    background: transparent;
+    background-image: none;
+}
+
+.header::before,
+.header::after {
+    content: none;
 }
 
 .title {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-family: inherit;
     margin-bottom: 1rem;
     background: linear-gradient(to right, #fff, #999);
     -webkit-background-clip: text;
@@ -37,10 +50,22 @@
     border-color: rgba(255, 255, 255, 0.1);
 }
 
+.locationCard::before {
+    display: none;
+}
+
 .mapContainer {
     height: 250px;
     width: 100%;
-    filter: grayscale(100%) invert(90%);
+    filter: none;
+    opacity: 1;
+    mix-blend-mode: normal;
+}
+
+.mapContainer iframe {
+    filter: none;
+    opacity: 1;
+    mix-blend-mode: normal;
 }
 
 .info {

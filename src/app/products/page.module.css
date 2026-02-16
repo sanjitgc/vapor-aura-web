@@ -1,0 +1,82 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-family: inherit;
+    margin-bottom: 0.9rem;
+    background: linear-gradient(to right, #fff, #bfbfbf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #9b9b9b;
+    font-size: 1.15rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem;
+}
+
+.productCard {
+    text-align: center;
+    padding: 1.7rem 1.2rem 1.45rem;
+}
+
+.iconWrap {
+    width: 172px;
+    height: 118px;
+    margin: 0 auto 0.7rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04) 52%, rgba(255, 255, 255, 0) 78%),
+        radial-gradient(circle at center, rgba(145, 145, 145, 0.18), rgba(80, 80, 80, 0.08) 65%, transparent 85%);
+}
+
+.icon {
+    width: 126px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.name {
+    font-size: 1.24rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+    color: #f7f7f7;
+}
+
+.description {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #adadad;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.6rem;
+    }
+}

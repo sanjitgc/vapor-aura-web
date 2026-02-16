@@ -5,7 +5,7 @@ export default function About() {
         <main className={styles.main}>
             <div className={styles.container}>
                 <section className={styles.hero}>
-                    <h1 className={styles.title}>THE AURA</h1>
+                    <h1 className={styles.title}>The Aura</h1>
                     <p className={styles.lead}>
                         Born in Texas. Built for the Elite. Vapor Aura is more than a store.
                     </p>

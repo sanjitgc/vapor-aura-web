@@ -1,0 +1,72 @@
+.main {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 6rem;
+    background: transparent;
+    background-image: none;
+}
+
+.hero::before,
+.hero::after {
+    content: none;
+}
+
+.title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.lead {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 300;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.block {
+    padding: 2rem;
+    border-left: 2px solid var(--primary);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+}
+
+.heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+}
+
+.text {
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 3rem;
+    }
+}

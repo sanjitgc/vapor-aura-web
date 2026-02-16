@@ -1,29 +1,96 @@
 .hero {
-    min-height: 90vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    background: transparent;
+    background-image: none;
     padding: 2rem;
-    padding-top: 80px;
+    padding-top: 104px;
     /* Navbar height */
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* Darken hero backdrop so leaf/logo stand out over home gradients */
+    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.6));
+}
+
+.hero::after {
+    content: none;
+}
+
+.leafAccent {
+    position: absolute;
+    left: -34px;
+    bottom: -22px;
+    width: clamp(190px, 24vw, 310px);
+    height: auto;
+    display: block;
+    background: transparent;
+    mix-blend-mode: normal;
+    filter: none;
+    border: none;
+    box-shadow: none;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.92;
+}
+
+.leafAccentTopRight {
+    position: absolute;
+    right: -40px;
+    top: -36px;
+    width: clamp(180px, 23vw, 300px);
+    height: auto;
+    display: block;
+    background: transparent;
+    mix-blend-mode: normal;
+    filter: none;
+    border: none;
+    box-shadow: none;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+    transform: scaleX(-1) rotate(8deg);
 }
 
 .content {
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 800px;
+    max-width: 880px;
+}
+
+.brandBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.heroLogo {
+    width: clamp(270px, 52vw, 680px);
+    height: auto;
+    display: block;
+    margin: 0 auto 0.45rem;
+    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.14));
 }
 
 .title {
-    font-size: 5rem;
+    font-size: clamp(1.9rem, 4.8vw, 3.15rem);
     font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-    margin-bottom: 2rem;
-    text-transform: uppercase;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    text-transform: none;
+    text-wrap: balance;
 }
 
 .gradientText {
@@ -35,9 +102,9 @@
 }
 
 .subtitle {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
     color: #ccc;
-    margin-bottom: 3rem;
+    margin-bottom: 2.25rem;
     line-height: 1.6;
     max-width: 600px;
     margin-left: auto;
@@ -46,67 +113,55 @@
 
 .actions {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.visitCta {
+    margin-top: 1.1rem;
+    display: flex;
     justify-content: center;
 }
 
-/* Animated Backgrounds */
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.circle1,
-.circle2 {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
-    animation: float 10s infinite ease-in-out;
-}
-
-.circle1 {
-    width: 600px;
-    height: 600px;
-    background: var(--primary);
-    top: -100px;
-    left: -100px;
-    animation-delay: 0s;
-}
-
-.circle2 {
-    width: 500px;
-    height: 500px;
-    background: var(--secondary);
-    bottom: -100px;
-    right: -100px;
-    animation-delay: -5s;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(50px, 50px);
-    }
-}
-
 @media (max-width: 768px) {
+    .hero {
+        padding-top: 98px;
+    }
+
+    .heroLogo {
+        width: clamp(240px, 78vw, 420px);
+        margin-bottom: 0.35rem;
+    }
+
+    .leafAccent {
+        left: -26px;
+        bottom: -18px;
+        width: clamp(150px, 42vw, 220px);
+        opacity: 0.9;
+    }
+
+    .leafAccentTopRight {
+        right: -28px;
+        top: -26px;
+        width: clamp(130px, 38vw, 195px);
+        opacity: 0.86;
+    }
+
     .title {
-        font-size: 3rem;
+        font-size: clamp(1.7rem, 7.5vw, 2.4rem);
+    }
+
+    .subtitle {
+        max-width: 540px;
     }
 
     .actions {
         flex-direction: column;
         align-items: center;
+    }
+
+    .visitCta {
+        margin-top: 0.85rem;
     }
 }

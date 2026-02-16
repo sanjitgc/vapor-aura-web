@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AgeVerification from "@/components/common/AgeVerification";
+import WhyChoose from "@/components/common/WhyChoose";
 
 export default function RootLayout({
   children,
@@ -24,6 +25,7 @@ export default function RootLayout({
         <AgeVerification />
         <Navbar />
         {children}
+        <WhyChoose />
         <Footer />
       </body>
     </html>

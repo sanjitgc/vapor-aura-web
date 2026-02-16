@@ -4,25 +4,44 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
-    { href: "/", label: "Home" },
-    { href: "/locations", label: "Locations" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/#home", label: "Home", hash: "#home" },
+    { href: "/#locations", label: "Locations", hash: "#locations" },
+    { href: "/#about", label: "About Us", hash: "#about" },
+    { href: "/#products", label: "Products", hash: "#products" },
+    { href: "/#contact", label: "Contact", hash: "#contact" },
 ];
 
 export default function Navbar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const [activeHash, setActiveHash] = useState("#home");
+
+    useEffect(() => {
+        if (pathname !== "/") {
+            setActiveHash("");
+            return;
+        }
+
+        const updateActiveHash = () => {
+            setActiveHash(window.location.hash || "#home");
+        };
+
+        updateActiveHash();
+        window.addEventListener("hashchange", updateActiveHash);
+        return () => {
+            window.removeEventListener("hashchange", updateActiveHash);
+        };
+    }, [pathname]);
 
     return (
         <nav className={styles.nav}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
                     <Image
-                        src="/vapor-aura-logo-transparent.png"
+                        src="/vapor-aura-logo-clean.png"
                         alt="Vapor Aura"
                         width={240}
                         height={72}
@@ -37,8 +56,7 @@ export default function Navbar() {
                         <li key={link.href}>
                             <Link
                                 href={link.href}
-                                className={`${styles.link} ${pathname === link.href ? styles.active : ""
-                                    }`}
+                                className={`${styles.link} ${pathname === "/" && activeHash === link.hash ? styles.active : ""}`}
                             >
                                 {link.label}
                             </Link>
@@ -67,7 +85,7 @@ export default function Navbar() {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={styles.mobileLink}
+                            className={`${styles.mobileLink} ${pathname === "/" && activeHash === link.hash ? styles.active : ""}`}
                             onClick={() => setIsOpen(false)}
                         >
                             {link.label}

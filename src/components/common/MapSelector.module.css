@@ -15,7 +15,7 @@
 
 .modal {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1px solid varI want full section for product hightlight not sharing with first section of the home page.instruct properly (--border);
     padding: 2rem;
     border-radius: 1rem;
     text-align: center;

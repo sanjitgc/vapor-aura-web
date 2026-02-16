@@ -33,7 +33,7 @@ export default function AgeVerification() {
         <div className={styles.overlay}>
             <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="age-verification-title">
                 <Image
-                    src="/vapor-aura-logo-transparent.png"
+                    src="/vapor-aura-logo-clean.png"
                     alt="Vapor Aura"
                     width={280}
                     height={84}

@@ -1,0 +1,14 @@
+<svg width="560" height="560" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="0" y="0" width="560" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="26" result="blur"/>
+    </filter>
+  </defs>
+  <g filter="url(#glow)" opacity="0.35">
+    <ellipse cx="280" cy="280" rx="130" ry="130" fill="white"/>
+  </g>
+  <path d="M280 430C280 430 252 340 170 290C120 260 100 205 110 165C146 180 180 210 210 254C205 210 214 160 246 126C276 157 293 205 290 256C322 208 358 178 398 164C406 204 388 260 338 290C308 308 286 340 280 430Z" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M280 208V390" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M216 262C236 276 254 300 264 324" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <path d="M344 262C324 276 306 300 296 324" stroke="white" stroke-width="10" stroke-linecap="round"/>
+</svg>

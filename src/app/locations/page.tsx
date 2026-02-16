@@ -26,7 +26,7 @@ export default function Locations() {
     return (
         <main className={styles.main}>
             <header className={styles.header}>
-                <h1 className={styles.title}>OUR LOCATIONS</h1>
+                <h1 className={styles.title}>Our Locations</h1>
                 <p className={styles.subtitle}>Visit us at one of our premium smoke shops near you.</p>
             </header>
 

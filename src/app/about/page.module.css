@@ -11,11 +11,22 @@
 .hero {
     text-align: center;
     margin-bottom: 6rem;
+    background: transparent;
+    background-image: none;
+}
+
+.hero::before,
+.hero::after {
+    content: none;
 }
 
 .title {
-    font-size: 4rem;
-    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-family: inherit;
     margin-bottom: 1rem;
     background: linear-gradient(to right, var(--primary), var(--secondary));
     -webkit-background-clip: text;

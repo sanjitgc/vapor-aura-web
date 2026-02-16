@@ -1,6 +1,6 @@
 import styles from "./Footer.module.css";
-import Link from "next/link";
 import Image from "next/image";
+import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
     return (
@@ -8,7 +8,7 @@ export default function Footer() {
             <div className={styles.container}>
                 <div className={styles.brand}>
                     <Image
-                        src="/vapor-aura-logo-transparent.png"
+                        src="/vapor-aura-logo-clean.png"
                         alt="Vapor Aura"
                         width={280}
                         height={84}
@@ -17,10 +17,39 @@ export default function Footer() {
                     <p className={styles.tagline}>Premium Smoke & Lifestyle</p>
                 </div>
 
-                <div className={styles.links}>
-                    <Link href="/locations">Locations</Link>
-                    <Link href="/about">About Us</Link>
-                    <Link href="/contact">Contact</Link>
+                <div className={styles.links} aria-label="Social media links">
+                    <a
+                        href="https://www.instagram.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Vapor Aura on Instagram"
+                    >
+                        <FaInstagram aria-hidden="true" />
+                    </a>
+                    <a
+                        href="https://www.facebook.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Vapor Aura on Facebook"
+                    >
+                        <FaFacebookF aria-hidden="true" />
+                    </a>
+                    <a
+                        href="https://www.tiktok.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Vapor Aura on TikTok"
+                    >
+                        <FaTiktok aria-hidden="true" />
+                    </a>
+                    <a
+                        href="https://x.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Visit Vapor Aura on X"
+                    >
+                        <FaXTwitter aria-hidden="true" />
+                    </a>
                 </div>
 
                 <div className={styles.copy}>

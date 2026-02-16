@@ -1,0 +1,17 @@
+<svg width="560" height="560" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="cbdGlow" x="0" y="0" width="560" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="24" result="blur"/>
+    </filter>
+  </defs>
+  <g filter="url(#cbdGlow)" opacity="0.35">
+    <ellipse cx="280" cy="286" rx="126" ry="118" fill="white"/>
+  </g>
+  <rect x="220" y="132" width="120" height="58" rx="14" stroke="white" stroke-width="16"/>
+  <rect x="208" y="190" width="144" height="228" rx="26" stroke="white" stroke-width="18"/>
+  <path d="M248 282C270 266 290 266 312 282" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M280 320V384" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M252 352H308" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M170 212C202 196 228 202 246 226C224 236 196 234 170 212Z" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M390 212C358 196 332 202 314 226C336 236 364 234 390 212Z" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

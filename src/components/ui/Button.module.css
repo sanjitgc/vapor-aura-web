@@ -7,7 +7,7 @@
     letter-spacing: 0.05em;
     border-radius: 9999px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
     border: none;
     font-family: inherit;
     text-decoration: none;
@@ -17,12 +17,12 @@
 .primary {
     background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
-    box-shadow: 0 0 15px var(--primary-glow);
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.22), 0 0 20px var(--primary-glow);
 }
 
 .primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 25px var(--primary-glow);
+    box-shadow: 0 14px 28px rgba(34, 197, 94, 0.28), 0 0 28px var(--primary-glow);
 }
 
 .secondary {
@@ -33,20 +33,32 @@
 
 .secondary:hover {
     border-color: var(--primary);
-    background: rgba(124, 58, 237, 0.1);
+    background: rgba(34, 197, 94, 0.12);
 }
 
 .outline {
     background: transparent;
     border: 2px solid var(--primary);
     color: var(--primary);
-    box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
 }
 
 .outline:hover {
     background: var(--primary);
     color: white;
     box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Sizes */

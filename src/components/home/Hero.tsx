@@ -2,16 +2,41 @@
 
 import styles from "./Hero.module.css";
 import Button from "@/components/ui/Button";
-import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Hero() {
     return (
         <section className={styles.hero}>
+            <Image
+                src="/home-hero-leaf-transparent.png"
+                alt=""
+                width={520}
+                height={520}
+                className={styles.leafAccent}
+                aria-hidden="true"
+            />
+            <Image
+                src="/home-hero-leaf-transparent.png"
+                alt=""
+                width={520}
+                height={520}
+                className={styles.leafAccentTopRight}
+                aria-hidden="true"
+            />
             <div className={styles.content}>
-                <h1 className={styles.title}>
-                    TRANSCEND THE <br />
-                    <span className={styles.gradientText}>ORDINARY</span>
-                </h1>
+                <div className={styles.brandBlock}>
+                    <Image
+                        src="/vapor-aura-logo-clean.png"
+                        alt="Vapor Aura"
+                        width={720}
+                        height={220}
+                        className={styles.heroLogo}
+                        priority
+                    />
+                    <h1 className={styles.title}>
+                        <span className={styles.gradientText}>Transcend the Ordinary</span>
+                    </h1>
+                </div>
                 <p className={styles.subtitle}>
                     Texas&apos; premier destination for elite vapor, smoke, and lifestyle collections.
                     Experience the aura at our locations.
@@ -20,22 +45,15 @@ export default function Hero() {
                     <Button href="/locations" variant="primary" size="lg">
                         Find A Location
                     </Button>
-                    <Button href="/about" variant="outline" size="lg">
+                    <Button href="/about-us" variant="outline" size="lg">
                         Our Story
                     </Button>
                 </div>
-            </div>
-            <div className={styles.background}>
-                <motion.div
-                    className={styles.circle1}
-                    animate={{ x: [0, 30, -30, 0], y: [0, -40, 20, 0] }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div
-                    className={styles.circle2}
-                    animate={{ x: [0, -40, 20, 0], y: [0, 20, -30, 0] }}
-                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-                />
+                <div className={styles.visitCta}>
+                    <Button href="/locations" variant="primary" size="lg">
+                        Visit Us Today
+                    </Button>
+                </div>
             </div>
         </section>
     );
