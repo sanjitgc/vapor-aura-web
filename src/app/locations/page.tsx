@@ -36,6 +36,7 @@ export default function Locations() {
                         <div className={styles.mapContainer}>
                             <iframe
                                 src={loc.mapUrl}
+                                title={`${loc.name} map`}
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Button from "@/components/ui/Button";
 import styles from "./MapSelector.module.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,9 +11,10 @@ interface MapSelectorProps {
 
 export default function MapSelector({ address }: MapSelectorProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const dialogTitleId = useId();
 
     const googleUrl = `https://maps.google.com/maps?q=${encodeURIComponent(address)}`;
-    const appleUrl = `http://maps.apple.com/?q=${encodeURIComponent(address)}`;
+    const appleUrl = `https://maps.apple.com/?q=${encodeURIComponent(address)}`;
 
     return (
         <>
@@ -26,12 +27,15 @@ export default function MapSelector({ address }: MapSelectorProps) {
                     <div className={styles.overlay} onClick={() => setIsOpen(false)}>
                         <motion.div
                             className={styles.modal}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby={dialogTitleId}
                             onClick={(e) => e.stopPropagation()}
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9 }}
                         >
-                            <h3 className={styles.title}>Choose Map App</h3>
+                            <h3 id={dialogTitleId} className={styles.title}>Choose Map App</h3>
                             <div className={styles.options}>
                                 <Button
                                     href={googleUrl}
@@ -52,7 +56,11 @@ export default function MapSelector({ address }: MapSelectorProps) {
                                     Apple Maps
                                 </Button>
                             </div>
-                            <button className={styles.close} onClick={() => setIsOpen(false)}>
+                            <button
+                                className={styles.close}
+                                onClick={() => setIsOpen(false)}
+                                aria-label="Close map app selector"
+                            >
                                 Cancel
                             </button>
                         </motion.div>

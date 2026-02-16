@@ -27,11 +27,9 @@
 }
 
 .logo {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #888;
+    width: 240px;
+    height: auto;
     margin-bottom: 1.5rem;
-    letter-spacing: 0.1em;
 }
 
 .title {

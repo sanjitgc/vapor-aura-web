@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
 interface AnimateInProps {
     children: React.ReactNode;
@@ -15,7 +16,7 @@ export default function AnimateIn({
     delay = 0,
     direction = "up"
 }: AnimateInProps) {
-    const variants = {
+    const variants: Variants = {
         hidden: {
             opacity: 0,
             y: direction === "up" ? 20 : direction === "down" ? -20 : 0,

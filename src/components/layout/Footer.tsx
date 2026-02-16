@@ -1,12 +1,19 @@
 import styles from "./Footer.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.brand}>
-                    <h2 className={styles.logo}>VAPOR AURA</h2>
+                    <Image
+                        src="/vapor-aura-logo-transparent.png"
+                        alt="Vapor Aura"
+                        width={280}
+                        height={84}
+                        className={styles.logo}
+                    />
                     <p className={styles.tagline}>Premium Smoke & Lifestyle</p>
                 </div>
 

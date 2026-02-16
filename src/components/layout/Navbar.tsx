@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { useState } from "react";
@@ -20,7 +21,14 @@ export default function Navbar() {
         <nav className={styles.nav}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    VAPOR AURA
+                    <Image
+                        src="/vapor-aura-logo-transparent.png"
+                        alt="Vapor Aura"
+                        width={240}
+                        height={72}
+                        className={styles.logoImage}
+                        priority
+                    />
                 </Link>
 
                 {/* Desktop Menu */}
@@ -42,6 +50,9 @@ export default function Navbar() {
                 <button
                     className={styles.hamburger}
                     onClick={() => setIsOpen(!isOpen)}
+                    aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                    aria-expanded={isOpen}
+                    aria-controls="mobile-navigation"
                 >
                     <span className={styles.bar}></span>
                     <span className={styles.bar}></span>
@@ -51,7 +62,7 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             {isOpen && (
-                <div className={styles.mobileMenu}>
+                <div id="mobile-navigation" className={styles.mobileMenu}>
                     {links.map((link) => (
                         <Link
                             key={link.href}

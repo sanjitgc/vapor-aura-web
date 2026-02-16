@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import styles from "./AgeVerification.module.css";
 import Button from "@/components/ui/Button";
 
@@ -30,9 +31,16 @@ export default function AgeVerification() {
 
     return (
         <div className={styles.overlay}>
-            <div className={styles.modal}>
-                <div className={styles.logo}>VAPOR AURA</div>
-                <h2 className={styles.title}>AGE VERIFICATION</h2>
+            <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="age-verification-title">
+                <Image
+                    src="/vapor-aura-logo-transparent.png"
+                    alt="Vapor Aura"
+                    width={280}
+                    height={84}
+                    className={styles.logo}
+                    priority
+                />
+                <h2 id="age-verification-title" className={styles.title}>AGE VERIFICATION</h2>
                 <p className={styles.message}>
                     You must be 21 years of age or older to enter this site.
                     <br />

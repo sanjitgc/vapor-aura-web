@@ -24,14 +24,14 @@
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
     transition: opacity 0.3s ease;
+}
+
+.logoImage {
+    width: 220px;
+    height: auto;
 }
 
 .logo:hover {
@@ -107,6 +107,10 @@
 }
 
 @media (max-width: 768px) {
+    .logoImage {
+        width: 165px;
+    }
+
     .menu {
         display: none;
     }

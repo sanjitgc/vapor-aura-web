@@ -42,17 +42,17 @@ export default function Contact() {
                     <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <label htmlFor="name" className={styles.label}>Name</label>
-                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your Name" required />
+                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your Name" required maxLength={100} />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label htmlFor="email" className={styles.label}>Email</label>
-                            <input type="email" id="email" name="email" className={styles.input} placeholder="your@email.com" required />
+                            <input type="email" id="email" name="email" className={styles.input} placeholder="your@email.com" required maxLength={255} />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label htmlFor="subject" className={styles.label}>Subject</label>
-                            <select id="subject" name="subject" className={styles.select}>
+                            <select id="subject" name="subject" className={styles.select} required>
                                 <option value="General Inquiry">General Inquiry</option>
                                 <option value="Store Experience">Store Experience</option>
                                 <option value="Product Request">Product Request</option>
@@ -62,7 +62,7 @@ export default function Contact() {
 
                         <div className={styles.formGroup}>
                             <label htmlFor="message" className={styles.label}>Message</label>
-                            <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required></textarea>
+                            <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required maxLength={5000}></textarea>
                         </div>
 
                         <Button className={styles.submitBtn} size="lg" disabled={isSubmitting}>
