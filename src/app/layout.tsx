@@ -7,6 +7,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "Vapor Aura | Premium Smoke Shop",
   description: "Experience the finest at Vapor Aura. Visit our locations in Texas regarding premium vape, smoke, and lifestyle products.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 import Navbar from "@/components/layout/Navbar";
