@@ -1,0 +1,200 @@
+.main {
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 1.5rem 5rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.title {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    background: linear-gradient(to right, #fff, #cfcfcf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #9a9a9a;
+}
+
+.keyCard {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.keyRow {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 0.65rem;
+}
+
+.helpText {
+    font-size: 0.85rem;
+    color: #8b8b8b;
+    margin-top: 0.55rem;
+}
+
+.noticeCard {
+    padding: 1rem;
+}
+
+.noticeText {
+    color: #b8b8b8;
+}
+
+.contentGrid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+}
+
+.formCard,
+.listCard {
+    padding: 1rem;
+}
+
+.formHeader,
+.listHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.formHeader h2,
+.listHeader h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #f4f4f4;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    color: #bdbdbd;
+    font-size: 0.9rem;
+}
+
+.input,
+.select,
+.textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.55rem;
+    color: #ededed;
+    padding: 0.72rem 0.8rem;
+    font-size: 0.94rem;
+}
+
+.textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.inlineFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+}
+
+.checkboxRow {
+    display: flex;
+    gap: 1rem;
+    margin: 0.3rem 0;
+}
+
+.checkboxLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #d2d2d2;
+    font-size: 0.9rem;
+}
+
+.productList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.productRow {
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.productMeta {
+    min-width: 0;
+}
+
+.productName {
+    color: #f2f2f2;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.productSubline {
+    color: #a6a6a6;
+    font-size: 0.86rem;
+    overflow-wrap: anywhere;
+}
+
+.productActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.emptyText {
+    color: #a0a0a0;
+    padding: 0.5rem 0.2rem;
+}
+
+.message {
+    margin-top: 1rem;
+    color: #d9d9d9;
+}
+
+@media (max-width: 900px) {
+    .contentGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .main {
+        padding: 7rem 1rem 4rem;
+    }
+
+    .keyRow {
+        grid-template-columns: 1fr;
+    }
+
+    .inlineFields {
+        grid-template-columns: 1fr;
+    }
+
+    .productRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

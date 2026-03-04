@@ -16,6 +16,9 @@ export async function GET(request: Request) {
         if (!validation.ok) {
             return NextResponse.json({ success: false, message: validation.message }, { status: 400 });
         }
+        if (validation.data.includeInactive && !isAdminRequest(request)) {
+            return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+        }
 
         const connection = await connectToDatabase();
         if (!connection) {

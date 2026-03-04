@@ -19,6 +19,7 @@ export interface ProductsQuery {
     category?: ProductInput["category"];
     inStock?: boolean;
     search?: string;
+    includeInactive?: boolean;
 }
 
 type QueryValidationResult =
@@ -69,6 +70,7 @@ export function validateProductsQuery(searchParams: URLSearchParams): QueryValid
     const categoryRaw = searchParams.get("category");
     const inStockRaw = searchParams.get("inStock");
     const searchRaw = searchParams.get("search");
+    const includeInactiveRaw = searchParams.get("includeInactive");
 
     const limit = limitRaw ? toFiniteNumber(limitRaw) : DEFAULT_LIMIT;
     const page = pageRaw ? toFiniteNumber(pageRaw) : 1;
@@ -111,6 +113,14 @@ export function validateProductsQuery(searchParams: URLSearchParams): QueryValid
         if (search) {
             data.search = search;
         }
+    }
+
+    if (includeInactiveRaw !== null) {
+        const includeInactive = toBoolean(includeInactiveRaw);
+        if (includeInactive === null) {
+            return { ok: false, message: "includeInactive must be true or false" };
+        }
+        data.includeInactive = includeInactive;
     }
 
     return { ok: true, data };
@@ -184,9 +194,11 @@ export function validateProductPayload(payload: unknown): PayloadValidationResul
 }
 
 export function buildProductListQuery(query: ProductsQuery) {
-    const mongoQuery: Record<string, unknown> = {
-        isActive: true,
-    };
+    const mongoQuery: Record<string, unknown> = {};
+
+    if (!query.includeInactive) {
+        mongoQuery.isActive = true;
+    }
 
     if (query.category) {
         mongoQuery.category = query.category;
