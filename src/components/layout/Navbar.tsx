@@ -20,6 +20,7 @@ interface CartItem {
     brand: string;
     flavor: string;
     quantity: number;
+    unitPrice?: number;
 }
 
 interface SearchEntry {
@@ -39,6 +40,9 @@ interface SearchTarget {
 
 const CART_STORAGE_KEY = "vapor-aura-cart";
 const SEARCH_TARGET_STORAGE_KEY = "vapor-aura-search-target";
+const DEFAULT_UNIT_PRICE = 24.99;
+const DELIVERY_FEE = 4.99;
+const TAX_RATE = 0.0825;
 
 const flavorGroups = [
     {
@@ -158,6 +162,12 @@ export default function Navbar() {
     }, [searchIndex, searchQuery]);
 
     const cartCount = cartItems.reduce((sum, item) => sum + Math.max(1, item.quantity || 1), 0);
+    const subtotal = useMemo(
+        () => cartItems.reduce((sum, item) => sum + (item.unitPrice ?? DEFAULT_UNIT_PRICE) * Math.max(1, item.quantity || 1), 0),
+        [cartItems],
+    );
+    const tax = useMemo(() => subtotal * TAX_RATE, [subtotal]);
+    const total = useMemo(() => subtotal + DELIVERY_FEE + tax, [subtotal, tax]);
 
     useEffect(() => {
         const readCart = () => {
@@ -397,18 +407,6 @@ export default function Navbar() {
                 </ul>
 
                 <div className={styles.navActions}>
-                    <button
-                        type="button"
-                        className={styles.cartButton}
-                        onClick={() => setIsCartOpen(true)}
-                        aria-label={`Open cart with ${cartCount} items`}
-                    >
-                        <FaCartShopping aria-hidden="true" />
-                        <span className={`${styles.cartBadge} ${isBadgeBouncing ? styles.cartBadgeBounce : ""}`}>
-                            {cartCount}
-                        </span>
-                    </button>
-
                     <div className={styles.searchWrap}>
                         <button
                             type="button"
@@ -436,7 +434,7 @@ export default function Navbar() {
                                 onFocus={() => setIsSuggestionOpen(Boolean(searchQuery.trim()))}
                                 onBlur={() => window.setTimeout(() => setIsSuggestionOpen(false), 120)}
                                 onKeyDown={handleSearchKeyDown}
-                                placeholder="Search products, brands, or flavors..."
+                                placeholder={isMobileSearchOpen ? "" : "Search products, brands, or flavors..."}
                                 className={styles.searchInput}
                             />
                             {isSuggestionOpen && filteredSuggestions.length > 0 && (
@@ -456,6 +454,18 @@ export default function Navbar() {
                             )}
                         </div>
                     </div>
+
+                    <button
+                        type="button"
+                        className={styles.cartButton}
+                        onClick={() => setIsCartOpen(true)}
+                        aria-label={`Open cart with ${cartCount} items`}
+                    >
+                        <FaCartShopping aria-hidden="true" />
+                        <span className={`${styles.cartBadge} ${isBadgeBouncing ? styles.cartBadgeBounce : ""}`}>
+                            {cartCount}
+                        </span>
+                    </button>
                 </div>
 
                 {/* Mobile Hamburger (Basic implementation for now) */}
@@ -485,27 +495,13 @@ export default function Navbar() {
                             {link.label}
                         </Link>
                     ))}
-                    <button
-                        type="button"
-                        className={styles.mobileCartButton}
-                        onClick={() => {
-                            setIsOpen(false);
-                            setIsCartOpen(true);
-                        }}
-                    >
-                        <FaCartShopping aria-hidden="true" />
-                        <span>Cart</span>
-                        <span className={`${styles.cartBadge} ${isBadgeBouncing ? styles.cartBadgeBounce : ""}`}>
-                            {cartCount}
-                        </span>
-                    </button>
                 </div>
             )}
 
             {isCartOpen && <button type="button" className={styles.cartBackdrop} onClick={() => setIsCartOpen(false)} aria-label="Close cart" />}
             <aside className={`${styles.cartPanel} ${isCartOpen ? styles.cartPanelOpen : ""}`} aria-hidden={!isCartOpen}>
                 <div className={styles.cartHeader}>
-                    <h3>Shopping Cart</h3>
+                    <h2>Shopping Cart</h2>
                     <button type="button" className={styles.cartClose} onClick={() => setIsCartOpen(false)} aria-label="Close cart">
                         ×
                     </button>
@@ -551,6 +547,12 @@ export default function Navbar() {
                     )}
                 </div>
                 <div className={styles.cartFooter}>
+                    <div className={styles.cartTotals}>
+                        <p><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></p>
+                        <p><span>Delivery</span><span>${DELIVERY_FEE.toFixed(2)}</span></p>
+                        <p><span>Tax</span><span>${tax.toFixed(2)}</span></p>
+                        <p className={styles.cartTotalLine}><span>Total</span><span>${total.toFixed(2)}</span></p>
+                    </div>
                     <Link href="/checkout" className={styles.checkoutBtn} onClick={() => setIsCartOpen(false)}>
                         Checkout
                     </Link>

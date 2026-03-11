@@ -210,6 +210,7 @@
     object-position: center;
     border-radius: inherit;
     filter: saturate(1.02) contrast(1.03);
+    pointer-events: none;
 }
 
 .iconImageContain {
@@ -225,6 +226,7 @@
     text-align: inherit;
     padding: 0;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .vapeTriggerText {
@@ -256,6 +258,14 @@
     opacity: 1;
     transform: translateY(0);
     margin-top: 1rem;
+}
+
+.vapeCatalogDesktopOnly {
+    display: block;
+}
+
+.vapeCatalogMobileOnly {
+    display: none;
 }
 
 .vapeCatalogInner {
@@ -629,6 +639,17 @@
         width: clamp(130px, 38vw, 195px);
         height: clamp(130px, 38vw, 195px);
         opacity: 0.86;
+    }
+}
+
+@media (max-width: 767px) {
+    .vapeCatalogDesktopOnly {
+        display: none;
+    }
+
+    .vapeCatalogMobileOnly {
+        display: block;
+        margin-top: 0.45rem;
     }
 }
 

@@ -144,12 +144,17 @@
     border: none;
     background: none;
     color: #e8e8e8;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+.searchToggle svg {
+    width: 21px;
+    height: 21px;
 }
 
 .searchToggle:hover {
@@ -302,9 +307,9 @@
     top: 0;
     right: 0;
     height: 100vh;
-    width: min(390px, 100vw);
-    background: linear-gradient(155deg, rgba(8, 8, 8, 0.98), rgba(10, 10, 10, 0.98));
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    width: min(420px, 100vw);
+    background: #0b0b0b;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 1002;
@@ -320,13 +325,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1rem 0.9rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.cartHeader h3 {
-    font-size: 1rem;
-    letter-spacing: 0.03em;
+.cartHeader h2 {
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .cartClose {
@@ -338,11 +343,12 @@
 }
 
 .cartBody {
-    flex: 1;
+    flex-grow: 0;
     overflow-y: auto;
-    padding: 0.9rem 1rem;
+    padding: 20px;
     display: grid;
-    gap: 0.7rem;
+    gap: 0;
+    max-height: 65vh;
 }
 
 .cartEmpty {
@@ -351,10 +357,11 @@
 }
 
 .cartItem {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.8rem;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 0.7rem 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .cartItemTitle {
@@ -382,18 +389,18 @@
 }
 
 .qtyControls {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 12px;
 }
 
 .qtyBtn {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.04);
-    color: #f3f3f3;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    color: white;
     font-size: 1rem;
     line-height: 1;
     display: inline-flex;
@@ -422,19 +429,37 @@
 }
 
 .removeBtn {
-    border: 1px solid rgba(239, 68, 68, 0.45);
-    border-radius: 999px;
-    background: rgba(239, 68, 68, 0.12);
-    color: #ffb5b5;
-    font-size: 0.73rem;
-    font-weight: 700;
-    padding: 0.3rem 0.62rem;
+    margin-top: 10px;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
 .cartFooter {
-    padding: 0.9rem 1rem 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cartTotals {
+    display: grid;
+    gap: 0.32rem;
+    margin-bottom: 0.85rem;
+}
+
+.cartTotals p {
+    display: flex;
+    justify-content: space-between;
+    color: #d1d5db;
+    font-size: 0.86rem;
+}
+
+.cartTotalLine {
+    color: #fff;
+    font-weight: 700;
 }
 
 .checkoutBtn {
@@ -442,13 +467,14 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border-radius: 999px;
-    border: 1px solid rgba(34, 197, 94, 0.5);
-    background: linear-gradient(90deg, rgba(34, 197, 94, 0.4), rgba(239, 68, 68, 0.35));
-    color: #f4f4f4;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    padding: 0.58rem 1rem;
+    padding: 16px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    background: linear-gradient(90deg, #22c55e, #ef4444);
 }
 
 @media (max-width: 768px) {
@@ -466,15 +492,17 @@
 
     .container {
         padding: 0 1rem;
+        position: relative;
     }
 
     .navActions {
         margin-left: auto;
-        margin-right: 0.35rem;
+        margin-right: 0.3rem;
+        gap: 0.3rem;
     }
 
-    .searchToggle {
-        display: inline-flex;
+    .searchWrap {
+        display: none !important;
     }
 
     .searchField {
@@ -499,5 +527,9 @@
     .qtyBtn {
         width: 32px;
         height: 32px;
+    }
+
+    .cartPanel {
+        width: 100%;
     }
 }

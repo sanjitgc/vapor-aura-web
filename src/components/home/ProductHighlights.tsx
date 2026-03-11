@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { type TouchEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import AnimateIn from "@/components/ui/AnimateIn";
 import styles from "@/app/page.module.css";
@@ -250,7 +250,7 @@ function toDeviceId(value: string) {
 
 export default function ProductHighlights() {
     const [isVapeCatalogOpen, setIsVapeCatalogOpen] = useState(false);
-    const [openFlavorDevice, setOpenFlavorDevice] = useState<string | null>(vapeFlavorGroups[0]?.device ?? null);
+    const [openFlavorDevice, setOpenFlavorDevice] = useState<string | null>(null);
     const [recentlyAddedKey, setRecentlyAddedKey] = useState<string | null>(null);
     const [searchHighlightedKey, setSearchHighlightedKey] = useState<string | null>(null);
     const [cartToast, setCartToast] = useState<string | null>(null);
@@ -258,14 +258,23 @@ export default function ProductHighlights() {
     const CART_STORAGE_KEY = "vapor-aura-cart";
     const SEARCH_TARGET_STORAGE_KEY = "vapor-aura-search-target";
 
-    function toggleCatalog() {
-        setIsVapeCatalogOpen((prev) => {
-            const next = !prev;
-            if (next && !openFlavorDevice) {
-                setOpenFlavorDevice(vapeFlavorGroups[0]?.device ?? null);
-            }
-            return next;
-        });
+    function handleVapeCardPress() {
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) {
+            setIsVapeCatalogOpen((prev) => !prev);
+            return;
+        }
+
+        setIsVapeCatalogOpen(true);
+        window.setTimeout(() => {
+            const catalog = document.getElementById(catalogId);
+            catalog?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
+    }
+
+    function handleVapeCardTouch(event: TouchEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        handleVapeCardPress();
     }
 
     function addFlavorToCart(brand: string, flavor: string, unitPrice: number) {
@@ -368,6 +377,69 @@ export default function ProductHighlights() {
         };
     }, []);
 
+    function renderVapeCatalog({ mobile, id }: { mobile: boolean; id?: string }) {
+        return (
+            <div
+                id={id}
+                className={`${styles.vapeCatalog} ${isVapeCatalogOpen ? styles.vapeCatalogOpen : ""} ${mobile ? styles.vapeCatalogMobileOnly : styles.vapeCatalogDesktopOnly}`}
+                aria-hidden={!isVapeCatalogOpen}
+            >
+                <div className={styles.vapeCatalogInner}>
+                    {vapeFlavorGroups.map((group) => {
+                        const isOpen = openFlavorDevice === group.device;
+                        return (
+                            <div
+                                key={`${mobile ? "mobile" : "desktop"}-${group.device}`}
+                                className={styles.flavorGroup}
+                                {...(!mobile ? { "data-device-id": toDeviceId(group.device) } : {})}
+                            >
+                                <button
+                                    type="button"
+                                    className={styles.flavorGroupButton}
+                                    onClick={() => setOpenFlavorDevice(isOpen ? null : group.device)}
+                                    aria-expanded={isOpen}
+                                >
+                                    <span>{group.device}</span>
+                                    <span className={styles.flavorCaret} aria-hidden="true">
+                                        {isOpen ? "−" : "+"}
+                                    </span>
+                                </button>
+                                <ul
+                                    className={`${styles.flavorList} ${isOpen ? styles.flavorListOpen : ""}`}
+                                    aria-hidden={!isOpen}
+                                >
+                                    {group.flavors.map((flavor) => {
+                                        const actionKey = `${group.device}__${flavor}`;
+                                        const isAdded = recentlyAddedKey === actionKey;
+                                        return (
+                                            <li
+                                                key={flavor}
+                                                className={`${styles.flavorRow} ${searchHighlightedKey === actionKey ? styles.flavorRowHighlight : ""}`}
+                                            >
+                                                <span className={styles.flavorName}>{flavor}</span>
+                                                <div className={styles.flavorActions}>
+                                                    <span className={styles.flavorPrice}>{toCurrency(group.price)}</span>
+                                                    <button
+                                                        type="button"
+                                                        className={`${styles.addToCartBtn} ${isAdded ? styles.addedToCartBtn : ""}`}
+                                                        onClick={() => addFlavorToCart(group.device, flavor, group.price)}
+                                                    >
+                                                        {isAdded ? "Added ✓" : "Add to Cart"}
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        );
+                    })}
+                    {cartToast && <p className={styles.cartToast}>{cartToast}</p>}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <section
@@ -394,27 +466,31 @@ export default function ProductHighlights() {
                                 <AnimateIn key={category.name} delay={0.1 + index * 0.08}>
                                     <div className={styles.productCard}>
                                         {isVape ? (
-                                            <button
-                                                type="button"
-                                                className={styles.vapeToggle}
-                                                onClick={toggleCatalog}
-                                                aria-expanded={isVapeCatalogOpen}
-                                                aria-controls={catalogId}
-                                            >
-                                                <div
-                                                    className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
+                                            <>
+                                                <button
+                                                    type="button"
+                                                    className={styles.vapeToggle}
+                                                onClick={handleVapeCardPress}
+                                                    onTouchEnd={handleVapeCardTouch}
+                                                    aria-expanded={isVapeCatalogOpen}
+                                                    aria-controls={catalogId}
                                                 >
-                                                    <Image
-                                                        src={category.iconSrc}
-                                                        alt={category.name}
-                                                        fill
-                                                        sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                        className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                    />
-                                                </div>
-                                                <h3 className={styles.productTitle}>{category.name}</h3>
-                                                <p className={styles.productText}>{category.description}</p>
-                                            </button>
+                                                    <div
+                                                        className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
+                                                    >
+                                                        <Image
+                                                            src={category.iconSrc}
+                                                            alt={category.name}
+                                                            fill
+                                                            sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
+                                                            className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
+                                                        />
+                                                    </div>
+                                                    <h3 className={styles.productTitle}>{category.name}</h3>
+                                                    <p className={styles.productText}>{category.description}</p>
+                                                </button>
+                                                {renderVapeCatalog({ mobile: true })}
+                                            </>
                                         ) : (
                                             <>
                                                 <div
@@ -448,60 +524,7 @@ export default function ProductHighlights() {
                         })}
                     </div>
 
-                    <div
-                        id={catalogId}
-                        className={`${styles.vapeCatalog} ${isVapeCatalogOpen ? styles.vapeCatalogOpen : ""}`}
-                        aria-hidden={!isVapeCatalogOpen}
-                    >
-                        <div className={styles.vapeCatalogInner}>
-                            {vapeFlavorGroups.map((group) => {
-                                const isOpen = openFlavorDevice === group.device;
-                                return (
-                                    <div key={group.device} className={styles.flavorGroup} data-device-id={toDeviceId(group.device)}>
-                                        <button
-                                            type="button"
-                                            className={styles.flavorGroupButton}
-                                            onClick={() => setOpenFlavorDevice(isOpen ? null : group.device)}
-                                            aria-expanded={isOpen}
-                                        >
-                                            <span>{group.device}</span>
-                                            <span className={styles.flavorCaret} aria-hidden="true">
-                                                {isOpen ? "−" : "+"}
-                                            </span>
-                                        </button>
-                                        <ul
-                                            className={`${styles.flavorList} ${isOpen ? styles.flavorListOpen : ""}`}
-                                            aria-hidden={!isOpen}
-                                        >
-                                            {group.flavors.map((flavor) => {
-                                                const actionKey = `${group.device}__${flavor}`;
-                                                const isAdded = recentlyAddedKey === actionKey;
-                                                return (
-                                                    <li
-                                                        key={flavor}
-                                                        className={`${styles.flavorRow} ${searchHighlightedKey === actionKey ? styles.flavorRowHighlight : ""}`}
-                                                    >
-                                                        <span className={styles.flavorName}>{flavor}</span>
-                                                        <div className={styles.flavorActions}>
-                                                            <span className={styles.flavorPrice}>{toCurrency(group.price)}</span>
-                                                            <button
-                                                                type="button"
-                                                                className={`${styles.addToCartBtn} ${isAdded ? styles.addedToCartBtn : ""}`}
-                                                                onClick={() => addFlavorToCart(group.device, flavor, group.price)}
-                                                            >
-                                                                {isAdded ? "Added ✓" : "Add to Cart"}
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                );
-                            })}
-                            {cartToast && <p className={styles.cartToast}>{cartToast}</p>}
-                        </div>
-                    </div>
+                    {renderVapeCatalog({ mobile: false, id: catalogId })}
                 </div>
             </section>
 
