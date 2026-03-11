@@ -81,6 +81,8 @@
     display: block;
     margin: 0 auto 0.45rem;
     filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.14));
+    image-rendering: auto;
+    -webkit-font-smoothing: antialiased;
 }
 
 .title {

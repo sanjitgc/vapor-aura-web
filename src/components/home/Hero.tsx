@@ -8,7 +8,7 @@ export default function Hero() {
     return (
         <section className={styles.hero}>
             <Image
-                src="/home-hero-leaf-transparent.png"
+                src="/home-hero-leaf-clean.png"
                 alt=""
                 width={520}
                 height={520}
@@ -16,7 +16,7 @@ export default function Hero() {
                 aria-hidden="true"
             />
             <Image
-                src="/home-hero-leaf-transparent.png"
+                src="/home-hero-leaf-clean.png"
                 alt=""
                 width={520}
                 height={520}
@@ -26,7 +26,7 @@ export default function Hero() {
             <div className={styles.content}>
                 <div className={styles.brandBlock}>
                     <Image
-                        src="/vapor-aura-logo-clean.png"
+                        src="/vapor-aura-logo-new.png"
                         alt="Vapor Aura"
                         width={720}
                         height={220}
@@ -42,15 +42,15 @@ export default function Hero() {
                     Experience the aura at our locations.
                 </p>
                 <div className={styles.actions}>
-                    <Button href="/locations" variant="primary" size="lg">
+                    <Button href="/#locations" variant="primary" size="lg">
                         Find A Location
                     </Button>
-                    <Button href="/about-us" variant="outline" size="lg">
-                        Our Story
+                    <Button href="/#products" variant="outline" size="lg">
+                        Products
                     </Button>
                 </div>
                 <div className={styles.visitCta}>
-                    <Button href="/locations" variant="primary" size="lg">
+                    <Button href="/#locations" variant="primary" size="lg">
                         Visit Us Today
                     </Button>
                 </div>

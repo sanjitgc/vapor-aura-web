@@ -102,6 +102,7 @@ export default function AdminProductsPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
+    const [isUnlocking, setIsUnlocking] = useState(false);
     const [message, setMessage] = useState<string>("");
 
     const hasKey = useMemo(() => adminKey.length > 0, [adminKey]);
@@ -109,8 +110,8 @@ export default function AdminProductsPage() {
     useEffect(() => {
         const storedKey = window.sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
         if (storedKey) {
-            setAdminKey(storedKey);
             setKeyInput(storedKey);
+            void storeKey(storedKey);
         }
     }, []);
 
@@ -145,15 +146,44 @@ export default function AdminProductsPage() {
         }
     }
 
-    function storeKey() {
-        const trimmed = keyInput.trim();
+    async function verifyAdminKey(key: string) {
+        const response = await fetch("/api/products?limit=1&includeInactive=true", {
+            cache: "no-store",
+            headers: {
+                "x-admin-key": key,
+            },
+        });
+
+        return response.ok;
+    }
+
+    async function storeKey(override?: string) {
+        const trimmed = (override ?? keyInput).trim();
         if (!trimmed) {
             setMessage("Enter admin key to continue.");
             return;
         }
-        window.sessionStorage.setItem(ADMIN_KEY_STORAGE, trimmed);
-        setAdminKey(trimmed);
+
+        setIsUnlocking(true);
         setMessage("");
+
+        try {
+            const valid = await verifyAdminKey(trimmed);
+            if (!valid) {
+                window.sessionStorage.removeItem(ADMIN_KEY_STORAGE);
+                setAdminKey("");
+                setMessage("Invalid admin key.");
+                return;
+            }
+
+            window.sessionStorage.setItem(ADMIN_KEY_STORAGE, trimmed);
+            setAdminKey(trimmed);
+            setMessage("Admin access granted.");
+        } catch {
+            setMessage("Unable to validate admin key right now.");
+        } finally {
+            setIsUnlocking(false);
+        }
     }
 
     function clearKey() {
@@ -278,8 +308,8 @@ export default function AdminProductsPage() {
                         placeholder="Enter ADMIN_API_KEY"
                         autoComplete="off"
                     />
-                    <Button onClick={storeKey} type="button" size="md">
-                        Unlock
+                    <Button onClick={() => void storeKey()} type="button" size="md" disabled={isUnlocking}>
+                        {isUnlocking ? "Checking..." : "Unlock"}
                     </Button>
                     <Button onClick={clearKey} type="button" variant="outline" size="md">
                         Clear

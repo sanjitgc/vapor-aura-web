@@ -8,7 +8,7 @@ export default function Footer() {
             <div className={styles.container}>
                 <div className={styles.brand}>
                     <Image
-                        src="/vapor-aura-logo-clean.png"
+                        src="/vapor-aura-logo-new.png"
                         alt="Vapor Aura"
                         width={280}
                         height={84}

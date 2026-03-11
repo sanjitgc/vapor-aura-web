@@ -9,6 +9,45 @@
     scroll-margin-top: calc(var(--header-height) + 10px);
 }
 
+.leafDecorSection {
+    position: relative;
+    overflow: hidden;
+}
+
+.leafDecorSection > * {
+    position: relative;
+    z-index: 2;
+}
+
+.leafDecorSection::before,
+.leafDecorSection::after {
+    content: "";
+    position: absolute;
+    display: block;
+    background-image: url("/home-hero-leaf-clean.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.leafDecorSection::before {
+    left: -34px;
+    bottom: -22px;
+    width: clamp(190px, 24vw, 310px);
+    height: clamp(190px, 24vw, 310px);
+    opacity: 0.92;
+}
+
+.leafDecorSection::after {
+    right: -40px;
+    top: -36px;
+    width: clamp(180px, 23vw, 300px);
+    height: clamp(180px, 23vw, 300px);
+    opacity: 0.9;
+    transform: scaleX(-1) rotate(8deg);
+}
+
 .features {
     padding: 7rem 1.5rem;
     background:
@@ -26,6 +65,10 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
+}
+
+.moreProductSection {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .container {
@@ -102,6 +145,11 @@
     margin: 0 auto;
 }
 
+.productGridFour {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 1100px;
+}
+
 .productCard {
     text-align: center;
     padding: 1.6rem 1rem 1.4rem;
@@ -130,6 +178,21 @@
         radial-gradient(circle at center, rgba(145, 145, 145, 0.18), rgba(80, 80, 80, 0.08) 65%, transparent 85%);
 }
 
+.iconWrapWide {
+    width: 100%;
+    height: 152px;
+    position: relative;
+    padding: 0;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    margin-bottom: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.iconWrapContainLight {
+    background: #f3f3f3;
+}
+
 .iconImage {
     width: 130px;
     height: auto;
@@ -139,6 +202,231 @@
 
 .iconImageTall {
     width: 88px;
+}
+
+.iconImageWide {
+    inset: 0;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    filter: saturate(1.02) contrast(1.03);
+}
+
+.iconImageContain {
+    object-fit: contain;
+    object-position: center;
+}
+
+.vapeToggle {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: inherit;
+    text-align: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+
+.vapeTriggerText {
+    display: inline-flex;
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(34, 197, 94, 0.95);
+    text-shadow: 0 0 12px rgba(34, 197, 94, 0.28);
+}
+
+.vapeCatalog {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-8px);
+    transition:
+        max-height 0.35s ease,
+        opacity 0.26s ease,
+        transform 0.26s ease,
+        margin-top 0.26s ease;
+    margin-top: 0;
+}
+
+.vapeCatalogOpen {
+    max-height: 2600px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 1rem;
+}
+
+.vapeCatalogInner {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.95rem;
+    padding: 0.9rem;
+    background: linear-gradient(155deg, rgba(12, 12, 12, 0.92), rgba(8, 8, 8, 0.96));
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.flavorGroup + .flavorGroup {
+    margin-top: 0.55rem;
+}
+
+.flavorGroupButton {
+    width: 100%;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 0.72rem;
+    background: rgba(34, 197, 94, 0.06);
+    color: #e8f9ed;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: left;
+    padding: 0.62rem 0.78rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+.flavorGroupButton:hover {
+    border-color: rgba(34, 197, 94, 0.55);
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.16);
+    background: rgba(34, 197, 94, 0.1);
+}
+
+.flavorCaret {
+    display: inline-flex;
+    width: 18px;
+    justify-content: center;
+    color: var(--primary);
+}
+
+.flavorList {
+    margin: 0;
+    padding: 0 0 0 1.2rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.28s ease, opacity 0.22s ease, margin-top 0.22s ease;
+}
+
+.flavorListOpen {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 0.45rem;
+}
+
+.flavorList li {
+    color: #d8d8d8;
+    line-height: 1.45;
+    font-size: 0.86rem;
+    margin: 0.22rem 0;
+}
+
+.flavorRow {
+    list-style: disc;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.62rem;
+    padding: 0.42rem 0.5rem 0.42rem 0.65rem;
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.flavorRow:hover {
+    border-color: rgba(34, 197, 94, 0.32);
+    background: rgba(34, 197, 94, 0.06);
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.12);
+}
+
+.flavorRowHighlight {
+    border-color: rgba(34, 197, 94, 0.85);
+    background: rgba(34, 197, 94, 0.16);
+    box-shadow: 0 0 18px rgba(34, 197, 94, 0.24);
+}
+
+.flavorName {
+    color: #e3e3e3;
+    font-size: 0.85rem;
+}
+
+.flavorActions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.flavorPrice {
+    color: #dfffe8;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.22);
+}
+
+.addToCartBtn {
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(239, 68, 68, 0.18));
+    color: #f6f6f6;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.36rem 0.68rem;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.addToCartBtn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(34, 197, 94, 0.82);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2), 0 0 8px rgba(239, 68, 68, 0.14);
+}
+
+.addedToCartBtn {
+    border-color: rgba(34, 197, 94, 0.95);
+    background: rgba(34, 197, 94, 0.28);
+    color: #eafff0;
+}
+
+.cartToast {
+    margin-top: 0.7rem;
+    color: #cbf9da;
+    background: rgba(34, 197, 94, 0.14);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    border-radius: 0.6rem;
+    padding: 0.45rem 0.62rem;
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+.iconSplit {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.42rem;
+    padding: 0.42rem;
+}
+
+.iconSplitItem {
+    position: relative;
+    border-radius: 0.58rem;
+    overflow: hidden;
+    background: #f3f3f3;
+}
+
+.iconSplitImage {
+    inset: 0;
+    object-fit: contain;
+    object-position: center;
+    padding: 0.22rem;
 }
 
 .productTitle {
@@ -253,6 +541,10 @@
         height: 106px;
     }
 
+    .iconWrapWide {
+        height: 132px;
+    }
+
     .iconImage {
         width: 116px;
     }
@@ -260,10 +552,93 @@
     .iconImageTall {
         width: 80px;
     }
+
+    .iconImageWide {
+        inset: 0;
+    }
+
+    .vapeCatalogOpen {
+        margin-top: 0.75rem;
+    }
+
+    .vapeCatalogInner {
+        padding: 0.7rem;
+    }
+
+    .flavorGroupButton {
+        font-size: 0.82rem;
+        padding: 0.55rem 0.68rem;
+    }
+
+    .flavorList li {
+        font-size: 0.8rem;
+    }
+
+    .flavorRow {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.46rem;
+        padding: 0.36rem 0.42rem 0.36rem 0.58rem;
+    }
+
+    .flavorName {
+        font-size: 0.78rem;
+    }
+
+    .flavorActions {
+        gap: 0.35rem;
+    }
+
+    .flavorPrice {
+        font-size: 0.78rem;
+    }
+
+    .addToCartBtn {
+        font-size: 0.68rem;
+        padding: 0.3rem 0.58rem;
+    }
+
+    .cartToast {
+        font-size: 0.76rem;
+        padding: 0.4rem 0.55rem;
+    }
+
+    .iconSplit {
+        gap: 0.3rem;
+        padding: 0.3rem;
+    }
+
+    .iconSplitItem {
+        border-radius: 0.46rem;
+    }
+
+    .iconSplitImage {
+        padding: 0.16rem;
+    }
+
+    .leafDecorSection::before {
+        left: -26px;
+        bottom: -18px;
+        width: clamp(150px, 42vw, 220px);
+        height: clamp(150px, 42vw, 220px);
+        opacity: 0.9;
+    }
+
+    .leafDecorSection::after {
+        right: -28px;
+        top: -26px;
+        width: clamp(130px, 38vw, 195px);
+        height: clamp(130px, 38vw, 195px);
+        opacity: 0.86;
+    }
 }
 
 @media (max-width: 980px) and (min-width: 641px) {
     .productGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 720px;
+    }
+
+    .productGridFour {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         max-width: 720px;
     }

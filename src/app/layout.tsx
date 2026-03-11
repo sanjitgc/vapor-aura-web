@@ -8,16 +8,20 @@ export const metadata: Metadata = {
   title: "Vapor Aura | Premium Smoke Shop",
   description: "Experience the finest at Vapor Aura. Visit our locations in Texas regarding premium vape, smoke, and lifestyle products.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AgeVerification from "@/components/common/AgeVerification";
-import WhyChoose from "@/components/common/WhyChoose";
 
 export default function RootLayout({
   children,
@@ -30,7 +34,6 @@ export default function RootLayout({
         <AgeVerification />
         <Navbar />
         {children}
-        <WhyChoose />
         <Footer />
       </body>
     </html>

@@ -36,6 +36,8 @@
     width: 130px;
     height: auto;
     display: block;
+    filter: drop-shadow(0 0 8px rgba(80, 255, 80, 0.16));
+    image-rendering: auto;
 }
 
 .tagline {

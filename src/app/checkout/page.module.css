@@ -1,0 +1,309 @@
+.main {
+    min-height: 100vh;
+    padding: calc(var(--header-height) + 1.8rem) 1rem calc(var(--fixed-footer-height) + 1.5rem);
+}
+
+.checkoutWrap {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-bottom: 1.1rem;
+}
+
+.step {
+    color: #8f8f8f;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.stepActive,
+.stepDone {
+    color: #e9f9ee;
+}
+
+.stepDone {
+    text-shadow: 0 0 12px rgba(34, 197, 94, 0.24);
+}
+
+.stepDivider {
+    color: #818181;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+    gap: 1rem;
+}
+
+.card,
+.summaryCard {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1rem;
+    background: linear-gradient(160deg, rgba(10, 10, 10, 0.92), rgba(6, 6, 6, 0.98));
+    padding: 1rem;
+    box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.1), 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.title {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    margin-bottom: 0.35rem;
+}
+
+.subtitle {
+    color: #a8a8a8;
+    margin-bottom: 0.95rem;
+}
+
+.sectionHeading {
+    color: #d8f5e2;
+    font-size: 1rem;
+    margin: 1rem 0 0.65rem;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.formGrid label,
+.cardFields label {
+    color: #d0d0d0;
+    font-size: 0.82rem;
+    display: grid;
+    gap: 0.3rem;
+}
+
+.formGrid label:nth-child(6) {
+    grid-column: 1 / -1;
+}
+
+.checkoutWrap input,
+.checkoutWrap select,
+.checkoutWrap textarea {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.68rem;
+    background: rgba(255, 255, 255, 0.03);
+    color: #f5f5f5;
+    padding: 0.58rem 0.68rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.checkoutWrap input:focus,
+.checkoutWrap select:focus,
+.checkoutWrap textarea:focus {
+    outline: none;
+    border-color: rgba(34, 197, 94, 0.65);
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.16);
+}
+
+.paymentMethods {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+}
+
+.payBtn {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.72rem;
+    background: rgba(255, 255, 255, 0.03);
+    color: #ddd;
+    display: inline-flex;
+    gap: 0.38rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.6rem;
+    cursor: pointer;
+}
+
+.payBtnActive {
+    border-color: rgba(34, 197, 94, 0.62);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+    color: #f2fff5;
+}
+
+.cardFields {
+    margin-top: 0.7rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.error {
+    margin-top: 0.7rem;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.12);
+    color: #ffd2d2;
+    padding: 0.48rem 0.6rem;
+    font-size: 0.82rem;
+}
+
+.summaryItems {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.summaryItem {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.55rem;
+}
+
+.summaryTitle {
+    color: #f1f1f1;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.summaryItem p {
+    color: #bdbdbd;
+    font-size: 0.82rem;
+}
+
+.totals {
+    margin-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.65rem;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.totals p {
+    display: flex;
+    justify-content: space-between;
+    color: #d3d3d3;
+    font-size: 0.88rem;
+}
+
+.totalLine {
+    color: #fff;
+    font-weight: 800;
+}
+
+.placeOrderBtn,
+.backHomeBtn {
+    width: 100%;
+    margin-top: 0.9rem;
+    border: 1px solid rgba(34, 197, 94, 0.45);
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.45), rgba(239, 68, 68, 0.38));
+    color: #fff;
+    padding: 0.6rem 1rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.placeOrderBtn:hover,
+.backHomeBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.24), 0 0 10px rgba(239, 68, 68, 0.18);
+}
+
+.placeOrderBtnDisabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.empty {
+    color: #a6a6a6;
+}
+
+.confirmationCard {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.confirmationText {
+    color: #c6c6c6;
+}
+
+.confirmationMeta {
+    margin-top: 0.85rem;
+    text-align: left;
+    display: grid;
+    gap: 0.4rem;
+    color: #dfdfdf;
+}
+
+.maintenanceModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 1rem;
+}
+
+.maintenanceBox {
+    background: #0b0b0b;
+    border: 1px solid #22c55e;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+}
+
+.maintenanceBox h2 {
+    margin-bottom: 0.75rem;
+}
+
+.maintenanceBox p {
+    color: #d1d5db;
+    line-height: 1.6;
+}
+
+.maintenanceBox button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #22c55e, #ef4444);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summaryCard {
+        order: 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .main {
+        padding: calc(var(--header-height) + 1rem) 0.75rem calc(var(--fixed-footer-height) + 1rem);
+    }
+
+    .card,
+    .summaryCard {
+        padding: 0.8rem;
+    }
+
+    .formGrid,
+    .cardFields,
+    .paymentMethods {
+        grid-template-columns: 1fr;
+    }
+}

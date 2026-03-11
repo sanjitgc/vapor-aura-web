@@ -3,19 +3,47 @@
 import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
-import { useRef, useState } from "react";
-import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { useEffect, useRef, useState } from "react";
+import { FaFacebookF, FaInstagram, FaLocationDot, FaTiktok, FaXTwitter } from "react-icons/fa6";
 
-const mapLocations = [
+const storeLocations = [
     {
-        name: "Vapor Aura - Sachse",
-        address: "5848 S State Hwy 78 #108, Sachse, TX 75048",
+        name: "Vapor Aura – Sachse",
+        address: "5848 S State Hwy 78 #108",
+        cityStateZip: "Sachse, TX 75048",
+        phone: "+1 (214) 501-3222",
+        tel: "tel:+12145013222",
+        directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=5848+S+State+Hwy+78+%23108,+Sachse,+TX+75048",
         mapUrl: "https://maps.google.com/maps?q=5848+S+State+Hwy+78+%23108,+Sachse,+TX+75048&t=&z=13&ie=UTF8&iwloc=&output=embed",
+        mapsListingUrl: "https://www.google.com/maps/?q=5848+S+State+Hwy+78+Sachse+TX",
+        hours: [
+            { day: "Monday", time: "8 AM – 12 AM" },
+            { day: "Tuesday", time: "8 AM – 12 AM" },
+            { day: "Wednesday", time: "8 AM – 12 AM" },
+            { day: "Thursday", time: "8 AM – 12 AM" },
+            { day: "Friday", time: "8 AM – 12 AM" },
+            { day: "Saturday", time: "8 AM – 12 AM" },
+            { day: "Sunday", time: "8 AM – 12 AM" },
+        ],
     },
     {
-        name: "Vapor Aura - Irving",
-        address: "825 W Royal Ln #140, Irving, TX 75039",
-        mapUrl: "https://maps.google.com/maps?q=825+W+Royal+Ln+%23140,+Irving,+TX+75039&t=&z=13&ie=UTF8&iwloc=&output=embed",
+        name: "Vapor Aura – Irving",
+        address: "825 W Royal Ln Suite 140",
+        cityStateZip: "Irving, TX 75039",
+        phone: "+1 (214) 272-8395",
+        tel: "tel:+12142728395",
+        directionsUrl: "https://www.google.com/maps/dir/?api=1&destination=825+W+Royal+Ln+Suite+140,+Irving,+TX+75039",
+        mapUrl: "https://maps.google.com/maps?q=825+W+Royal+Ln+Suite+140,+Irving,+TX+75039&t=&z=13&ie=UTF8&iwloc=&output=embed",
+        mapsListingUrl: "https://www.google.com/maps/?q=825+W+Royal+Ln+Irving+TX",
+        hours: [
+            { day: "Monday", time: "8 AM – 12 AM" },
+            { day: "Tuesday", time: "8 AM – 12 AM" },
+            { day: "Wednesday", time: "8 AM – 12 AM" },
+            { day: "Thursday", time: "8 AM – 12 AM" },
+            { day: "Friday", time: "8 AM – 12 AM" },
+            { day: "Saturday", time: "8 AM – 12 AM" },
+            { day: "Sunday", time: "8 AM – 12 AM" },
+        ],
     },
 ];
 
@@ -23,6 +51,16 @@ export default function Contact() {
     const formRef = useRef<HTMLFormElement>(null);
     const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [todayDay, setTodayDay] = useState<string | null>(null);
+    const [expandedHours, setExpandedHours] = useState<Record<string, boolean>>({});
+
+    useEffect(() => {
+        setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long" }));
+    }, []);
+
+    function toggleHours(name: string) {
+        setExpandedHours((prev) => ({ ...prev, [name]: !prev[name] }));
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,7 +91,8 @@ export default function Contact() {
                 </div>
 
                 <div className={styles.content}>
-                    <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
+                    <div className={styles.formColumn}>
+                        <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <label htmlFor="name" className={styles.label}>Name</label>
                             <input type="text" id="name" name="name" className={styles.input} placeholder="Your Name" required maxLength={100} />
@@ -101,36 +140,85 @@ export default function Contact() {
                             </p>
                         )}
                     </form>
+                    </div>
 
-                    <div className={styles.info}>
-                        <div className={styles.infoBlock}>
-                            <h3>Email Us</h3>
-                            <p>contact@vaporauratx.com</p>
-                        </div>
-                        <div className={styles.infoBlock}>
-                            <h3>Call Us</h3>
-                            <p>(512) 555-0123</p>
-                        </div>
-                        <div className={styles.infoBlock}>
-                            <h3>Socials</h3>
-                            <p>@VaporAuraTX</p>
-                        </div>
-                        <div className={styles.infoBlock}>
-                            <h3>Store Hours</h3>
-                            <p>Mon-Sun: 10AM - 10PM</p>
-                        </div>
-                        <div className={styles.infoBlock}>
-                            <h3>Store Locations</h3>
-                            <p>Sachse, TX</p>
-                            <p>Irving, TX</p>
-                        </div>
+                    <div className={styles.locationsColumn}>
+                        {storeLocations.map((location) => (
+                            <article key={location.name} className={styles.locationCard}>
+                                <div className={styles.locationCardHeader}>
+                                    <FaLocationDot className={styles.locationIcon} aria-hidden="true" />
+                                    <h3 className={styles.locationCardTitle}>{location.name}</h3>
+                                </div>
+                                <div className={styles.locationCardBody}>
+                                    <div className={styles.locationRow}>
+                                        <span className={styles.locationLabel}>Address</span>
+                                        <p className={styles.locationValue}>
+                                            {location.address}<br />
+                                            {location.cityStateZip}
+                                        </p>
+                                    </div>
+                                    <div className={styles.locationRow}>
+                                        <span className={styles.locationLabel}>Phone</span>
+                                        <p className={styles.locationValue}>
+                                            <a href={location.tel} className={styles.phoneLink}>{location.phone}</a>
+                                        </p>
+                                    </div>
+                                    <div className={styles.locationRow}>
+                                        <a
+                                            href={location.mapsListingUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={styles.storeHoursLink}
+                                        >
+                                            Store Hours
+                                        </a>
+                                        <div className={styles.hoursContainer}>
+                                            <div
+                                                className={`${styles.fullHours} ${(expandedHours[location.name] ?? true) ? "" : styles.fullHoursCollapsed}`}
+                                                aria-hidden={!(expandedHours[location.name] ?? true)}
+                                            >
+                                                {location.hours.map(({ day, time }) => {
+                                                    const isToday = todayDay !== null && day === todayDay;
+                                                    return (
+                                                        <div
+                                                            key={day}
+                                                            className={`${styles.hoursRow} ${isToday ? styles.hoursRowToday : ""}`}
+                                                        >
+                                                            <span className={styles.hoursDay}>{day}</span>
+                                                            <span className={styles.hoursTime}>{time}</span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div
+                                                className={`${styles.todayHours} ${(expandedHours[location.name] ?? true) ? styles.todayHoursHidden : ""}`}
+                                                aria-hidden={expandedHours[location.name] ?? true}
+                                            >
+                                                <strong>Today&apos;s Hours</strong>
+                                                <span className={styles.todayHoursValue}>
+                                                    {(todayDay && location.hours.find((h) => h.day === todayDay)?.time) ?? "—"}
+                                                </span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className={styles.expandHoursBtn}
+                                                onClick={() => toggleHours(location.name)}
+                                                aria-expanded={expandedHours[location.name] ?? true}
+                                            >
+                                                {(expandedHours[location.name] ?? true) ? "Hide Full Hours" : "View Full Hours"}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
                     </div>
                 </div>
 
-                <section className={styles.mapSection} aria-labelledby="contact-map-title">
+                <section id="locations" className={styles.mapSection} aria-labelledby="contact-map-title">
                     <h2 id="contact-map-title" className={styles.mapTitle}>Visit Our Locations</h2>
                     <div className={styles.mapGrid}>
-                        {mapLocations.map((location) => (
+                        {storeLocations.map((location) => (
                             <article key={location.name} className={styles.mapCard}>
                                 <div className={styles.mapFrame}>
                                     <iframe
@@ -145,7 +233,7 @@ export default function Contact() {
                                     />
                                 </div>
                                 <h3 className={styles.mapCardTitle}>{location.name}</h3>
-                                <p className={styles.mapCardText}>{location.address}</p>
+                                <p className={styles.mapCardText}>{location.address}, {location.cityStateZip}</p>
                             </article>
                         ))}
                     </div>
