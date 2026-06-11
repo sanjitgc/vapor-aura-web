@@ -1,10 +1,30 @@
+"use client";
+
 import styles from "./Footer.module.css";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { useEffect, useRef, useState } from "react";
 
 export default function Footer() {
+    const ref = useRef<HTMLElement>(null);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+            { threshold: 0.1 }
+        );
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+    }, []);
     return (
-        <footer className={styles.footer}>
+        <footer  ref={ref}
+            className={`${styles.footer} ${visible ? styles.footerVisible : styles.footerHidden}`}
+        >
+            <div className={styles.policies}>
+    <a href="/refund-policy">Refund Policy</a>
+    <a href="/privacy-policy">Privacy Policy</a>
+</div>
             <div className={styles.container}>
                 <div className={styles.brand}>
                     <Image

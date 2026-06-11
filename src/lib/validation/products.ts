@@ -127,7 +127,9 @@ export function validateProductsQuery(searchParams: URLSearchParams): QueryValid
 }
 
 function isValidImagePath(path: string): boolean {
-    return /^\/[a-zA-Z0-9/_\-.]+$/.test(path);
+    const isLocalPath = /^\/[a-zA-Z0-9/_\-.]+$/.test(path);
+    const isUrl = /^https?:\/\/.+/.test(path);
+    return isLocalPath || isUrl;
 }
 
 export function validateProductPayload(payload: unknown): PayloadValidationResult {
@@ -157,7 +159,7 @@ export function validateProductPayload(payload: unknown): PayloadValidationResul
     const isActive = raw.isActive === undefined ? true : toBoolean(raw.isActive);
     const sortOrder = raw.sortOrder === undefined ? 0 : toFiniteNumber(raw.sortOrder);
 
-    if (!name || !slug || !description || !image || price === null || inStock === null || isActive === null || sortOrder === null) {
+    if (!name || !slug || !description || price === null || inStock === null || isActive === null || sortOrder === null) {
         return { ok: false, message: "Invalid product field values" };
     }
 
@@ -166,6 +168,8 @@ export function validateProductPayload(payload: unknown): PayloadValidationResul
     }
 
     if (!isValidImagePath(image)) {
+        console.log('image value:', image);
+console.log('isValidImagePath result:', isValidImagePath(image));
         return { ok: false, message: "Image must be a valid public path starting with /" };
     }
 

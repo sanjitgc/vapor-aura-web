@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { FaCartShopping, FaMagnifyingGlass } from "react-icons/fa6";
+import AccountButton from "@/components/ui/AccountButton";
+import { isAdmin } from "@/lib/auth";
 
 const links = [
     { href: "/#home", label: "Home", hash: "#home" },
@@ -14,6 +16,9 @@ const links = [
     { href: "/#contact", label: "Contact", hash: "#contact" },
     { href: "/#locations", label: "Locations", hash: "#locations" },
 ];
+const adminlinks = [
+    { href: "/admin", label: "Admin", hash: "#admin" }
+];
 
 interface CartItem {
     product: string;
@@ -21,6 +26,8 @@ interface CartItem {
     flavor: string;
     quantity: number;
     unitPrice?: number;
+    variantId?: string;
+    image?: string;
 }
 
 interface SearchEntry {
@@ -41,7 +48,6 @@ interface SearchTarget {
 const CART_STORAGE_KEY = "vapor-aura-cart";
 const SEARCH_TARGET_STORAGE_KEY = "vapor-aura-search-target";
 const DEFAULT_UNIT_PRICE = 24.99;
-const DELIVERY_FEE = 4.99;
 const TAX_RATE = 0.0825;
 
 const flavorGroups = [
@@ -98,19 +104,12 @@ const flavorGroups = [
 ] as const;
 
 const productCategories = [
-    "Vape",
-    "Glass",
-    "Vaporizer",
-    "Kratom",
-    "CBD",
-    "Hookah",
-    "E-Juices",
-    "Mushroom",
-    "Edibles",
-    "Coils / Pods",
+    "Vape", "Glass", "Vaporizer", "Kratom", "CBD",
+    "Hookah", "E-Juices", "Mushroom", "Edibles", "Coils / Pods",
 ] as const;
 
 export default function Navbar() {
+    const [customer, setCustomer] = useState<{ email: string | null; firstName: string | null; } | null>(null);
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [activeHash, setActiveHash] = useState("#home");
@@ -122,16 +121,13 @@ export default function Navbar() {
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     const searchInputRef = useRef<HTMLInputElement | null>(null);
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
+    const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
     const searchIndex: SearchEntry[] = useMemo(() => {
         const entries: SearchEntry[] = [];
         for (const group of flavorGroups) {
-            entries.push({
-                id: `brand-${group.device}`,
-                label: group.device,
-                kind: "brand",
-                device: group.device,
-            });
+            entries.push({ id: `brand-${group.device}`, label: group.device, kind: "brand", device: group.device });
             for (const flavor of group.flavors) {
                 entries.push({
                     id: `flavor-${group.device}-${flavor}`,
@@ -143,12 +139,7 @@ export default function Navbar() {
             }
         }
         for (const category of productCategories) {
-            entries.push({
-                id: `category-${category}`,
-                label: category,
-                kind: "category",
-                category,
-            });
+            entries.push({ id: `category-${category}`, label: category, kind: "category", category });
         }
         return entries;
     }, []);
@@ -156,9 +147,7 @@ export default function Navbar() {
     const filteredSuggestions = useMemo(() => {
         const query = searchQuery.trim().toLowerCase();
         if (!query) return [];
-        return searchIndex
-            .filter((entry) => entry.label.toLowerCase().includes(query))
-            .slice(0, 8);
+        return searchIndex.filter((entry) => entry.label.toLowerCase().includes(query)).slice(0, 8);
     }, [searchIndex, searchQuery]);
 
     const cartCount = cartItems.reduce((sum, item) => sum + Math.max(1, item.quantity || 1), 0);
@@ -166,8 +155,7 @@ export default function Navbar() {
         () => cartItems.reduce((sum, item) => sum + (item.unitPrice ?? DEFAULT_UNIT_PRICE) * Math.max(1, item.quantity || 1), 0),
         [cartItems],
     );
-    const tax = useMemo(() => subtotal * TAX_RATE, [subtotal]);
-    const total = useMemo(() => subtotal + DELIVERY_FEE + tax, [subtotal, tax]);
+    const estimatedTax = useMemo(() => subtotal * TAX_RATE, [subtotal]);
 
     useEffect(() => {
         const readCart = () => {
@@ -176,13 +164,16 @@ export default function Navbar() {
                 const parsed = raw ? JSON.parse(raw) : [];
                 const normalized = Array.isArray(parsed)
                     ? parsed
-                          .filter((item): item is Partial<CartItem> => typeof item === "object" && item !== null)
-                          .map((item) => ({
-                              product: typeof item.product === "string" ? item.product : "Disposable Vape",
-                              brand: typeof item.brand === "string" ? item.brand : "Unknown Brand",
-                              flavor: typeof item.flavor === "string" ? item.flavor : "Unknown Flavor",
-                              quantity: typeof item.quantity === "number" && item.quantity > 0 ? item.quantity : 1,
-                          }))
+                        .filter((item): item is Partial<CartItem> => typeof item === "object" && item !== null)
+                        .map((item) => ({
+                            product: typeof item.product === "string" ? item.product : "Disposable Vape",
+                            brand: typeof item.brand === "string" ? item.brand : "Unknown Brand",
+                            flavor: typeof item.flavor === "string" ? item.flavor : "Unknown Flavor",
+                            quantity: typeof item.quantity === "number" && item.quantity > 0 ? item.quantity : 1,
+                            unitPrice: typeof item.unitPrice === "number" ? item.unitPrice : DEFAULT_UNIT_PRICE,
+                            variantId: typeof item.variantId === "string" ? item.variantId : undefined,
+                            image: typeof item.image === "string" ? item.image : undefined,
+                        }))
                     : [];
                 setCartItems(normalized);
             } catch {
@@ -205,13 +196,19 @@ export default function Navbar() {
         };
     }, []);
 
+    useEffect(() => {
+        fetch("/api/auth/user")
+            .then(res => res.json())
+            .then(data => setCustomer(data?.customer));
+    }, []);
+
+    const admin = isAdmin(customer?.email ?? null);
+
     function persistCart(next: CartItem[]) {
         try {
             window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(next));
             window.dispatchEvent(new CustomEvent("vapor-aura-cart-updated"));
-        } catch {
-            // Keep UI responsive if storage write fails.
-        }
+        } catch {}
     }
 
     function removeCartItem(index: number) {
@@ -245,9 +242,7 @@ export default function Navbar() {
     function openSearchTarget(target: SearchTarget) {
         try {
             window.sessionStorage.setItem(SEARCH_TARGET_STORAGE_KEY, JSON.stringify(target));
-        } catch {
-            // Ignore storage failures and still try live dispatch.
-        }
+        } catch {}
 
         if (pathname !== "/") {
             window.location.href = "/#products";
@@ -287,30 +282,67 @@ export default function Navbar() {
         if (event.key === "ArrowUp") {
             event.preventDefault();
             setIsSuggestionOpen(true);
-            setActiveSuggestionIndex((prev) =>
-                prev <= 0 ? filteredSuggestions.length - 1 : prev - 1,
-            );
+            setActiveSuggestionIndex((prev) => (prev <= 0 ? filteredSuggestions.length - 1 : prev - 1));
             return;
         }
         if (event.key === "Enter") {
             event.preventDefault();
-            const safeIndex =
-                activeSuggestionIndex >= 0 && activeSuggestionIndex < filteredSuggestions.length
-                    ? activeSuggestionIndex
-                    : 0;
+            const safeIndex = activeSuggestionIndex >= 0 && activeSuggestionIndex < filteredSuggestions.length
+                ? activeSuggestionIndex : 0;
             const target = filteredSuggestions[safeIndex];
             if (target) selectSuggestion(target);
             return;
         }
-        if (event.key === "Escape") {
-            setIsSuggestionOpen(false);
+        if (event.key === "Escape") setIsSuggestionOpen(false);
+    }
+
+    async function handleCheckout() {
+        if (cartItems.length === 0) return;
+
+        const itemsWithVariant = cartItems.filter(item => item.variantId);
+
+        if (itemsWithVariant.length === 0) {
+            window.location.href = '/checkout';
+            return;
+        }
+
+        setIsCheckingOut(true);
+        setCheckoutError(null);
+
+        try {
+            const response = await fetch('/api/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: itemsWithVariant.map(item => ({
+                        variantId: item.variantId,
+                        quantity: item.quantity,
+                    }))
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                setCheckoutError("Failed to start checkout. Please try again.");
+                return;
+            }
+
+            setIsCartOpen(false);
+             window.localStorage.removeItem(CART_STORAGE_KEY);
+        window.localStorage.removeItem("shopify-cart-id");
+        window.localStorage.removeItem("shopify-checkout-url");
+        window.dispatchEvent(new CustomEvent("vapor-aura-cart-updated"));
+            window.location.href = data.data.checkoutUrl;
+        } catch {
+            setCheckoutError("Something went wrong. Please try again.");
+        } finally {
+            setIsCheckingOut(false);
         }
     }
 
     useEffect(() => {
-        if (pathname !== "/") {
-            return;
-        }
+        if (pathname !== "/") return;
 
         const sectionHashes = links.map((link) => link.hash);
         const headerHeightRaw = getComputedStyle(document.documentElement).getPropertyValue("--header-height");
@@ -325,23 +357,15 @@ export default function Navbar() {
         const resolveActiveHash = () => {
             let bestHash = sectionHashes[0] ?? "#home";
             let bestRatio = -1;
-
             for (const hash of sectionHashes) {
                 const ratio = visibility.get(hash) ?? 0;
-                if (ratio > bestRatio) {
-                    bestRatio = ratio;
-                    bestHash = hash;
-                }
+                if (ratio > bestRatio) { bestRatio = ratio; bestHash = hash; }
             }
-
             if (bestRatio > 0) return bestHash;
-
             const scrollMarker = window.scrollY + headerOffset + 24;
             let fallbackHash = sectionHashes[0] ?? "#home";
             for (const entry of sectionElements) {
-                if (entry.element.offsetTop <= scrollMarker) {
-                    fallbackHash = entry.hash;
-                }
+                if (entry.element.offsetTop <= scrollMarker) fallbackHash = entry.hash;
             }
             return fallbackHash;
         };
@@ -392,7 +416,6 @@ export default function Navbar() {
                     />
                 </Link>
 
-                {/* Desktop Menu */}
                 <ul className={styles.menu}>
                     {links.map((link) => (
                         <li key={link.href}>
@@ -402,6 +425,11 @@ export default function Navbar() {
                             >
                                 {link.label}
                             </Link>
+                        </li>
+                    ))}
+                    {admin && adminlinks.map((link) => (
+                        <li key={link.href}>
+                            <Link href={link.href} className={styles.link}>{link.label}</Link>
                         </li>
                     ))}
                 </ul>
@@ -454,7 +482,7 @@ export default function Navbar() {
                             )}
                         </div>
                     </div>
-
+                    <AccountButton />
                     <button
                         type="button"
                         className={styles.cartButton}
@@ -468,7 +496,6 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {/* Mobile Hamburger (Basic implementation for now) */}
                 <button
                     className={styles.hamburger}
                     onClick={() => setIsOpen(!isOpen)}
@@ -482,7 +509,6 @@ export default function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
             {isOpen && (
                 <div id="mobile-navigation" className={styles.mobileMenu}>
                     {links.map((link) => (
@@ -495,10 +521,21 @@ export default function Navbar() {
                             {link.label}
                         </Link>
                     ))}
+                    {admin && adminlinks.map((link) => (
+                        <Link key={link.href} href={link.href} className={styles.mobileLink}>{link.label}</Link>
+                    ))}
                 </div>
             )}
 
-            {isCartOpen && <button type="button" className={styles.cartBackdrop} onClick={() => setIsCartOpen(false)} aria-label="Close cart" />}
+            {isCartOpen && (
+                <button
+                    type="button"
+                    className={styles.cartBackdrop}
+                    onClick={() => setIsCartOpen(false)}
+                    aria-label="Close cart"
+                />
+            )}
+
             <aside className={`${styles.cartPanel} ${isCartOpen ? styles.cartPanelOpen : ""}`} aria-hidden={!isCartOpen}>
                 <div className={styles.cartHeader}>
                     <h2>Shopping Cart</h2>
@@ -506,56 +543,97 @@ export default function Navbar() {
                         ×
                     </button>
                 </div>
+
                 <div className={styles.cartBody}>
                     {cartItems.length === 0 ? (
                         <p className={styles.cartEmpty}>Your cart is empty.</p>
                     ) : (
                         cartItems.map((item, index) => (
                             <article key={`${item.brand}-${item.flavor}-${index}`} className={styles.cartItem}>
-                                <p className={styles.cartItemTitle}>{item.product}</p>
-                                <p className={styles.cartItemMeta}>
-                                    <span>Brand: {item.brand}</span>
-                                    <span>Flavor: {item.flavor}</span>
-                                </p>
-                                <div className={styles.qtyRow}>
-                                    <span>Qty:</span>
-                                    <div className={styles.qtyControls}>
-                                        <button
-                                            type="button"
-                                            className={styles.qtyBtn}
-                                            onClick={() => updateItemQuantity(index, -1)}
-                                            aria-label={`Decrease quantity for ${item.flavor}`}
-                                        >
-                                            −
-                                        </button>
-                                        <span className={styles.qtyValue}>{item.quantity}</span>
-                                        <button
-                                            type="button"
-                                            className={styles.qtyBtn}
-                                            onClick={() => updateItemQuantity(index, 1)}
-                                            aria-label={`Increase quantity for ${item.flavor}`}
-                                        >
-                                            +
+                                <div className={styles.cartItemImage}>
+                                    {item.image ? (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.product}
+                                            width={64}
+                                            height={64}
+                                            className={styles.cartItemImg}
+                                            style={{ objectFit: "cover", borderRadius: "6px" }}
+                                        />
+                                    ) : (
+                                        <div className={styles.cartItemImgPlaceholder} aria-hidden="true">
+                                            <FaCartShopping />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className={styles.cartItemDetails}>
+                                    <p className={styles.cartItemTitle}>{item.product}</p>
+                                    <p className={styles.cartItemPrice}>
+                                        ${((item.unitPrice ?? DEFAULT_UNIT_PRICE) * item.quantity).toFixed(2)}
+                                    </p>
+                                    <div className={styles.qtyRow}>
+                                        <div className={styles.qtyControls}>
+                                            <button
+                                                type="button"
+                                                className={styles.qtyBtn}
+                                                onClick={() => updateItemQuantity(index, -1)}
+                                                aria-label={`Decrease quantity for ${item.flavor}`}
+                                            >
+                                                −
+                                            </button>
+                                            <span className={styles.qtyValue}>{item.quantity}</span>
+                                            <button
+                                                type="button"
+                                                className={styles.qtyBtn}
+                                                onClick={() => updateItemQuantity(index, 1)}
+                                                aria-label={`Increase quantity for ${item.flavor}`}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                        <button type="button" className={styles.removeBtn} onClick={() => removeCartItem(index)}>
+                                            Remove
                                         </button>
                                     </div>
                                 </div>
-                                <button type="button" className={styles.removeBtn} onClick={() => removeCartItem(index)}>
-                                    Remove
-                                </button>
                             </article>
                         ))
                     )}
                 </div>
+
                 <div className={styles.cartFooter}>
                     <div className={styles.cartTotals}>
                         <p><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></p>
-                        <p><span>Delivery</span><span>${DELIVERY_FEE.toFixed(2)}</span></p>
-                        <p><span>Tax</span><span>${tax.toFixed(2)}</span></p>
-                        <p className={styles.cartTotalLine}><span>Total</span><span>${total.toFixed(2)}</span></p>
+                        <p>
+                            <span>Shipping</span>
+                            <span className={styles.cartTotalCalculated}>Calculated at checkout</span>
+                        </p>
+                        <p>
+                            <span>Est. Tax</span>
+                            <span>${estimatedTax.toFixed(2)}</span>
+                        </p>
+                        <p className={styles.cartTotalLine}>
+                            <span>Est. Total</span>
+                            <span>${(subtotal + estimatedTax).toFixed(2)}</span>
+                        </p>
                     </div>
-                    <Link href="/checkout" className={styles.checkoutBtn} onClick={() => setIsCartOpen(false)}>
-                        Checkout
-                    </Link>
+                    <p className={styles.cartTotalNote}>
+                        Final shipping and tax are calculated at checkout.
+                    </p>
+                    {checkoutError && (
+                        <p style={{ color: '#ef4444', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
+                            {checkoutError}
+                        </p>
+                    )}
+                    <button
+                        type="button"
+                        className={styles.checkoutBtn}
+                        onClick={() => void handleCheckout()}
+                        disabled={isCheckingOut || cartItems.length === 0}
+                    >
+                        {isCheckingOut ? "Preparing checkout..." : "Checkout"}
+                    </button>
                 </div>
             </aside>
         </nav>

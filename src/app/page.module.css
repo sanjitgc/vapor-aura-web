@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-.leafDecorSection > * {
+.leafDecorSection>* {
     position: relative;
     z-index: 2;
 }
@@ -276,7 +276,7 @@
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
 }
 
-.flavorGroup + .flavorGroup {
+.flavorGroup+.flavorGroup {
     margin-top: 0.55rem;
 }
 

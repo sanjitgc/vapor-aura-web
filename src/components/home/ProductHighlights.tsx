@@ -1,9 +1,37 @@
 "use client";
-
+import Link from "next/link";
 import { type TouchEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import AnimateIn from "@/components/ui/AnimateIn";
 import styles from "@/app/page.module.css";
+
+interface ShopifyProduct {
+    id: string;
+    title: string;
+    handle: string;
+    descriptionHtml: string;
+    tags: string[];
+    images: {
+        edges: {
+            node: {
+                url: string;
+                altText: string;
+            };
+        }[];
+    };
+    variants: {
+        edges: {
+            node: {
+                id: string;
+                price: {
+                    amount: string;
+                    currencyCode: string;
+                };
+                availableForSale: boolean;
+            };
+        }[];
+    };
+}
 
 interface ProductCategory {
     name: string;
@@ -15,63 +43,51 @@ interface ProductCategory {
     secondaryIconSrc?: string;
 }
 
-interface FlavorGroup {
-    device: string;
-    price: number;
-    flavors: string[];
-}
-
 interface SearchTargetDetail {
     device?: string;
     flavor?: string;
     category?: string;
 }
 
-const categories: ProductCategory[] = [
-    {
-        name: "Vape",
+const categoryMeta: Record<string, Omit<ProductCategory, "name">> = {
+    vape: {
         description: "Latest disposables, pod systems, and premium vape devices.",
         iconSrc: "/icons/display/vape-devices.png",
         wide: true,
     },
-    {
-        name: "Glass",
+    glass: {
         description: "Clean-crafted glass pieces with standout quality and style.",
         iconSrc: "/icons/display/glass-bong.png",
         wide: true,
         contain: true,
         lightBg: true,
     },
-    {
-        name: "Vaporizer",
+    vaporizer: {
         description: "Trusted dry herb and concentrate vaporizers for every level.",
         iconSrc: "/icons/display/vaporizer-products.png",
         wide: true,
         contain: true,
     },
-    {
-        name: "Kratom",
+    kratom: {
         description: "Trusted kratom products with reliable quality and selection.",
         iconSrc: "/icons/display/kratom-products.png",
         wide: true,
         contain: true,
     },
-    {
-        name: "CBD",
+    cbd: {
         description: "Premium CBD options selected for consistency, quality, and trust.",
         iconSrc: "/icons/display/cbd-products.png",
         wide: true,
         contain: true,
     },
-    {
-        name: "Hookah",
+    hookah: {
         description: "Premium hookah setups, bowls, coals, and flavor essentials.",
         iconSrc: "/icons/display/hookah-product.png",
         wide: true,
         contain: true,
         lightBg: true,
     },
-];
+};
 
 const moreCategories: ProductCategory[] = [
     {
@@ -80,7 +96,6 @@ const moreCategories: ProductCategory[] = [
         iconSrc: "/icons/display/e-juices.png",
         wide: true,
         contain: true,
-        lightBg: false,
     },
     {
         name: "Mushroom",
@@ -88,7 +103,6 @@ const moreCategories: ProductCategory[] = [
         iconSrc: "/icons/display/mushroom-products-alt.png",
         wide: true,
         contain: true,
-        lightBg: false,
     },
     {
         name: "Edibles",
@@ -96,7 +110,6 @@ const moreCategories: ProductCategory[] = [
         iconSrc: "/icons/display/edibles-products.png",
         wide: true,
         contain: true,
-        lightBg: false,
     },
     {
         name: "Coils / Pods",
@@ -109,144 +122,11 @@ const moreCategories: ProductCategory[] = [
     },
 ];
 
-const vapeFlavorGroups: FlavorGroup[] = [
-    {
-        device: "GEEK BAR PULSE",
-        price: 22.99,
-        flavors: [
-            "Watermelon Ice",
-            "Strawberry B-Pop",
-            "Miami Mint",
-            "Blue Razz Ice",
-            "Cool Mint",
-            "Tropical Rainbow Blast",
-            "White Gummy Ice",
-            "Strawberry Mango",
-            "Sour Apple Ice",
-            "Strawberry Banana",
-            "Pink Lemonade",
-            "Mexico Mango",
-            "B-Pop",
-            "Juicy Peach Ice",
-            "Meta Moon",
-            "California Cherry",
-            "Fcuking Fab",
-        ],
-    },
-    {
-        device: "GEEK BAR PULSE X",
-        price: 27.99,
-        flavors: [
-            "Blackberry Blueberry",
-            "Blackberry B-Pop",
-            "Blue Rancher",
-            "Cool Mint",
-            "Grapefruit Refresher",
-            "Miami Mint",
-            "Raspberry Peach Lime",
-            "Sour Mango Pineapple",
-            "Sour Fcuking Fab",
-            "Banana Taffy Freeze",
-            "Blue Razz Ice",
-            "Lemon Heads",
-            "Lime Berry Orange",
-            "Orange Fcuking Fab",
-            "Sour Apple Ice",
-            "Sour Straws",
-            "Strawberry B-Pop",
-            "Watermelon Ice",
-            "Pepper Mintz",
-            "Creamy Mintz",
-        ],
-    },
-    {
-        device: "FOGER KIT",
-        price: 27.99,
-        flavors: [
-            "Watermelon Ice",
-            "Cool Mint",
-            "Strawberry Kiwi",
-            "Sour Apple Ice",
-            "Blue Razz Ice",
-            "Strawberry Watermelon",
-            "Gummy Bear",
-            "Juicy Peach Ice",
-            "Gum Mint",
-            "Kiwi Dragon Berry",
-            "Cherry Lemon",
-            "Strawberry Banana",
-            "Pineapple Coconut Ice",
-            "Blueberry Watermelon",
-            "Strawberry Ice",
-            "Mexico Mango",
-            "Miami Mint",
-            "Coffee",
-        ],
-    },
-    {
-        device: "FOGER PODS",
-        price: 22.99,
-        flavors: [
-            "Sour Gush",
-            "Gummy Bear",
-            "White Gummy",
-            "Sour Blue Dust",
-            "Strawberry B-Pop",
-            "Watermelon Bubblegum",
-            "Sour Fcuking Fab",
-            "Sour Cranapple",
-            "Skittles Cupcake",
-        ],
-    },
-    {
-        device: "FIFTY BAR",
-        price: 27.99,
-        flavors: [
-            "Strawberry Cereal Donut Milk",
-            "Blueberry Cereal Donut Milk",
-            "Vanilla Custard Donut",
-            "Cinnamon Funnel Cake",
-            "Tobaccocino",
-            "Blue Razzle Ice",
-            "Mint",
-            "Juicy Mango Melon Ice",
-            "Aloe Grape Watermelon",
-        ],
-    },
-    {
-        device: "OFF STAMP CUBE",
-        price: 27.99,
-        flavors: [
-            "Miami Mint",
-            "Blue Razz Ice",
-            "Dragon Strawnana",
-            "Bangin Peach",
-            "Rocket Popsicle",
-            "Hawaiian Popsicle",
-            "Florida Sherbet",
-            "Bangin Watermelon",
-        ],
-    },
-    {
-        device: "OFF STAMP CUBE PODS",
-        price: 19.99,
-        flavors: [
-            "Tropical Guava",
-            "Sour Apple Ice",
-            "Scary Berry",
-            "Raspberry Watermelon",
-            "Peach Berry",
-        ],
-    },
-];
-
-function toCurrency(value: number) {
-    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
-}
 
 function toDeviceId(value: string) {
     return value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
+
 
 export default function ProductHighlights() {
     const [isVapeCatalogOpen, setIsVapeCatalogOpen] = useState(false);
@@ -254,61 +134,70 @@ export default function ProductHighlights() {
     const [recentlyAddedKey, setRecentlyAddedKey] = useState<string | null>(null);
     const [searchHighlightedKey, setSearchHighlightedKey] = useState<string | null>(null);
     const [cartToast, setCartToast] = useState<string | null>(null);
+    const [shopifyProducts, setShopifyProducts] = useState<ShopifyProduct[]>([]);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const catalogId = useMemo(() => "vape-flavor-catalog", []);
     const CART_STORAGE_KEY = "vapor-aura-cart";
     const SEARCH_TARGET_STORAGE_KEY = "vapor-aura-search-target";
 
-    function handleVapeCardPress() {
-        const isMobile = window.matchMedia("(max-width: 767px)").matches;
-        if (isMobile) {
-            setIsVapeCatalogOpen((prev) => !prev);
-            return;
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const allStaticCategories: ProductCategory[] = Object.entries(categoryMeta).map(
+                    ([key, meta]) => ({
+                        name: key.charAt(0).toUpperCase() + key.slice(1),
+                        ...meta,
+                    })
+                );
+                const res = await fetch("/api/products");
+                const data = await res.json();
+                const products: ShopifyProduct[] = data?.data ?? [];
+                setShopifyProducts(products);
+
+                setCategories(allStaticCategories);
+            } catch {
+                setCategories(
+                    Object.entries(categoryMeta).map(([key, meta]) => ({
+                        name: key.charAt(0).toUpperCase() + key.slice(1),
+                        ...meta,
+                    }))
+                );
+            } finally {
+                setIsLoading(false);
+            }
         }
+        loadProducts();
+    }, []);
 
-        setIsVapeCatalogOpen(true);
-        window.setTimeout(() => {
-            const catalog = document.getElementById(catalogId);
-            catalog?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 120);
-    }
+    const vapeProducts = useMemo(() => {
+        return shopifyProducts.filter(p =>
+            p.tags?.some(t => t.toLowerCase() === "vape")
+        );
+    }, [shopifyProducts]);
 
-    function handleVapeCardTouch(event: TouchEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        handleVapeCardPress();
-    }
+    function addToCart(product: ShopifyProduct) {
+        const variant = product.variants.edges[0]?.node;
+        if (!variant) return;
 
-    function addFlavorToCart(brand: string, flavor: string, unitPrice: number) {
         const cartEntry = {
-            product: "Disposable Vape",
-            brand,
-            flavor,
+            product: product.title,
+            variantId: variant.id,
             quantity: 1,
-            unitPrice,
+            unitPrice: parseFloat(variant.price.amount),
+            image: product.images.edges[0]?.node.url ?? "",
         };
 
         try {
             const raw = window.localStorage.getItem(CART_STORAGE_KEY);
-            const parsed = raw ? JSON.parse(raw) : [];
-            const list = Array.isArray(parsed) ? parsed : [];
+            const list = raw ? JSON.parse(raw) : [];
             const existingIndex = list.findIndex(
-                (item: unknown) =>
-                    typeof item === "object" &&
-                    item !== null &&
-                    "product" in item &&
-                    "brand" in item &&
-                    "flavor" in item &&
-                    (item as { product?: string }).product === cartEntry.product &&
-                    (item as { brand?: string }).brand === cartEntry.brand &&
-                    (item as { flavor?: string }).flavor === cartEntry.flavor,
+                (item: any) => item.variantId === cartEntry.variantId
             );
 
             if (existingIndex >= 0) {
-                const currentQty =
-                    typeof list[existingIndex].quantity === "number" ? list[existingIndex].quantity : 1;
-                list[existingIndex] = {
-                    ...list[existingIndex],
-                    quantity: currentQty + 1,
-                };
+                list[existingIndex].quantity += 1;
             } else {
                 list.push(cartEntry);
             }
@@ -316,18 +205,10 @@ export default function ProductHighlights() {
             window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(list));
             window.dispatchEvent(new CustomEvent("vapor-aura-cart-updated"));
         } catch {
-            // Keep the UI interactive even if storage is unavailable.
         }
 
-        const actionKey = `${brand}__${flavor}`;
-        setRecentlyAddedKey(actionKey);
-        setCartToast(`${brand} - ${flavor} added to cart`);
-        window.setTimeout(() => {
-            setRecentlyAddedKey((prev) => (prev === actionKey ? null : prev));
-        }, 1200);
-        window.setTimeout(() => {
-            setCartToast((prev) => (prev === `${brand} - ${flavor} added to cart` ? null : prev));
-        }, 1700);
+        setCartToast(`${product.title} added to cart`);
+        window.setTimeout(() => setCartToast(null), 1700);
     }
 
     useEffect(() => {
@@ -342,21 +223,20 @@ export default function ProductHighlights() {
                 const key = `${detail.device}__${detail.flavor}`;
                 setSearchHighlightedKey(key);
                 window.setTimeout(() => {
-                    setSearchHighlightedKey((prev) => (prev === key ? null : prev));
+                    setSearchHighlightedKey(prev => prev === key ? null : prev);
                 }, 2200);
             }
 
             window.setTimeout(() => {
                 const section = document.querySelector(
-                    `[data-device-id="${toDeviceId(detail.device as string)}"]`,
+                    `[data-device-id="${toDeviceId(detail.device as string)}"]`
                 ) as HTMLElement | null;
                 section?.scrollIntoView({ behavior: "smooth", block: "center" });
             }, 170);
         };
 
         const onSearchSelect = (event: Event) => {
-            const custom = event as CustomEvent<SearchTargetDetail>;
-            applySearchTarget(custom.detail);
+            applySearchTarget((event as CustomEvent<SearchTargetDetail>).detail);
         };
 
         window.addEventListener("vapor-aura-search-select", onSearchSelect as EventListener);
@@ -364,81 +244,105 @@ export default function ProductHighlights() {
         try {
             const raw = window.sessionStorage.getItem(SEARCH_TARGET_STORAGE_KEY);
             if (raw) {
-                const parsed = JSON.parse(raw) as SearchTargetDetail;
-                applySearchTarget(parsed);
+                applySearchTarget(JSON.parse(raw) as SearchTargetDetail);
                 window.sessionStorage.removeItem(SEARCH_TARGET_STORAGE_KEY);
             }
-        } catch {
-            // Ignore malformed targets.
-        }
+        } catch { }
 
         return () => {
             window.removeEventListener("vapor-aura-search-select", onSearchSelect as EventListener);
         };
     }, []);
 
-    function renderVapeCatalog({ mobile, id }: { mobile: boolean; id?: string }) {
-        return (
-            <div
-                id={id}
-                className={`${styles.vapeCatalog} ${isVapeCatalogOpen ? styles.vapeCatalogOpen : ""} ${mobile ? styles.vapeCatalogMobileOnly : styles.vapeCatalogDesktopOnly}`}
-                aria-hidden={!isVapeCatalogOpen}
-            >
-                <div className={styles.vapeCatalogInner}>
-                    {vapeFlavorGroups.map((group) => {
-                        const isOpen = openFlavorDevice === group.device;
-                        return (
-                            <div
-                                key={`${mobile ? "mobile" : "desktop"}-${group.device}`}
-                                className={styles.flavorGroup}
-                                {...(!mobile ? { "data-device-id": toDeviceId(group.device) } : {})}
-                            >
-                                <button
-                                    type="button"
-                                    className={styles.flavorGroupButton}
-                                    onClick={() => setOpenFlavorDevice(isOpen ? null : group.device)}
-                                    aria-expanded={isOpen}
-                                >
-                                    <span>{group.device}</span>
-                                    <span className={styles.flavorCaret} aria-hidden="true">
-                                        {isOpen ? "−" : "+"}
-                                    </span>
-                                </button>
-                                <ul
-                                    className={`${styles.flavorList} ${isOpen ? styles.flavorListOpen : ""}`}
-                                    aria-hidden={!isOpen}
-                                >
-                                    {group.flavors.map((flavor) => {
-                                        const actionKey = `${group.device}__${flavor}`;
-                                        const isAdded = recentlyAddedKey === actionKey;
-                                        return (
-                                            <li
-                                                key={flavor}
-                                                className={`${styles.flavorRow} ${searchHighlightedKey === actionKey ? styles.flavorRowHighlight : ""}`}
-                                            >
-                                                <span className={styles.flavorName}>{flavor}</span>
-                                                <div className={styles.flavorActions}>
-                                                    <span className={styles.flavorPrice}>{toCurrency(group.price)}</span>
-                                                    <button
-                                                        type="button"
-                                                        className={`${styles.addToCartBtn} ${isAdded ? styles.addedToCartBtn : ""}`}
-                                                        onClick={() => addFlavorToCart(group.device, flavor, group.price)}
-                                                    >
-                                                        {isAdded ? "Added ✓" : "Add to Cart"}
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
-                        );
-                    })}
-                    {cartToast && <p className={styles.cartToast}>{cartToast}</p>}
-                </div>
-            </div>
-        );
+    function handleVapeCardPress() {
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) {
+            setIsVapeCatalogOpen(prev => !prev);
+            return;
+        }
+        setIsVapeCatalogOpen(true);
+        window.setTimeout(() => {
+            document.getElementById(catalogId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 120);
     }
+
+    function handleVapeCardTouch(event: TouchEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        handleVapeCardPress();
+    }
+
+    // function renderVapeCatalog({ mobile, id }: { mobile: boolean; id?: string }) {
+    //     return (
+    //         <div
+    //             id={id}
+    //             className={`${styles.vapeCatalog} ${isVapeCatalogOpen ? styles.vapeCatalogOpen : ""} ${mobile ? styles.vapeCatalogMobileOnly : styles.vapeCatalogDesktopOnly}`}
+    //             aria-hidden={!isVapeCatalogOpen}
+    //         >
+    //             <div className={styles.vapeCatalogInner}>
+    //                 {vapeProducts.length === 0 && (
+    //                     <p style={{ color: "#aaa", padding: "1rem" }}>No vape products available.</p>
+    //                 )}
+    //                 {vapeProducts.map((product) => {
+    //                     const isOpen = openFlavorDevice === product.title;
+    //                     const variant = product.variants.edges[0]?.node;
+    //                     const price = parseFloat(variant?.price?.amount ?? "0");
+    //                     const image = product.images.edges[0]?.node?.url;
+
+    //                     return (
+    //                         <div
+    //                             key={product.id}
+    //                             className={styles.flavorGroup}
+    //                             data-device-id={toDeviceId(product.title)}
+    //                         >
+    //                             <button
+    //                                 type="button"
+    //                                 className={styles.flavorGroupButton}
+    //                                 onClick={() => setOpenFlavorDevice(isOpen ? null : product.title)}
+    //                                 aria-expanded={isOpen}
+    //                             >
+    //                                 <span>{product.title}</span>
+    //                                 <span className={styles.flavorCaret} aria-hidden="true">
+    //                                     {isOpen ? "−" : "+"}
+    //                                 </span>
+    //                             </button>
+
+    //                             <div className={`${styles.flavorList} ${isOpen ? styles.flavorListOpen : ""}`}>
+    //                                 <div className={styles.flavorRow}>
+    //                                     {image && (
+    //                                         <img
+    //                                             src={image}
+    //                                             alt={product.title}
+    //                                             style={{ width: 60, height: 60, objectFit: "cover", borderRadius: 8 }}
+    //                                         />
+    //                                     )}
+    //                                     <div>
+    //                                         <p style={{ color: "#e3e3e3", fontSize: "0.85rem" }}>
+    //                                             {product.descriptionHtml
+    //                                                 ? <span dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+    //                                                 : "No description available."}
+    //                                         </p>
+    //                                     </div>
+    //                                     <div className={styles.flavorActions}>
+    //                                         <span className={styles.flavorPrice}>{toCurrency(price)}</span>
+    //                                         <button
+    //                                             type="button"
+    //                                             className={styles.addToCartBtn}
+    //                                             onClick={() => addToCart(product)}
+    //                                             disabled={!variant?.availableForSale}
+    //                                         >
+    //                                             {variant?.availableForSale ? "Add to Cart" : "Out of Stock"}
+    //                                         </button>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     );
+    //                 })}
+    //                 {cartToast && <p className={styles.cartToast}>{cartToast}</p>}
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     return (
         <>
@@ -459,72 +363,32 @@ export default function ProductHighlights() {
                         </div>
                     </AnimateIn>
 
-                    <div className={styles.productGrid}>
-                        {categories.map((category, index) => {
-                            const isVape = category.name === "Vape";
-                            return (
+                    {isLoading ? (
+                        <p style={{ textAlign: "center", color: "#aaa" }}>Loading products...</p>
+                    ) : (
+                        <div className={styles.productGrid}>
+                            {categories.map((category, index) => (
                                 <AnimateIn key={category.name} delay={0.1 + index * 0.08}>
-                                    <div className={styles.productCard}>
-                                        {isVape ? (
-                                            <>
-                                                <button
-                                                    type="button"
-                                                    className={styles.vapeToggle}
-                                                onClick={handleVapeCardPress}
-                                                    onTouchEnd={handleVapeCardTouch}
-                                                    aria-expanded={isVapeCatalogOpen}
-                                                    aria-controls={catalogId}
-                                                >
-                                                    <div
-                                                        className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                                    >
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            fill
-                                                            sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                            className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                        />
-                                                    </div>
-                                                    <h3 className={styles.productTitle}>{category.name}</h3>
-                                                    <p className={styles.productText}>{category.description}</p>
-                                                </button>
-                                                {renderVapeCatalog({ mobile: true })}
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div
-                                                    className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                                >
-                                                    {category.wide ? (
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            fill
-                                                            sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                            className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                        />
-                                                    ) : (
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            width={116}
-                                                            height={80}
-                                                            className={styles.iconImage}
-                                                        />
-                                                    )}
-                                                </div>
-                                                <h3 className={styles.productTitle}>{category.name}</h3>
-                                                <p className={styles.productText}>{category.description}</p>
-                                            </>
-                                        )}
-                                    </div>
+                                    <Link href={`/products/category/${category.name.toLowerCase()}`}>
+                                        <div className={styles.productCard}>
+                                            <div className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}>
+                                                <Image
+                                                    src={category.iconSrc}
+                                                    alt={category.name}
+                                                    fill
+                                                    sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
+                                                    className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
+                                                />
+                                            </div>
+                                            <h3 className={styles.productTitle}>{category.name}</h3>
+                                            <p className={styles.productText}>{category.description}</p>
+                                        </div>
+                                    </Link>
                                 </AnimateIn>
-                            );
-                        })}
-                    </div>
+                            ))}
+                        </div>
+                    )}
 
-                    {renderVapeCatalog({ mobile: false, id: catalogId })}
                 </div>
             </section>
 
@@ -544,12 +408,10 @@ export default function ProductHighlights() {
                     <div className={`${styles.productGrid} ${styles.productGridFour}`}>
                         {moreCategories.map((category, index) => (
                             <AnimateIn key={category.name} delay={0.08 + index * 0.08}>
-                                <div className={styles.productCard}>
-                                    <div
-                                        className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                    >
-                                        {category.wide ? (
-                                            category.secondaryIconSrc ? (
+                                <Link href={`/products/category/${category.name.toLowerCase().replace(/\s*\/\s*/g, "-")}`}>
+                                    <div className={styles.productCard}>
+                                        <div className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}>
+                                            {category.secondaryIconSrc ? (
                                                 <div className={styles.iconSplit}>
                                                     <div className={styles.iconSplitItem}>
                                                         <Image
@@ -578,20 +440,12 @@ export default function ProductHighlights() {
                                                     sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
                                                     className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
                                                 />
-                                            )
-                                        ) : (
-                                            <Image
-                                                src={category.iconSrc}
-                                                alt={category.name}
-                                                width={116}
-                                                height={80}
-                                                className={styles.iconImage}
-                                            />
-                                        )}
+                                            )}
+                                        </div>
+                                        <h3 className={styles.productTitle}>{category.name}</h3>
+                                        <p className={styles.productText}>{category.description}</p>
                                     </div>
-                                    <h3 className={styles.productTitle}>{category.name}</h3>
-                                    <p className={styles.productText}>{category.description}</p>
-                                </div>
+                                </Link>
                             </AnimateIn>
                         ))}
                     </div>

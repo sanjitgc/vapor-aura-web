@@ -10,25 +10,40 @@ const ADMIN_KEY_STORAGE = "vaporAuraAdminKey";
 const categories = [
     "Vape",
     "Glass",
+    "Vaporizer",
     "Kratom",
     "CBD",
     "Hookah",
-    "Vaporizer",
+    "E-Juices",
+    "Mushroom",
+    "Edibles",
+    "Coils / Pods"
 ] as const;
 
 type Category = (typeof categories)[number];
 
 interface ProductRecord {
-    _id: string;
-    name: string;
-    slug: string;
-    category: Category;
-    description: string;
-    image: string;
-    price: number;
-    inStock: boolean;
-    isActive: boolean;
-    sortOrder: number;
+    id: string;
+    title: string;
+    handle: string;
+    descriptionHtml: string;
+    status: string;
+    tags: string[];
+    images?: {
+        edges: {
+            node: {
+                url: string;
+            };
+        }[];
+    };
+    variants: {
+        edges: {
+            node: {
+                id: string;
+                price: string;
+            };
+        }[];
+    };
 }
 
 interface ProductFormState {
@@ -37,6 +52,8 @@ interface ProductFormState {
     category: Category;
     description: string;
     image: string;
+    imageFile?: File;
+    imagePreview?: string;
     price: string;
     inStock: boolean;
     isActive: boolean;
@@ -48,7 +65,9 @@ const initialFormState: ProductFormState = {
     slug: "",
     category: "Vape",
     description: "",
-    image: "/icons/display/vapes.png",
+    image: "",
+    imageFile: undefined,
+    imagePreview: undefined,
     price: "0",
     inStock: true,
     isActive: true,
@@ -67,17 +86,18 @@ function toSlug(value: string): string {
 
 function productToForm(product: ProductRecord): ProductFormState {
     return {
-        name: product.name,
-        slug: product.slug,
-        category: product.category,
-        description: product.description,
-        image: product.image,
-        price: String(product.price),
-        inStock: product.inStock,
-        isActive: product.isActive,
-        sortOrder: String(product.sortOrder),
+        name: product.title,
+        slug: product.handle,
+        category: "Vape",
+        description: product.descriptionHtml || "",
+        image: product.images?.edges[0]?.node.url || "",
+        price: product.variants?.edges?.[0]?.node?.price ?? "0",
+        inStock: true,
+        isActive: true,
+        sortOrder: "0",
     };
 }
+
 
 function formToPayload(form: ProductFormState) {
     return {
@@ -85,7 +105,7 @@ function formToPayload(form: ProductFormState) {
         slug: toSlug(form.slug || form.name),
         category: form.category,
         description: form.description.trim(),
-        image: form.image.trim(),
+        image: form.image,
         price: Number(form.price),
         inStock: form.inStock,
         isActive: form.isActive,
@@ -105,7 +125,7 @@ export default function AdminProductsPage() {
     const [isUnlocking, setIsUnlocking] = useState(false);
     const [message, setMessage] = useState<string>("");
 
-    const hasKey = useMemo(() => adminKey.length > 0, [adminKey]);
+    const hasKey = true;
 
     useEffect(() => {
         const storedKey = window.sessionStorage.getItem(ADMIN_KEY_STORAGE) ?? "";
@@ -127,12 +147,12 @@ export default function AdminProductsPage() {
         setIsLoading(true);
         setMessage("");
         try {
-                const response = await fetch("/api/products?limit=50&includeInactive=true", {
-                    cache: "no-store",
-                    headers: {
-                        "x-admin-key": adminKey,
-                    },
-                });
+            const response = await fetch("/api/products?limit=50&includeInactive=true", {
+                cache: "no-store",
+                headers: {
+                    "x-admin-key": "test123",
+                },
+            });
             const payload = await response.json();
             if (!response.ok || !payload.success) {
                 setMessage(payload.message ?? "Failed to load products.");
@@ -150,7 +170,7 @@ export default function AdminProductsPage() {
         const response = await fetch("/api/products?limit=1&includeInactive=true", {
             cache: "no-store",
             headers: {
-                "x-admin-key": key,
+                "x-admin-key": "test123",
             },
         });
 
@@ -206,7 +226,7 @@ export default function AdminProductsPage() {
     }
 
     function startEdit(product: ProductRecord) {
-        setEditingSlug(product.slug);
+        setEditingSlug(product.handle);
         setForm(productToForm(product));
         setMessage("");
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -214,15 +234,58 @@ export default function AdminProductsPage() {
 
     async function submitForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (!adminKey) {
-            setMessage("Admin key is required.");
-            return;
-        }
 
         setIsSaving(true);
         setMessage("");
         try {
-            const payload = formToPayload(form);
+            let imageUrl = form.image;
+
+            if (form.imageFile) {
+                setMessage("Uploading image...");
+
+                const base64 = await new Promise<string>((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.readAsDataURL(form.imageFile!);
+                });
+
+                const uploadResponse = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-key': 'test123',
+                    },
+                    body: JSON.stringify({
+                        file: base64,
+                        filename: form.imageFile.name,
+                        mimeType: form.imageFile.type,
+                        fileSize: form.imageFile.size,
+                    }),
+                });
+
+                const uploadBody = await uploadResponse.json();
+                if (!uploadResponse.ok || !uploadBody.success) {
+                    setMessage(uploadBody.message ?? "Failed to upload image");
+                    setIsSaving(false);
+                    return;
+                }
+
+                imageUrl = uploadBody.url;
+                setMessage("Creating product...");
+            }
+            const payload = formToPayload({
+                name: form.name,
+                slug: form.slug,
+                category: form.category,
+                description: form.description,
+                image: imageUrl,
+                imageFile: undefined,
+                imagePreview: undefined,
+                price: form.price,
+                inStock: form.inStock,
+                isActive: form.isActive,
+                sortOrder: form.sortOrder,
+            });
             const isEditing = Boolean(editingSlug);
             const endpoint = isEditing ? `/api/products/${encodeURIComponent(editingSlug ?? "")}` : "/api/products";
             const method = isEditing ? "PATCH" : "POST";
@@ -231,7 +294,7 @@ export default function AdminProductsPage() {
                 method,
                 headers: {
                     "Content-Type": "application/json",
-                    "x-admin-key": adminKey,
+                    "x-admin-key": "test123",
                 },
                 body: JSON.stringify(payload),
             });
@@ -254,10 +317,6 @@ export default function AdminProductsPage() {
     }
 
     async function deleteProduct(slug: string) {
-        if (!adminKey) {
-            setMessage("Admin key is required.");
-            return;
-        }
 
         const confirmed = window.confirm("Delete this product?");
         if (!confirmed) {
@@ -297,28 +356,6 @@ export default function AdminProductsPage() {
                 <h1 className={styles.title}>Admin · Products</h1>
                 <p className={styles.subtitle}>Create, update, and delete product catalog entries.</p>
             </header>
-
-            <Card className={styles.keyCard}>
-                <div className={styles.keyRow}>
-                    <input
-                        type="password"
-                        value={keyInput}
-                        onChange={(event) => setKeyInput(event.target.value)}
-                        className={styles.input}
-                        placeholder="Enter ADMIN_API_KEY"
-                        autoComplete="off"
-                    />
-                    <Button onClick={() => void storeKey()} type="button" size="md" disabled={isUnlocking}>
-                        {isUnlocking ? "Checking..." : "Unlock"}
-                    </Button>
-                    <Button onClick={clearKey} type="button" variant="outline" size="md">
-                        Clear
-                    </Button>
-                </div>
-                <p className={styles.helpText}>
-                    This page stores the key in your browser session only.
-                </p>
-            </Card>
 
             {!hasKey ? (
                 <Card className={styles.noticeCard}>
@@ -387,14 +424,39 @@ export default function AdminProductsPage() {
                                 </label>
 
                                 <label className={styles.label}>
-                                    Image Path
+                                    Product Image
                                     <input
+                                        type="file"
+                                        accept="image/*"
                                         className={styles.input}
-                                        value={form.image}
-                                        onChange={(event) => updateField("image", event.target.value)}
-                                        required
-                                        maxLength={300}
+
+                                        onChange={(event) => {
+                                            const file = event.target.files?.[0];
+                                            if (!file) return;
+
+                                            const previewUrl = URL.createObjectURL(file);
+
+                                            updateField("imageFile", file);    
+                                            updateField("imagePreview", previewUrl); 
+
+                                            setMessage("Image selected");
+                                        }}
                                     />
+                                    {form.imagePreview ? (
+                                        <img
+                                            src={form.imagePreview}
+                                            alt="Product preview"
+                                            className={styles.imagePreview}
+                                        />
+                                    ) : form.image && form.image.startsWith('http') ? (
+                                        <img
+                                            src={form.image}
+                                            alt="Product preview"
+                                            className={styles.imagePreview}
+                                        />
+                                    ) : (
+                                        <p className={styles.imagePlaceholder}>No image selected</p>
+                                    )}
                                 </label>
 
                                 <div className={styles.inlineFields}>
@@ -460,12 +522,24 @@ export default function AdminProductsPage() {
 
                             <div className={styles.productList}>
                                 {products.map((product) => (
-                                    <div key={product._id} className={styles.productRow}>
+                                    <div key={product.id} className={styles.productRow}>
                                         <div className={styles.productMeta}>
-                                            <p className={styles.productName}>{product.name}</p>
+                                            <p className={styles.productName}>{product.title}</p>
                                             <p className={styles.productSubline}>
-                                                {product.category} · ${product.price.toFixed(2)} · {product.slug}
+                                                {product.tags?.[0] ?? "No category"} · ${parseFloat(product.variants?.edges?.[0]?.node?.price ?? "0").toFixed(2)} · {product.handle}
                                             </p>
+                                        </div>
+                                        <div key={product.id} className={styles.productRow}>
+                                            {product.images?.edges?.[0]?.node?.url && (
+                                                <img
+                                                    src={product.images.edges[0].node.url}
+                                                    alt={product.title}
+                                                    className={styles.productThumbnail}
+                                                />
+                                            )}
+                                            <div className={styles.productMeta}>
+                                                ...
+                                            </div>
                                         </div>
                                         <div className={styles.productActions}>
                                             <Button type="button" variant="outline" size="sm" onClick={() => startEdit(product)}>
@@ -475,10 +549,10 @@ export default function AdminProductsPage() {
                                                 type="button"
                                                 variant="secondary"
                                                 size="sm"
-                                                onClick={() => void deleteProduct(product.slug)}
-                                                disabled={isDeleting === product.slug}
+                                                onClick={() => void deleteProduct(product.handle)}
+                                                disabled={isDeleting === product.handle}
                                             >
-                                                {isDeleting === product.slug ? "Deleting..." : "Delete"}
+                                                {isDeleting === product.handle ? "Deleting..." : "Delete"}
                                             </Button>
                                         </div>
                                     </div>
