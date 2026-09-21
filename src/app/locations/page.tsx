@@ -17,7 +17,7 @@ const locations = [
         name: "Vapor Aura - Irving",
         address: "825 W Royal Ln #140, Irving, TX 75039",
         phone: "(512) 555-0456",
-        hours: "Mon-Sun: 10AM - 10PM",
+        hours: "Open 24 hours",
         mapUrl: "https://maps.google.com/maps?q=825+W+Royal+Ln+%23140,+Irving,+TX+75039&t=&z=13&ie=UTF8&iwloc=&output=embed"
     }
 ];

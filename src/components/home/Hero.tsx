@@ -42,6 +42,14 @@ export default function Hero() {
                     Experience the aura at our locations.
                 </p>
                 <div className={styles.actions}>
+                    <Button
+                        href="https://www.vaporauradelivery.com"
+                        variant="primary"
+                        size="lg"
+                        target="_blank"
+                    >
+                        Order Online
+                    </Button>
                     <Button href="/#locations" variant="primary" size="lg">
                         Find A Location
                     </Button>

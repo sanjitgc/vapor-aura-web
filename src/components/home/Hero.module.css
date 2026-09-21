@@ -161,6 +161,12 @@
     .actions {
         flex-direction: column;
         align-items: center;
+        width: 100%;
+    }
+
+    .actions > a {
+        width: min(100%, 20rem);
+        box-sizing: border-box;
     }
 
     .visitCta {
