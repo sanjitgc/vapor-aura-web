@@ -9,7 +9,7 @@ const locations = [
         name: "Vapor Aura - Sachse",
         address: "5848 S State Hwy 78 #108, Sachse, TX 75048",
         phone: "(512) 555-0123",
-        hours: "Mon-Sun: 10AM - 10PM",
+        hours: "Sun–Wed: 7 AM – 1 AM · Thu–Sat: 7 AM – 2 AM",
         mapUrl: "https://maps.google.com/maps?q=5848+S+State+Hwy+78+%23108,+Sachse,+TX+75048&t=&z=13&ie=UTF8&iwloc=&output=embed"
     },
     {
