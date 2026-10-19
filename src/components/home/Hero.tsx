@@ -3,6 +3,7 @@
 import styles from "./Hero.module.css";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import StoreStatus from "./StoreStatus";
 
 export default function Hero() {
     return (
@@ -33,32 +34,28 @@ export default function Hero() {
                         width={720}
                         height={220}
                         className={styles.heroLogo}
+                        sizes="(max-width: 768px) 78vw, 460px"
                         priority
                     />
-                    <h1 className={styles.title}>
-                        <span className={styles.gradientText}>Transcend the Ordinary</span>
-                    </h1>
+                    <p className={styles.eyebrow}>Transcend the ordinary</p>
                 </div>
+                <h1 className={styles.title}>
+                    Vape &amp; smoke shop in <span className={styles.accentGreen}>Sachse</span> and{" "}
+                    <span className={styles.accentGreen}>Irving</span>
+                </h1>
                 <p className={styles.subtitle}>
-                    Texas&apos; premier destination for elite vapor, smoke, and lifestyle collections.
-                    Experience the aura at our locations.
+                    Vapes, e-liquid, glass, hookah, kratom and CBD, with staff who know their stuff.
+                    Irving is open 24 hours. 21+ with valid ID.
                 </p>
                 <div className={styles.actions}>
-                    <Button
-                        href="https://www.vaporauradelivery.com"
-                        variant="primary"
-                        size="lg"
-                        target="_blank"
-                    >
-                        Order Online
-                    </Button>
                     <Button href="/#locations" variant="primary" size="lg">
-                        Find A Location
+                        Find a store
                     </Button>
-                    <Button href="/#products" variant="outline" size="lg">
-                        Products
+                    <Button href="https://www.vaporauradelivery.com" variant="outline" size="lg" target="_blank">
+                        Order online
                     </Button>
                 </div>
+                <StoreStatus />
             </div>
         </section>
     );

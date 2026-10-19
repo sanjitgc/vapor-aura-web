@@ -1,5 +1,5 @@
 .hero {
-    min-height: 92vh;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,7 +76,7 @@
 }
 
 .heroLogo {
-    width: clamp(270px, 52vw, 680px);
+    width: clamp(240px, 38vw, 460px);
     height: auto;
     display: block;
     margin: 0 auto 0.45rem;
@@ -85,8 +85,21 @@
     -webkit-font-smoothing: antialiased;
 }
 
+.eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(237, 237, 237, 0.6);
+}
+
+.accentGreen {
+    color: var(--primary);
+    text-shadow: 0 0 28px var(--primary-glow);
+}
+
 .title {
-    font-size: clamp(1.9rem, 4.8vw, 3.15rem);
+    font-size: clamp(2rem, 5vw, 3.4rem);
     font-weight: 900;
     line-height: 1.08;
     letter-spacing: -0.03em;
@@ -104,8 +117,8 @@
 }
 
 .subtitle {
-    font-size: clamp(1rem, 2.2vw, 1.2rem);
-    color: #ccc;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    color: #c9c9c9;
     margin-bottom: 2.25rem;
     line-height: 1.6;
     max-width: 600px;
@@ -126,9 +139,14 @@
     justify-content: center;
 }
 
+.hero {
+    padding-bottom: 4rem;
+}
+
 @media (max-width: 768px) {
     .hero {
-        padding-top: 98px;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
     }
 
     .heroLogo {
