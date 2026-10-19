@@ -46,7 +46,8 @@ function status(store: Store, day: number, mins: number) {
     for (let i = 0; i < 7; i++) {
         const s = week[(day + i) % 7];
         if (!s || (i === 0 && mins >= s[0])) continue;
-        return { open: false, text: `Closed · opens ${i === 0 ? "" : i === 1 ? "tomorrow " : DAYS[(day + i) % 7].slice(0, 3) + " "}${fmt(s[0])}` };
+        const when = i === 0 ? "" : i === 1 ? "tomorrow " : `${DAYS[(day + i) % 7].slice(0, 3)} `;
+        return { open: false, text: `Closed until ${when}${fmt(s[0])}` };
     }
     return { open: false, text: "Closed" };
 }
@@ -70,32 +71,40 @@ export default function StoreStatus() {
     }, []);
 
     return (
-        <div className={styles.grid}>
-            {STORES.map((store) => {
-                const s = now ? status(store, now.day, now.mins) : null;
-                const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${store.street}, ${store.city}, TX ${store.zip}`)}`;
-                return (
-                    <article key={store.slug} className={styles.card}>
-                        <div className={styles.top}>
-                            <h2 className={styles.name}>{store.city}</h2>
-                            <span className={`${styles.pill} ${s ? (s.open ? styles.open : styles.closed) : ""}`}>
-                                {s ? s.text : store.hoursSummary}
-                            </span>
-                        </div>
-                        <p className={styles.address}>
-                            <FaLocationDot aria-hidden="true" /> {store.street}, {store.city}, TX {store.zip}
-                        </p>
-                        <div className={styles.actions}>
-                            <a href={store.tel} className={styles.action}>
-                                <FaPhone aria-hidden="true" /> {store.phone}
-                            </a>
-                            <a href={directions} target="_blank" rel="noopener noreferrer" className={`${styles.action} ${styles.actionPrimary}`}>
-                                <FaDiamondTurnRight aria-hidden="true" /> Directions
-                            </a>
-                        </div>
-                    </article>
-                );
-            })}
+        <div className={styles.wrap}>
+            <h2 className="visually-hidden">Our stores</h2>
+            <div className={styles.grid}>
+                {STORES.map((store) => {
+                    const s = now ? status(store, now.day, now.mins) : null;
+                    const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${store.street}, ${store.city}, TX ${store.zip}`)}`;
+                    return (
+                        <article key={store.slug} className={styles.card}>
+                            <div className={styles.top}>
+                                <h3 className={styles.name}>{store.city}</h3>
+                                <span className={`${styles.pill} ${s ? (s.open ? styles.open : styles.closed) : ""}`}>
+                                    {s ? s.text : store.hoursSummary}
+                                </span>
+                            </div>
+                            <p className={styles.address}>
+                                <FaLocationDot aria-hidden="true" /> {store.street}, {store.city}, TX {store.zip}
+                            </p>
+                            <div className={styles.actions}>
+                                <a href={store.tel} className={styles.action}>
+                                    <FaPhone aria-hidden="true" /> {store.phone}
+                                </a>
+                                <a
+                                    href={directions}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`${styles.action} ${styles.actionPrimary}`}
+                                >
+                                    <FaDiamondTurnRight aria-hidden="true" /> Directions
+                                </a>
+                            </div>
+                        </article>
+                    );
+                })}
+            </div>
         </div>
     );
 }

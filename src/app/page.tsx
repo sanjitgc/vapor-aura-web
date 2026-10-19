@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import Hero from "@/components/home/Hero";
+import Marquee from "@/components/home/Marquee";
 import ContactPage from "./contact/page";
 import WhyChoose from "@/components/common/WhyChoose";
 import ProductHighlights from "@/components/home/ProductHighlights";
@@ -11,10 +12,11 @@ export default function Home() {
             <NicotineWarning />
             <section id="home" className={styles.scrollSection}>
                 <Hero />
+                <Marquee />
                 <ProductHighlights />
             </section>
 
-            <section id="why-choose" className={`${styles.scrollSection} ${styles.leafDecorSection}`}>
+            <section id="why-choose" className={styles.scrollSection}>
                 <WhyChoose />
             </section>
 

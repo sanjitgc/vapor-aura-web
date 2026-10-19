@@ -17,7 +17,8 @@ export default function Footer() {
                         <div key={store.slug} className={styles.store}>
                             <p className={styles.storeName}>{store.name}</p>
                             <p>{store.street}<br />{store.city}, TX {store.zip}</p>
-                            <p><a href={store.tel}>{store.phone}</a> · {store.hoursSummary}</p>
+                            <p><a href={store.tel}>{store.phone}</a></p>
+                            <p>{store.hoursSummary}</p>
                         </div>
                     ))}
                 </div>

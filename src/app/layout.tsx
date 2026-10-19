@@ -1,9 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google"; // Using Inter as a clean, premium font
+import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_URL, STORES } from "@/lib/stores";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// Fonts are self-hosted from src/app/fonts so builds never depend on Google Fonts.
+const inter = localFont({
+  src: "./fonts/inter-latin-wght.woff2",
+  weight: "100 900",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+// Bricolage Grotesque, cut down to one static condensed ExtraBold (overlaps removed so
+// outlined text renders cleanly).
+const display = localFont({
+  src: "./fonts/bricolage-grotesque-display.woff2",
+  weight: "800",
+  variable: "--font-display",
+  display: "swap",
+});
+
+// Runs before first paint: while the 21+ gate is up, the hero figure's light-up sequence waits
+// so first-time visitors actually see it. If the gate never mounts (scripts failed), release it.
+const ageGateScript = `try{if(!localStorage.getItem("vapor-aura-age-verified")){var d=document.documentElement;d.setAttribute("data-age-gate","open");setTimeout(function(){if(!document.getElementById("age-verification-title"))d.removeAttribute("data-age-gate")},6000)}}catch(e){}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -68,7 +87,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${display.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: ageGateScript }} />
+      </head>
       <body className={inter.className}>
         <script
           type="application/ld+json"

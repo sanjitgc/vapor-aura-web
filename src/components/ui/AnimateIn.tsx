@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
 interface AnimateInProps {
@@ -16,17 +16,20 @@ export default function AnimateIn({
     delay = 0,
     direction = "up"
 }: AnimateInProps) {
+    const reduceMotion = useReducedMotion();
+    const distance = reduceMotion ? 0 : 18;
+
     const variants: Variants = {
         hidden: {
-            opacity: 0,
-            y: direction === "up" ? 20 : direction === "down" ? -20 : 0,
-            x: direction === "left" ? 20 : direction === "right" ? -20 : 0,
+            opacity: reduceMotion ? 1 : 0,
+            y: direction === "up" ? distance : direction === "down" ? -distance : 0,
+            x: direction === "left" ? distance : direction === "right" ? -distance : 0,
         },
         visible: {
             opacity: 1,
             y: 0,
             x: 0,
-            transition: { duration: 0.6, ease: "easeOut", delay }
+            transition: { duration: reduceMotion ? 0 : 0.7, ease: [0.16, 1, 0.3, 1], delay: reduceMotion ? 0 : delay },
         },
     };
 
@@ -34,7 +37,7 @@ export default function AnimateIn({
         <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-80px" }}
             variants={variants}
             className={className}
         >

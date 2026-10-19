@@ -4,9 +4,8 @@
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background: rgba(5, 5, 5, 0.97);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* Solid so big type scrolling underneath never ghosts through */
+    background: #050505;
     border-bottom: 1px solid var(--border);
     z-index: 1000;
     display: flex;
@@ -475,6 +474,32 @@
     color: white;
     cursor: pointer;
     background: linear-gradient(90deg, #22c55e, #ef4444);
+}
+
+/* Tablets and small laptops: keep links on one line next to the search box */
+@media (min-width: 769px) and (max-width: 1180px) {
+    .container {
+        padding: 0 1.25rem;
+        gap: 1rem;
+    }
+
+    .logoImage {
+        width: clamp(128px, 15vw, 180px);
+    }
+
+    .menu {
+        gap: 1.1rem;
+    }
+
+    .link {
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+    }
+
+    .searchField {
+        width: clamp(140px, 19vw, 240px);
+    }
 }
 
 @media (max-width: 768px) {
