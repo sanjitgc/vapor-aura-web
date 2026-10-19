@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { FaApplePay, FaCcMastercard, FaCcVisa, FaGooglePay } from "react-icons/fa6";
+import { SiDoordash } from "react-icons/si";
+import { DOORDASH_URL } from "@/lib/stores";
 
 interface CartItem {
     product: string;
@@ -330,6 +332,9 @@ export default function CheckoutPage() {
                             <br />
                             Our ordering system will be available soon.
                         </p>
+                        <a href={DOORDASH_URL} target="_blank" rel="noopener noreferrer" className={styles.maintenanceOrder}>
+                            <SiDoordash aria-hidden="true" /> Order on DoorDash
+                        </a>
                         <button type="button" onClick={() => { window.location.href = "/"; }}>
                             Return to Home
                         </button>

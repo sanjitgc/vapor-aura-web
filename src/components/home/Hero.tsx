@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { SiDoordash } from "react-icons/si";
 import styles from "./Hero.module.css";
 import Button from "@/components/ui/Button";
 import StoreStatus from "./StoreStatus";
 import AuraFigure from "./AuraFigure";
+import { DOORDASH_URL } from "@/lib/stores";
 
 export default function Hero() {
     return (
@@ -32,11 +34,12 @@ export default function Hero() {
                         Irving is open 24 hours. 21+ with valid ID.
                     </p>
                     <div className={styles.actions}>
-                        <Button href="/#locations" variant="primary" size="lg">
-                            Find a store
+                        <Button href={DOORDASH_URL} variant="primary" size="lg" target="_blank">
+                            <SiDoordash aria-hidden="true" className={styles.ddIcon} />
+                            Order on DoorDash
                         </Button>
-                        <Button href="https://www.vaporauradelivery.com" variant="outline" size="lg" target="_blank">
-                            Order online
+                        <Button href="/#locations" variant="outline" size="lg">
+                            Find a store
                         </Button>
                     </div>
                 </div>

@@ -84,6 +84,11 @@
     animation: fadeUp 0.8s var(--ease-out) 0.42s both;
 }
 
+.ddIcon {
+    flex: none;
+    font-size: 1.05em;
+}
+
 .stores {
     max-width: 1200px;
     margin: clamp(2rem, 4vw, 3rem) auto 0;

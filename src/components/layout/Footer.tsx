@@ -1,7 +1,8 @@
 import styles from "./Footer.module.css";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
-import { STORES, SOCIAL } from "@/lib/stores";
+import { SiDoordash } from "react-icons/si";
+import { DOORDASH_URL, STORES, SOCIAL } from "@/lib/stores";
 
 export default function Footer() {
     return (
@@ -29,6 +30,9 @@ export default function Footer() {
                     </a>
                     <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" aria-label="Vapor Aura on Facebook">
                         <FaFacebookF aria-hidden="true" />
+                    </a>
+                    <a href={DOORDASH_URL} target="_blank" rel="noopener noreferrer" aria-label="Order from Vapor Aura on DoorDash">
+                        <SiDoordash aria-hidden="true" />
                     </a>
                 </div>
             </div>
