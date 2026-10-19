@@ -92,7 +92,7 @@ export default function CheckoutPage() {
     }, []);
 
     const subtotal = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity * (item.unitPrice ?? UNIT_PRICE), 0), [cartItems]);
-    const deliveryFee = useMemo(() => DELIVERY_FEES[deliveryMethod], [deliveryMethod]);
+    const deliveryFee = useMemo(() => (subtotal > 0 ? DELIVERY_FEES[deliveryMethod] : 0), [deliveryMethod, subtotal]);
     const tax = useMemo(() => subtotal * TAX_RATE, [subtotal]);
     const total = useMemo(() => subtotal + deliveryFee + tax, [subtotal, deliveryFee, tax]);
 

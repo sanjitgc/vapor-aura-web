@@ -13,6 +13,7 @@ export default function Hero() {
                 width={520}
                 height={520}
                 className={styles.leafAccent}
+                sizes="(max-width: 640px) 120px, 180px"
                 aria-hidden="true"
             />
             <Image
@@ -21,6 +22,7 @@ export default function Hero() {
                 width={520}
                 height={520}
                 className={styles.leafAccentTopRight}
+                sizes="(max-width: 640px) 120px, 180px"
                 aria-hidden="true"
             />
             <div className={styles.content}>
@@ -55,11 +57,6 @@ export default function Hero() {
                     </Button>
                     <Button href="/#products" variant="outline" size="lg">
                         Products
-                    </Button>
-                </div>
-                <div className={styles.visitCta}>
-                    <Button href="/#locations" variant="primary" size="lg">
-                        Visit Us Today
                     </Button>
                 </div>
             </div>

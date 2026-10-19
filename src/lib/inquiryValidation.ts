@@ -3,6 +3,7 @@ export interface SanitizedInquiryInput {
     email: string;
     subject: string;
     message: string;
+    phone: string;
 }
 
 const LIMITS = {
@@ -10,6 +11,7 @@ const LIMITS = {
     email: 255,
     subject: 120,
     message: 5000,
+    phone: 25,
 };
 
 type ValidationResult =
@@ -35,6 +37,8 @@ export function validateInquiryFormData(formData: FormData): ValidationResult {
     const safeEmail = email.trim().toLowerCase();
     const safeSubject = subject.trim();
     const safeMessage = message.trim();
+    const rawPhone = formData.get("phone");
+    const safePhone = typeof rawPhone === "string" ? rawPhone.trim() : "";
 
     if (!safeName || !safeEmail || !safeSubject || !safeMessage) {
         return { ok: false, message: "All fields are required" };
@@ -49,7 +53,8 @@ export function validateInquiryFormData(formData: FormData): ValidationResult {
         safeName.length > LIMITS.name ||
         safeEmail.length > LIMITS.email ||
         safeSubject.length > LIMITS.subject ||
-        safeMessage.length > LIMITS.message
+        safeMessage.length > LIMITS.message ||
+        safePhone.length > LIMITS.phone
     ) {
         return { ok: false, message: "One or more fields are too long" };
     }
@@ -61,6 +66,7 @@ export function validateInquiryFormData(formData: FormData): ValidationResult {
             email: safeEmail,
             subject: safeSubject,
             message: safeMessage,
+            phone: safePhone,
         },
     };
 }

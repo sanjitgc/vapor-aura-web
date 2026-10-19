@@ -20,6 +20,12 @@ const InquirySchema = new Schema({
         trim: true,
         maxlength: 120,
     },
+    phone: {
+        type: String,
+        trim: true,
+        maxlength: 25,
+        default: "",
+    },
     message: {
         type: String,
         required: true,

@@ -47,6 +47,7 @@ test("sanitizes and normalizes valid data", () => {
             email: "jane@example.com",
             subject: "Support",
             message: "Hello",
+            phone: "",
         });
     }
 });

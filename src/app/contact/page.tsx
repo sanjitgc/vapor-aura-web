@@ -4,7 +4,8 @@ import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
 import { useEffect, useRef, useState } from "react";
-import { FaFacebookF, FaInstagram, FaLocationDot, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLocationDot } from "react-icons/fa6";
+import { SOCIAL } from "@/lib/stores";
 
 const storeLocations = [
     {
@@ -55,7 +56,7 @@ export default function Contact() {
     const [expandedHours, setExpandedHours] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
-        setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long" }));
+        setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long", timeZone: "America/Chicago" }));
     }, []);
 
     function toggleHours(name: string) {
@@ -84,7 +85,7 @@ export default function Contact() {
         <main className={styles.main}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Get in Touch</h1>
+                    <h2 className={styles.title}>Get in Touch</h2>
                     <p className={styles.subtitle}>
                         Questions? Wholesale inquiries? Feedback? We want to hear from you.
                     </p>
@@ -121,6 +122,7 @@ export default function Contact() {
                                 <option value="General Inquiry">General Inquiry</option>
                                 <option value="Store Experience">Store Experience</option>
                                 <option value="Product Request">Product Request</option>
+                                <option value="Wholesale">Wholesale</option>
                                 <option value="Careers">Careers</option>
                             </select>
                         </div>
@@ -245,7 +247,7 @@ export default function Contact() {
                     </p>
                     <div className={styles.socialLinks}>
                         <a
-                            href="https://www.instagram.com"
+                            href={SOCIAL.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Visit Vapor Aura on Instagram"
@@ -253,28 +255,12 @@ export default function Contact() {
                             <FaInstagram aria-hidden="true" />
                         </a>
                         <a
-                            href="https://www.facebook.com"
+                            href={SOCIAL.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Visit Vapor Aura on Facebook"
                         >
                             <FaFacebookF aria-hidden="true" />
-                        </a>
-                        <a
-                            href="https://www.tiktok.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Visit Vapor Aura on TikTok"
-                        >
-                            <FaTiktok aria-hidden="true" />
-                        </a>
-                        <a
-                            href="https://x.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Visit Vapor Aura on X"
-                        >
-                            <FaXTwitter aria-hidden="true" />
                         </a>
                     </div>
                 </section>

@@ -8,8 +8,8 @@
     background: transparent;
     background-image: none;
     padding: 2rem;
-    padding-top: 104px;
-    /* Navbar height */
+    padding-top: 2rem;
+    /* The nicotine warning band above the hero already clears the fixed navbar */
 }
 
 .hero::before {

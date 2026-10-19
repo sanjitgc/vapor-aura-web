@@ -3,7 +3,7 @@
   --surface: #0a0a0a;
   --foreground: #ededed;
   --header-height: 92px;
-  --fixed-footer-height: 92px;
+  --fixed-footer-height: 0px;
   
   /* Brand Colors */
   --primary: #22c55e; /* Brand green */
