@@ -148,3 +148,17 @@
     font-size: 0.8rem;
     color: rgba(237, 237, 237, 0.6);
 }
+
+.legalLinks {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.legalLinks a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.legalLinks a:hover {
+    color: #fff;
+}

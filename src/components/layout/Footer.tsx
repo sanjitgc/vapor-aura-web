@@ -1,5 +1,6 @@
 import styles from "./Footer.module.css";
 import Image from "next/image";
+import Link from "next/link";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { SiDoordash } from "react-icons/si";
 import { DOORDASH_URL, STORES, SOCIAL } from "@/lib/stores";
@@ -38,6 +39,10 @@ export default function Footer() {
             </div>
             <div className={styles.legal}>
                 <p>Sales to adults 21 and over only. Valid photo ID required.</p>
+                <p className={styles.legalLinks}>
+                    <Link href="/privacy">Privacy Policy</Link>
+                    <Link href="/terms">Terms of Use</Link>
+                </p>
                 <p>&copy; {new Date().getFullYear()} Vapor Aura. All rights reserved.</p>
             </div>
         </footer>
