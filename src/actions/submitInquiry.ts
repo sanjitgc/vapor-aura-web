@@ -1,9 +1,12 @@
 "use server";
 
 import connectToDatabase from "@/lib/db";
+import { buildAutoReply, buildShopAlert, sendEmail } from "@/lib/inquiryEmails";
 import { validateInquiryFormData } from "@/lib/inquiryValidation";
-import { checkInquiryRateLimit } from "@/lib/rateLimit";
+import { checkAutoReplyRateLimit, checkInquiryRateLimit } from "@/lib/rateLimit";
 import Inquiry from "@/models/Inquiry";
+
+const SENT = "Message sent. We'll get back to you soon.";
 
 export async function submitInquiry(formData: FormData) {
     try {
@@ -12,7 +15,14 @@ export async function submitInquiry(formData: FormData) {
             return { success: false, message: validation.message };
         }
 
-        const rateLimitResult = await checkInquiryRateLimit(validation.data.email);
+        // Bots that fill the hidden field get a normal-looking reply and nothing is stored or sent.
+        if (validation.spam) {
+            return { success: true, message: SENT };
+        }
+
+        const data = validation.data;
+
+        const rateLimitResult = await checkInquiryRateLimit(data.email);
         if (!rateLimitResult.allowed) {
             return {
                 success: false,
@@ -20,19 +30,34 @@ export async function submitInquiry(formData: FormData) {
             };
         }
 
+        // Save a copy in the database (when it's reachable) and email the shop.
+        // Either one is enough for the message not to get lost.
+        let saved = false;
         const connection = await connectToDatabase();
-        if (!connection) {
-            return { success: false, message: "Service is temporarily unavailable. Please try again later." };
+        if (connection) {
+            try {
+                await Inquiry.create(data);
+                saved = true;
+            } catch (error) {
+                console.error("Saving inquiry failed:", error);
+            }
         }
 
-        await Inquiry.create({
-            name: validation.data.name,
-            email: validation.data.email,
-            subject: validation.data.subject,
-            message: validation.data.message,
-        });
+        const autoReply = buildAutoReply(data);
+        const replyAllowed = autoReply ? await checkAutoReplyRateLimit(data.email) : false;
+        const [alerted] = await Promise.all([
+            sendEmail(buildShopAlert(data)),
+            autoReply && replyAllowed ? sendEmail(autoReply) : Promise.resolve(false),
+        ]);
 
-        return { success: true, message: "Inquiry received. We will get back to you soon." };
+        if (!saved && !alerted) {
+            return {
+                success: false,
+                message: "We couldn't send your message right now. Please call the store or try again later.",
+            };
+        }
+
+        return { success: true, message: SENT };
     } catch (error) {
         console.error("Submission error:", error);
         return { success: false, message: "Something went wrong. Please try again." };

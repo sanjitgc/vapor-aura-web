@@ -35,7 +35,7 @@ test("sanitizes and normalizes valid data", () => {
         createFormData({
             name: "  Jane Doe  ",
             email: "  JANE@EXAMPLE.COM  ",
-            subject: "  Support  ",
+            subject: "  wholesale  ",
             message: "  Hello  ",
         }),
     );
@@ -45,10 +45,37 @@ test("sanitizes and normalizes valid data", () => {
         assert.deepEqual(result.data, {
             name: "Jane Doe",
             email: "jane@example.com",
-            subject: "Support",
+            subject: "Wholesale",
             message: "Hello",
+            phone: "",
+            store: "Either",
         });
+        assert.equal(result.spam, false);
     }
+});
+
+test("only accepts the form's own subjects and stores", () => {
+    const form = createFormData({ subject: "Buy cheap pills at spam.example" });
+    form.set("store", "Plano");
+    const result = validateInquiryFormData(form);
+    assert.equal(result.ok, true);
+    if (result.ok) {
+        assert.equal(result.data.subject, "General Inquiry");
+        assert.equal(result.data.store, "Either");
+    }
+
+    const irving = createFormData();
+    irving.set("store", "irving");
+    const picked = validateInquiryFormData(irving);
+    assert.equal(picked.ok && picked.data.store, "Irving");
+});
+
+test("flags submissions that fill the hidden spam trap", () => {
+    const form = createFormData();
+    form.set("website", "http://spam.example");
+    const result = validateInquiryFormData(form);
+    assert.equal(result.ok, true);
+    assert.equal(result.ok && result.spam, true);
 });
 
 test("returns error when input exceeds limits", () => {

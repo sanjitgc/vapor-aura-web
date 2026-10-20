@@ -4,9 +4,8 @@
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0.75));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* Solid so big type scrolling underneath never ghosts through */
+    background: #050505;
     border-bottom: 1px solid var(--border);
     z-index: 1000;
     display: flex;
@@ -43,7 +42,7 @@
 
 .menu {
     display: flex;
-    gap: 1.75rem;
+    gap: 1.4rem;
     list-style: none;
     align-items: center;
 }
@@ -101,7 +100,7 @@
     top: var(--header-height);
     left: 0;
     width: 100%;
-    background: rgba(5, 5, 5, 0.96);
+    background: #050505;
     border-bottom: 1px solid var(--border);
     padding: 2rem;
     display: flex;
@@ -135,6 +134,66 @@
     height: 21px;
 }
 
+/* "Order online" opens Vapor Aura's DoorDash page */
+.orderButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    height: 38px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #04140a;
+    font-family: var(--font-display-stack);
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.3);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.orderButton:hover {
+    background: #4ade80;
+    box-shadow: 0 0 22px rgba(34, 197, 94, 0.45);
+}
+
+.orderButton:active {
+    transform: scale(0.97);
+}
+
+.orderButton svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+}
+
+.orderLabelShort {
+    display: none;
+}
+
+.mobileOrder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: min(100%, 20rem);
+    min-height: 52px;
+    margin-top: 0.25rem;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #04140a;
+    font-family: var(--font-display-stack);
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.mobileOrder svg {
+    width: 20px;
+    height: 20px;
+}
+
 .searchWrap {
     position: relative;
 }
@@ -164,7 +223,7 @@
 
 .searchField {
     position: relative;
-    width: 300px;
+    width: 220px;
 }
 
 .searchIcon {
@@ -477,6 +536,72 @@
     background: linear-gradient(90deg, #22c55e, #ef4444);
 }
 
+/* Tablets and small laptops: keep links on one line next to the search box */
+@media (min-width: 769px) and (max-width: 1180px) {
+    .container {
+        padding: 0 1.25rem;
+        gap: 1rem;
+    }
+
+    .logoImage {
+        width: clamp(128px, 15vw, 180px);
+    }
+
+    .menu {
+        gap: 1.1rem;
+    }
+
+    .link {
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+    }
+
+    .searchField {
+        width: clamp(120px, 17vw, 220px);
+    }
+
+    .orderButton {
+        padding: 0 0.85rem;
+    }
+
+    .orderLabelLong {
+        display: none;
+    }
+
+    .orderLabelShort {
+        display: inline;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+    .container {
+        gap: 0.75rem;
+    }
+
+    .logoImage {
+        width: 118px;
+    }
+
+    .menu {
+        gap: 0.8rem;
+    }
+
+    .link {
+        font-size: 0.74rem;
+        letter-spacing: 0.02em;
+    }
+
+    .orderButton {
+        width: 38px;
+        padding: 0;
+    }
+
+    .orderLabelShort {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     .logoImage {
         width: 152px;
@@ -503,6 +628,20 @@
 
     .searchWrap {
         display: none !important;
+    }
+
+    .orderButton {
+        height: 36px;
+        padding: 0 0.8rem;
+        font-size: 1rem;
+    }
+
+    .orderLabelLong {
+        display: none;
+    }
+
+    .orderLabelShort {
+        display: inline;
     }
 
     .searchField {
@@ -532,4 +671,10 @@
     .cartPanel {
         width: 100%;
      }
+}
+
+@media (max-width: 380px) {
+    .logoImage {
+        width: 132px;
+    }
 }

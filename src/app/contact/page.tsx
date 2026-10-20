@@ -4,7 +4,8 @@ import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
 import { useEffect, useRef, useState } from "react";
-import { FaFacebookF, FaInstagram, FaLocationDot, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLocationDot } from "react-icons/fa6";
+import { SOCIAL } from "@/lib/stores";
 
 const storeLocations = [
     {
@@ -55,7 +56,7 @@ export default function Contact() {
     const [expandedHours, setExpandedHours] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
-        setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long" }));
+        setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long", timeZone: "America/Chicago" }));
     }, []);
 
     function toggleHours(name: string) {
@@ -84,7 +85,7 @@ export default function Contact() {
         <main className={styles.main}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Get in Touch</h1>
+                    <h2 className={styles.title}>Get in Touch</h2>
                     <p className={styles.subtitle}>
                         Questions? Wholesale inquiries? Feedback? We want to hear from you.
                     </p>
@@ -116,11 +117,21 @@ export default function Contact() {
                         </div>
 
                         <div className={styles.formGroup}>
+                            <label htmlFor="store" className={styles.label}>Which store?</label>
+                            <select id="store" name="store" className={styles.select} defaultValue="Either">
+                                <option value="Either">Either store</option>
+                                <option value="Sachse">Sachse</option>
+                                <option value="Irving">Irving</option>
+                            </select>
+                        </div>
+
+                        <div className={styles.formGroup}>
                             <label htmlFor="subject" className={styles.label}>Subject</label>
                             <select id="subject" name="subject" className={styles.select} required>
                                 <option value="General Inquiry">General Inquiry</option>
                                 <option value="Store Experience">Store Experience</option>
                                 <option value="Product Request">Product Request</option>
+                                <option value="Wholesale">Wholesale</option>
                                 <option value="Careers">Careers</option>
                             </select>
                         </div>
@@ -128,6 +139,12 @@ export default function Contact() {
                         <div className={styles.formGroup}>
                             <label htmlFor="message" className={styles.label}>Message</label>
                             <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required maxLength={5000}></textarea>
+                        </div>
+
+                        {/* Spam trap: hidden from people, filled in by bots */}
+                        <div className={styles.trap} aria-hidden="true">
+                            <label htmlFor="website">Leave this field empty</label>
+                            <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
                         </div>
 
                         <Button className={styles.submitBtn} size="lg" disabled={isSubmitting}>
@@ -245,7 +262,7 @@ export default function Contact() {
                     </p>
                     <div className={styles.socialLinks}>
                         <a
-                            href="https://www.instagram.com"
+                            href={SOCIAL.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Visit Vapor Aura on Instagram"
@@ -253,28 +270,12 @@ export default function Contact() {
                             <FaInstagram aria-hidden="true" />
                         </a>
                         <a
-                            href="https://www.facebook.com"
+                            href={SOCIAL.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Visit Vapor Aura on Facebook"
                         >
                             <FaFacebookF aria-hidden="true" />
-                        </a>
-                        <a
-                            href="https://www.tiktok.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Visit Vapor Aura on TikTok"
-                        >
-                            <FaTiktok aria-hidden="true" />
-                        </a>
-                        <a
-                            href="https://x.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Visit Vapor Aura on X"
-                        >
-                            <FaXTwitter aria-hidden="true" />
                         </a>
                     </div>
                 </section>

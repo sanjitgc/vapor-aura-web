@@ -270,8 +270,28 @@
     line-height: 1.6;
 }
 
+.maintenanceOrder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 16rem;
+    min-height: 48px;
+    margin: 1.25rem auto 0;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #04140a;
+    font-weight: 800;
+    transition: background 0.2s ease;
+}
+
+.maintenanceOrder:hover {
+    background: #4ade80;
+}
+
 .maintenanceBox button {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     padding: 0.75rem 1.75rem;
     border-radius: 999px;
     background: linear-gradient(90deg, #22c55e, #ef4444);

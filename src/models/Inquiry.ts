@@ -20,11 +20,22 @@ const InquirySchema = new Schema({
         trim: true,
         maxlength: 120,
     },
+    phone: {
+        type: String,
+        trim: true,
+        maxlength: 25,
+        default: "",
+    },
     message: {
         type: String,
         required: true,
         trim: true,
         maxlength: 5000,
+    },
+    store: {
+        type: String,
+        enum: ["Either", "Sachse", "Irving"],
+        default: "Either",
     },
     createdAt: {
         type: Date,

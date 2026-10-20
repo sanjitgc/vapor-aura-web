@@ -1,18 +1,16 @@
 "use client";
 
-import { type TouchEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { FaChevronDown } from "react-icons/fa6";
 import AnimateIn from "@/components/ui/AnimateIn";
-import styles from "@/app/page.module.css";
+import styles from "./ProductHighlights.module.css";
 
 interface ProductCategory {
     name: string;
     description: string;
-    iconSrc: string;
-    wide?: boolean;
-    contain?: boolean;
-    lightBg?: boolean;
-    secondaryIconSrc?: string;
+    image: string;
+    alt: string;
 }
 
 interface FlavorGroup {
@@ -27,49 +25,43 @@ interface SearchTargetDetail {
     category?: string;
 }
 
+// Product shots are cut out so every category stands on the same lit pedestal.
 const categories: ProductCategory[] = [
     {
         name: "Vape",
         description: "Latest disposables, pod systems, and premium vape devices.",
-        iconSrc: "/icons/display/vape-devices.png",
-        wide: true,
+        image: "/products/vape.webp",
+        alt: "Geek Bar, Juicy Bar and RAZ disposable vapes",
     },
     {
         name: "Glass",
         description: "Clean-crafted glass pieces with standout quality and style.",
-        iconSrc: "/icons/display/glass-bong.png",
-        wide: true,
-        contain: true,
-        lightBg: true,
+        image: "/products/glass.webp",
+        alt: "Three glass beaker bongs",
     },
     {
         name: "Vaporizer",
         description: "Trusted dry herb and concentrate vaporizers for every level.",
-        iconSrc: "/icons/display/vaporizer-products.png",
-        wide: true,
-        contain: true,
+        image: "/products/vaporizer.webp",
+        alt: "DaVinci, Crafty, Mighty and Firefly vaporizers",
     },
     {
         name: "Kratom",
         description: "Trusted kratom products with reliable quality and selection.",
-        iconSrc: "/icons/display/kratom-products.png",
-        wide: true,
-        contain: true,
+        image: "/products/kratom.webp",
+        alt: "7Tabz kratom tablet packs",
     },
     {
         name: "CBD",
         description: "Premium CBD options selected for consistency, quality, and trust.",
-        iconSrc: "/icons/display/cbd-products.png",
-        wide: true,
-        contain: true,
+        image: "/products/cbd.webp",
+        alt: "CBD oil dropper bottles",
     },
     {
         name: "Hookah",
         description: "Premium hookah setups, bowls, coals, and flavor essentials.",
-        iconSrc: "/icons/display/hookah-product.png",
-        wide: true,
-        contain: true,
-        lightBg: true,
+        image: "/products/hookah.webp",
+        alt: "Hookah with a braided hose",
     },
 ];
 
@@ -77,35 +69,26 @@ const moreCategories: ProductCategory[] = [
     {
         name: "E-Juices",
         description: "Premium vape juice flavors from trusted brands with smooth performance.",
-        iconSrc: "/icons/display/e-juices.png",
-        wide: true,
-        contain: true,
-        lightBg: false,
+        image: "/products/e-liquid.webp",
+        alt: "Three e-liquid bottles, including Juice Head and Naked",
     },
     {
         name: "Mushroom",
         description: "Carefully sourced mushroom products with reliable quality and variety.",
-        iconSrc: "/icons/display/mushroom-products-alt.png",
-        wide: true,
-        contain: true,
-        lightBg: false,
+        image: "/products/mushroom.webp",
+        alt: "Float mushroom gummies pack",
     },
     {
         name: "Edibles",
         description: "Hemp-derived edibles crafted for consistency, flavor, and quality.",
-        iconSrc: "/icons/display/edibles-products.png",
-        wide: true,
-        contain: true,
-        lightBg: false,
+        image: "/products/edibles.webp",
+        alt: "Assorted hemp edible packs",
     },
     {
         name: "Coils / Pods",
         description: "Replacement coils and pods compatible with popular vape devices.",
-        iconSrc: "/icons/display/coils-product.png",
-        secondaryIconSrc: "/icons/display/pods-product.png",
-        wide: true,
-        contain: true,
-        lightBg: true,
+        image: "/products/coils-pods.webp",
+        alt: "GeekVape coils and SMOK replacement pods",
     },
 ];
 
@@ -248,6 +231,15 @@ function toDeviceId(value: string) {
     return value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
 
+function Stage({ image, alt, sizes }: { image: string; alt: string; sizes: string }) {
+    return (
+        <div className={styles.stage}>
+            <span className={styles.pedestal} aria-hidden="true" />
+            <Image src={image} alt={alt} fill sizes={sizes} className={styles.product} />
+        </div>
+    );
+}
+
 export default function ProductHighlights() {
     const [isVapeCatalogOpen, setIsVapeCatalogOpen] = useState(false);
     const [openFlavorDevice, setOpenFlavorDevice] = useState<string | null>(null);
@@ -259,9 +251,8 @@ export default function ProductHighlights() {
     const SEARCH_TARGET_STORAGE_KEY = "vapor-aura-search-target";
 
     function handleVapeCardPress() {
-        const isMobile = window.matchMedia("(max-width: 767px)").matches;
-        if (isMobile) {
-            setIsVapeCatalogOpen((prev) => !prev);
+        if (isVapeCatalogOpen) {
+            setIsVapeCatalogOpen(false);
             return;
         }
 
@@ -269,12 +260,7 @@ export default function ProductHighlights() {
         window.setTimeout(() => {
             const catalog = document.getElementById(catalogId);
             catalog?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 120);
-    }
-
-    function handleVapeCardTouch(event: TouchEvent<HTMLButtonElement>) {
-        event.preventDefault();
-        handleVapeCardPress();
+        }, 160);
     }
 
     function addFlavorToCart(brand: string, flavor: string, unitPrice: number) {
@@ -320,14 +306,15 @@ export default function ProductHighlights() {
         }
 
         const actionKey = `${brand}__${flavor}`;
+        const message = `Added ${flavor} to your cart`;
         setRecentlyAddedKey(actionKey);
-        setCartToast(`${brand} - ${flavor} added to cart`);
+        setCartToast(message);
         window.setTimeout(() => {
             setRecentlyAddedKey((prev) => (prev === actionKey ? null : prev));
         }, 1200);
         window.setTimeout(() => {
-            setCartToast((prev) => (prev === `${brand} - ${flavor} added to cart` ? null : prev));
-        }, 1700);
+            setCartToast((prev) => (prev === message ? null : prev));
+        }, 2200);
     }
 
     useEffect(() => {
@@ -351,7 +338,7 @@ export default function ProductHighlights() {
                     `[data-device-id="${toDeviceId(detail.device as string)}"]`,
                 ) as HTMLElement | null;
                 section?.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 170);
+            }, 220);
         };
 
         const onSearchSelect = (event: Event) => {
@@ -377,226 +364,154 @@ export default function ProductHighlights() {
         };
     }, []);
 
-    function renderVapeCatalog({ mobile, id }: { mobile: boolean; id?: string }) {
-        return (
-            <div
-                id={id}
-                className={`${styles.vapeCatalog} ${isVapeCatalogOpen ? styles.vapeCatalogOpen : ""} ${mobile ? styles.vapeCatalogMobileOnly : styles.vapeCatalogDesktopOnly}`}
-                aria-hidden={!isVapeCatalogOpen}
-            >
-                <div className={styles.vapeCatalogInner}>
-                    {vapeFlavorGroups.map((group) => {
-                        const isOpen = openFlavorDevice === group.device;
+    return (
+        <section id="products" className={styles.section} aria-labelledby="product-hints-title">
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <h2 id="product-hints-title" className={styles.title}>
+                        What we carry
+                    </h2>
+                    <p className={styles.subtitle}>
+                        Stop in for the full selection, or open Vape to browse disposable flavors and add them to
+                        your cart.
+                    </p>
+                </div>
+
+                <div className={styles.grid}>
+                    {categories.map((category, index) => {
+                        const isVape = category.name === "Vape";
                         return (
-                            <div
-                                key={`${mobile ? "mobile" : "desktop"}-${group.device}`}
-                                className={styles.flavorGroup}
-                                {...(!mobile ? { "data-device-id": toDeviceId(group.device) } : {})}
-                            >
-                                <button
-                                    type="button"
-                                    className={styles.flavorGroupButton}
-                                    onClick={() => setOpenFlavorDevice(isOpen ? null : group.device)}
-                                    aria-expanded={isOpen}
+                            <AnimateIn key={category.name} delay={0.04 + index * 0.06} className={styles.cell}>
+                                <article
+                                    className={`${styles.tile} ${isVape ? styles.tileAction : ""} ${isVape && isVapeCatalogOpen ? styles.tileOpen : ""}`}
                                 >
-                                    <span>{group.device}</span>
-                                    <span className={styles.flavorCaret} aria-hidden="true">
-                                        {isOpen ? "−" : "+"}
-                                    </span>
-                                </button>
-                                <ul
-                                    className={`${styles.flavorList} ${isOpen ? styles.flavorListOpen : ""}`}
-                                    aria-hidden={!isOpen}
-                                >
-                                    {group.flavors.map((flavor) => {
-                                        const actionKey = `${group.device}__${flavor}`;
-                                        const isAdded = recentlyAddedKey === actionKey;
-                                        return (
-                                            <li
-                                                key={flavor}
-                                                className={`${styles.flavorRow} ${searchHighlightedKey === actionKey ? styles.flavorRowHighlight : ""}`}
+                                    <Stage
+                                        image={category.image}
+                                        alt={category.alt}
+                                        sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 360px"
+                                    />
+                                    <div className={styles.body}>
+                                        <h3 className={styles.tileTitle}>{category.name}</h3>
+                                        <p className={styles.tileText}>{category.description}</p>
+                                        {isVape && (
+                                            <button
+                                                type="button"
+                                                className={styles.browse}
+                                                onClick={handleVapeCardPress}
+                                                aria-expanded={isVapeCatalogOpen}
+                                                aria-controls={catalogId}
                                             >
-                                                <span className={styles.flavorName}>{flavor}</span>
-                                                <div className={styles.flavorActions}>
-                                                    <span className={styles.flavorPrice}>{toCurrency(group.price)}</span>
-                                                    <button
-                                                        type="button"
-                                                        className={`${styles.addToCartBtn} ${isAdded ? styles.addedToCartBtn : ""}`}
-                                                        onClick={() => addFlavorToCart(group.device, flavor, group.price)}
-                                                    >
-                                                        {isAdded ? "Added ✓" : "Add to Cart"}
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
+                                                {isVapeCatalogOpen ? "Hide flavors" : "Browse flavors"}
+                                                <FaChevronDown aria-hidden="true" className={styles.browseIcon} />
+                                            </button>
+                                        )}
+                                    </div>
+                                </article>
+                            </AnimateIn>
                         );
                     })}
-                    {cartToast && <p className={styles.cartToast}>{cartToast}</p>}
                 </div>
-            </div>
-        );
-    }
 
-    return (
-        <>
-            <section
-                id="products"
-                className={`${styles.productHints} ${styles.leafDecorSection}`}
-                aria-labelledby="product-hints-title"
-            >
-                <div className={styles.container}>
-                    <AnimateIn>
-                        <div className={styles.productHeader}>
-                            <h2 id="product-hints-title" className={styles.sectionTitle}>
-                                Product Highlights
-                            </h2>
-                            <p className={styles.sectionSubtitle}>
-                                Explore signature categories our customers love at Vapor Aura.
+                <div
+                    id={catalogId}
+                    className={`${styles.catalog} ${isVapeCatalogOpen ? styles.catalogOpen : ""}`}
+                    inert={!isVapeCatalogOpen}
+                >
+                    <div className={styles.catalogClip}>
+                        <div className={styles.catalogInner}>
+                            <div className={styles.catalogHead}>
+                                <h3 className={styles.catalogTitle}>Disposable flavors</h3>
+                                <p className={styles.catalogNote}>
+                                    Pick a device, add the flavors you want, then check out for delivery.
+                                </p>
+                            </div>
+
+                            <div className={styles.groups}>
+                                {vapeFlavorGroups.map((group) => {
+                                    const isOpen = openFlavorDevice === group.device;
+                                    const listId = `flavors-${toDeviceId(group.device)}`;
+                                    return (
+                                        <div
+                                            key={group.device}
+                                            className={`${styles.group} ${isOpen ? styles.groupOpen : ""}`}
+                                            data-device-id={toDeviceId(group.device)}
+                                        >
+                                            <button
+                                                type="button"
+                                                className={styles.groupButton}
+                                                onClick={() => setOpenFlavorDevice(isOpen ? null : group.device)}
+                                                aria-expanded={isOpen}
+                                                aria-controls={listId}
+                                            >
+                                                <span className={styles.groupName}>{group.device}</span>{" "}
+                                                <span className={styles.groupMeta}>
+                                                    <span className={styles.groupPrice}>{toCurrency(group.price)}</span>{" "}
+                                                    <span className={styles.groupCount}>{group.flavors.length} flavors</span>
+                                                </span>
+                                                <FaChevronDown aria-hidden="true" className={styles.caret} />
+                                            </button>
+                                            <div
+                                                className={`${styles.flavorPanel} ${isOpen ? styles.flavorPanelOpen : ""}`}
+                                                inert={!isOpen}
+                                            >
+                                                <div className={styles.flavorClip}>
+                                                    <ul id={listId} className={styles.flavorList}>
+                                                        {group.flavors.map((flavor) => {
+                                                            const actionKey = `${group.device}__${flavor}`;
+                                                            const isAdded = recentlyAddedKey === actionKey;
+                                                            return (
+                                                                <li
+                                                                    key={flavor}
+                                                                    className={`${styles.flavorRow} ${searchHighlightedKey === actionKey ? styles.flavorRowHighlight : ""}`}
+                                                                >
+                                                                    <span className={styles.flavorName}>{flavor}</span>
+                                                                    <button
+                                                                        type="button"
+                                                                        className={`${styles.addBtn} ${isAdded ? styles.addBtnDone : ""}`}
+                                                                        onClick={() => addFlavorToCart(group.device, flavor, group.price)}
+                                                                        aria-label={`Add ${flavor} (${group.device}) to cart`}
+                                                                    >
+                                                                        {isAdded ? "Added" : "Add"}
+                                                                    </button>
+                                                                </li>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <p className={`${styles.toast} ${cartToast ? styles.toastShow : ""}`} role="status">
+                                {cartToast}
                             </p>
                         </div>
-                    </AnimateIn>
-
-                    <div className={styles.productGrid}>
-                        {categories.map((category, index) => {
-                            const isVape = category.name === "Vape";
-                            return (
-                                <AnimateIn key={category.name} delay={0.1 + index * 0.08}>
-                                    <div className={styles.productCard}>
-                                        {isVape ? (
-                                            <>
-                                                <button
-                                                    type="button"
-                                                    className={styles.vapeToggle}
-                                                onClick={handleVapeCardPress}
-                                                    onTouchEnd={handleVapeCardTouch}
-                                                    aria-expanded={isVapeCatalogOpen}
-                                                    aria-controls={catalogId}
-                                                >
-                                                    <div
-                                                        className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                                    >
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            fill
-                                                            sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                            className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                        />
-                                                    </div>
-                                                    <h3 className={styles.productTitle}>{category.name}</h3>
-                                                    <p className={styles.productText}>{category.description}</p>
-                                                </button>
-                                                {renderVapeCatalog({ mobile: true })}
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div
-                                                    className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                                >
-                                                    {category.wide ? (
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            fill
-                                                            sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                            className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                        />
-                                                    ) : (
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={category.name}
-                                                            width={116}
-                                                            height={80}
-                                                            className={styles.iconImage}
-                                                        />
-                                                    )}
-                                                </div>
-                                                <h3 className={styles.productTitle}>{category.name}</h3>
-                                                <p className={styles.productText}>{category.description}</p>
-                                            </>
-                                        )}
-                                    </div>
-                                </AnimateIn>
-                            );
-                        })}
                     </div>
-
-                    {renderVapeCatalog({ mobile: false, id: catalogId })}
                 </div>
-            </section>
 
-            <section
-                className={`${styles.productHints} ${styles.leafDecorSection} ${styles.moreProductSection}`}
-                aria-labelledby="more-product-categories-title"
-            >
-                <div className={styles.container}>
-                    <AnimateIn>
-                        <div className={styles.productHeader}>
-                            <h2 id="more-product-categories-title" className={styles.sectionTitle}>
-                                More Product Categories
-                            </h2>
-                        </div>
-                    </AnimateIn>
-
-                    <div className={`${styles.productGrid} ${styles.productGridFour}`}>
+                <div className={styles.more}>
+                    <h3 className={styles.moreTitle}>Also on the shelves</h3>
+                    <div className={`${styles.grid} ${styles.gridFour}`}>
                         {moreCategories.map((category, index) => (
-                            <AnimateIn key={category.name} delay={0.08 + index * 0.08}>
-                                <div className={styles.productCard}>
-                                    <div
-                                        className={`${styles.iconWrap} ${category.wide ? styles.iconWrapWide : ""} ${category.lightBg ? styles.iconWrapContainLight : ""}`}
-                                    >
-                                        {category.wide ? (
-                                            category.secondaryIconSrc ? (
-                                                <div className={styles.iconSplit}>
-                                                    <div className={styles.iconSplitItem}>
-                                                        <Image
-                                                            src={category.iconSrc}
-                                                            alt={`${category.name} coils`}
-                                                            fill
-                                                            sizes="(max-width: 640px) 42vw, (max-width: 980px) 20vw, 150px"
-                                                            className={styles.iconSplitImage}
-                                                        />
-                                                    </div>
-                                                    <div className={styles.iconSplitItem}>
-                                                        <Image
-                                                            src={category.secondaryIconSrc}
-                                                            alt={`${category.name} pods`}
-                                                            fill
-                                                            sizes="(max-width: 640px) 42vw, (max-width: 980px) 20vw, 150px"
-                                                            className={styles.iconSplitImage}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <Image
-                                                    src={category.iconSrc}
-                                                    alt={category.name}
-                                                    fill
-                                                    sizes="(max-width: 640px) 90vw, (max-width: 980px) 42vw, 300px"
-                                                    className={`${styles.iconImageWide} ${category.contain ? styles.iconImageContain : ""}`}
-                                                />
-                                            )
-                                        ) : (
-                                            <Image
-                                                src={category.iconSrc}
-                                                alt={category.name}
-                                                width={116}
-                                                height={80}
-                                                className={styles.iconImage}
-                                            />
-                                        )}
+                            <AnimateIn key={category.name} delay={0.04 + index * 0.06} className={styles.cell}>
+                                <article className={`${styles.tile} ${styles.tileCompact}`}>
+                                    <Stage
+                                        image={category.image}
+                                        alt={category.alt}
+                                        sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 270px"
+                                    />
+                                    <div className={styles.body}>
+                                        <h4 className={styles.tileTitle}>{category.name}</h4>
+                                        <p className={styles.tileText}>{category.description}</p>
                                     </div>
-                                    <h3 className={styles.productTitle}>{category.name}</h3>
-                                    <p className={styles.productText}>{category.description}</p>
-                                </div>
+                                </article>
                             </AnimateIn>
                         ))}
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }

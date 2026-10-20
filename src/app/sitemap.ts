@@ -1,26 +1,6 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/stores";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://vaporauratx.com').replace(/\/$/, '');
-
-    return [
-        {
-            url: `${baseUrl}`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/locations`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/contact`,
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.5,
-        },
-    ]
+    return [{ url: SITE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 }];
 }

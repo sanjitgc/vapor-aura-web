@@ -106,3 +106,44 @@ export async function checkInquiryRateLimit(email: string): Promise<RateLimitRes
 
     return inquiryRateLimiter.check(key);
 }
+
+// Auto-replies go to whatever address someone types, so each address gets at most one a day.
+// That keeps the form from being used to flood a stranger's inbox.
+const AUTO_REPLY_WINDOW_MS = 24 * 60 * 60 * 1000;
+const autoReplyRateLimiter = new InMemoryRateLimiter({ windowMs: AUTO_REPLY_WINDOW_MS, maxRequests: 1 });
+let upstashAutoReplyLimiter: Ratelimit | null | undefined;
+
+function getUpstashAutoReplyLimiter(): Ratelimit | null {
+    if (upstashAutoReplyLimiter !== undefined) {
+        return upstashAutoReplyLimiter;
+    }
+
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+        upstashAutoReplyLimiter = null;
+        return upstashAutoReplyLimiter;
+    }
+
+    upstashAutoReplyLimiter = new Ratelimit({
+        redis: Redis.fromEnv(),
+        limiter: Ratelimit.slidingWindow(1, "1 d"),
+        prefix: "vapor-aura-autoreply",
+    });
+
+    return upstashAutoReplyLimiter;
+}
+
+export async function checkAutoReplyRateLimit(email: string): Promise<boolean> {
+    const key = `autoreply:${email.toLowerCase()}`;
+    const upstash = getUpstashAutoReplyLimiter();
+
+    if (upstash) {
+        try {
+            const result = await upstash.limit(key);
+            return result.success;
+        } catch {
+            // Fall back to in-memory limiting if remote rate limit is unavailable.
+        }
+    }
+
+    return autoReplyRateLimiter.check(key).allowed;
+}

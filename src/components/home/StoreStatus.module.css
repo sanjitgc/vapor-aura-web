@@ -1,0 +1,150 @@
+.wrap {
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    position: relative;
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.25rem 1.3rem 1.3rem;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background:
+        linear-gradient(160deg, rgba(34, 197, 94, 0.07), rgba(34, 197, 94, 0) 45%),
+        rgba(10, 12, 10, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.name {
+    font-family: var(--font-display-stack);
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    color: #cfcfcf;
+    white-space: nowrap;
+}
+
+.pill::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.open {
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.35);
+    background: rgba(34, 197, 94, 0.1);
+}
+
+/* A slow ping on the dot says "this is live" */
+.open::before {
+    animation: ping 2.4s ease-out infinite;
+}
+
+.closed {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.35);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.address {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    font-size: 0.92rem;
+    color: #bdbdbd;
+    line-height: 1.45;
+}
+
+.address svg {
+    color: var(--secondary);
+    flex: none;
+    transform: translateY(1px);
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+}
+
+.action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 46px;
+    padding: 0 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.action:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.action:active {
+    transform: scale(0.98);
+}
+
+.actionPrimary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #04140a;
+}
+
+.actionPrimary:hover {
+    background: #4ade80;
+    border-color: #4ade80;
+}
+
+@keyframes ping {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
+    70% { box-shadow: 0 0 0 7px rgba(74, 222, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .name {
+        font-size: 1.7rem;
+    }
+}

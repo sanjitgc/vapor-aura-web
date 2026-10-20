@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { FaCartShopping, FaMagnifyingGlass } from "react-icons/fa6";
+import { SiDoordash } from "react-icons/si";
+import { DOORDASH_URL } from "@/lib/stores";
 
 const links = [
     { href: "/#home", label: "Home", hash: "#home" },
@@ -455,6 +457,18 @@ export default function Navbar() {
                         </div>
                     </div>
 
+                    <a
+                        href={DOORDASH_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.orderButton}
+                        aria-label="Order online on DoorDash (opens in a new tab)"
+                    >
+                        <SiDoordash aria-hidden="true" />
+                        <span className={styles.orderLabelLong}>Order online</span>
+                        <span className={styles.orderLabelShort}>Order</span>
+                    </a>
+
                     <button
                         type="button"
                         className={styles.cartButton}
@@ -495,6 +509,15 @@ export default function Navbar() {
                             {link.label}
                         </Link>
                     ))}
+                    <a
+                        href={DOORDASH_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.mobileOrder}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        <SiDoordash aria-hidden="true" /> Order on DoorDash
+                    </a>
                 </div>
             )}
 

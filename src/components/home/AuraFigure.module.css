@@ -1,0 +1,236 @@
+/*
+ * The hero's one big moment: the logo's meditating figure levitating over a lit disc.
+ * Load sequence (once): figure rises in, chakras light root to crown, aura rings ripple out.
+ * After that the whole piece "breathes" on a shared 7s cycle.
+ * Geometry: the stage is a square; the figure's heart chakra sits at the stage centre,
+ * which is where the rings are centred.
+ */
+
+.aura {
+    width: min(100%, 470px);
+    justify-self: center;
+    margin: 0;
+}
+
+.stage {
+    position: relative;
+    aspect-ratio: 1;
+}
+
+.glow,
+.ring,
+.wisp,
+.pedestal,
+.figure,
+.chakra {
+    position: absolute;
+}
+
+.glow {
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(239, 68, 68, 0.3) 0%,
+        rgba(239, 68, 68, 0.08) 30%,
+        rgba(34, 197, 94, 0.16) 46%,
+        rgba(34, 197, 94, 0) 70%
+    );
+    animation:
+        glowIn 1.6s ease-out 0.3s both,
+        glowBreathe var(--breath) ease-in-out 2.9s infinite alternate;
+}
+
+.ring {
+    --o: calc(0.95 - var(--i) * 0.2);
+    left: 50%;
+    top: 50%;
+    width: calc(58% + var(--i) * 16%);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    border: 1px solid rgba(74, 222, 128, 0.55);
+    box-shadow: 0 0 24px rgba(34, 197, 94, 0.12), inset 0 0 24px rgba(34, 197, 94, 0.08);
+    pointer-events: none;
+    animation:
+        ripple 1.2s var(--ease-out) calc(1.8s + var(--i) * 0.14s) both,
+        breathe var(--breath) ease-in-out calc(3.1s + var(--i) * 0.45s) infinite alternate;
+}
+
+/* Outermost ring picks up the logo's red */
+.ring:nth-of-type(4) {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.1);
+}
+
+.wisp {
+    left: calc(34% + var(--i) * 16%);
+    top: 30%;
+    width: 22%;
+    aspect-ratio: 0.62;
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(226, 255, 236, 0.16), rgba(226, 255, 236, 0));
+    filter: blur(10px);
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    animation: wisp 13s linear calc(var(--i) * -4.3s) infinite;
+}
+
+.pedestal {
+    left: 50%;
+    top: 89%;
+    width: 58%;
+    height: 9.5%;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at 50% 50%,
+        rgba(74, 222, 128, 0.34),
+        rgba(34, 197, 94, 0.1) 55%,
+        rgba(34, 197, 94, 0) 72%
+    );
+    border: 1px solid rgba(74, 222, 128, 0.65);
+    box-shadow:
+        0 0 30px rgba(34, 197, 94, 0.35),
+        0 0 90px rgba(34, 197, 94, 0.18),
+        inset 0 0 18px rgba(74, 222, 128, 0.35);
+    animation: fadeIn 1s ease-out 0.15s both;
+}
+
+.pedestal::before {
+    content: "";
+    position: absolute;
+    inset: 24% 17%;
+    border-radius: 50%;
+    border: 1px solid rgba(74, 222, 128, 0.35);
+}
+
+/* Soft shadow under the figure; it shrinks as the figure rises */
+.shadow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 52%;
+    height: 46%;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 70%);
+    animation: shadowBreathe var(--breath) ease-in-out 2.9s infinite alternate;
+}
+
+.figure {
+    left: 50%;
+    top: 22.4%;
+    width: 62%;
+    translate: -50% 0;
+    animation:
+        figureIn 1.4s var(--ease-out) 0.2s both,
+        levitate var(--breath) ease-in-out 2.9s infinite alternate;
+}
+
+.figureImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 22px rgba(239, 68, 68, 0.35)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.8));
+}
+
+.chakra {
+    left: 49.7%;
+    top: var(--y);
+    width: 16%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--c) 0%, rgba(0, 0, 0, 0) 66%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    animation: chakra 1.3s var(--ease-out) calc(1s + var(--i) * 0.13s) both;
+}
+
+.caption {
+    margin-top: 0.4rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    animation: fadeIn 1s ease-out 2.2s both;
+}
+
+/* Hold everything until the 21+ gate is dismissed, so the sequence is actually seen */
+:global(html[data-age-gate="open"]) .aura *,
+:global(html[data-age-gate="open"]) .aura *::before,
+:global(html[data-age-gate="open"]) .aura *::after {
+    animation-play-state: paused;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes glowIn {
+    from { opacity: 0; scale: 0.6; }
+    to { opacity: 1; scale: 1; }
+}
+
+@keyframes glowBreathe {
+    from { opacity: 1; scale: 1; }
+    to { opacity: 0.75; scale: 1.06; }
+}
+
+@keyframes figureIn {
+    from { opacity: 0; transform: translateY(9%) scale(0.96); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes levitate {
+    from { transform: translateY(0); }
+    to { transform: translateY(-4.5%); }
+}
+
+@keyframes shadowBreathe {
+    from { scale: 1; opacity: 1; }
+    to { scale: 0.82; opacity: 0.65; }
+}
+
+@keyframes chakra {
+    0% { opacity: 0; scale: 0.3; }
+    28% { opacity: 1; scale: 1.8; }
+    100% { opacity: 0.62; scale: 1; }
+}
+
+@keyframes ripple {
+    from { opacity: 0; scale: 0.55; }
+    to { opacity: var(--o); scale: 1; }
+}
+
+@keyframes breathe {
+    from { scale: 1; opacity: var(--o); }
+    to { scale: 1.045; opacity: calc(var(--o) * 0.55); }
+}
+
+@keyframes wisp {
+    0% { opacity: 0; transform: translate(0, 30%) scale(0.7); }
+    30% { opacity: 0.85; }
+    75% { opacity: 0.35; }
+    100% { opacity: 0; transform: translate(calc((var(--i) - 1) * 45%), -155%) scale(1.8, 2.1); }
+}
+
+@media (max-width: 899px) {
+    .aura {
+        width: min(72vw, 330px);
+    }
+
+    .caption {
+        font-size: 0.88rem;
+    }
+}

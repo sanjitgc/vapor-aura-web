@@ -1,60 +1,44 @@
 import styles from "./Footer.module.css";
 import Image from "next/image";
-import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram } from "react-icons/fa6";
+import { SiDoordash } from "react-icons/si";
+import { DOORDASH_URL, STORES, SOCIAL } from "@/lib/stores";
 
 export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.brand}>
-                    <Image
-                        src="/vapor-aura-logo-new.png"
-                        alt="Vapor Aura"
-                        width={280}
-                        height={84}
-                        className={styles.logo}
-                    />
-                    <p className={styles.tagline}>Premium Smoke & Lifestyle</p>
+                    <Image src="/vapor-aura-logo-new.png" alt="Vapor Aura" width={280} height={84} className={styles.logo} />
+                    <p className={styles.tagline}>Vape & smoke shop in Sachse and Irving, TX. 21+ only.</p>
+                </div>
+
+                <div className={styles.stores}>
+                    {STORES.map((store) => (
+                        <div key={store.slug} className={styles.store}>
+                            <p className={styles.storeName}>{store.name}</p>
+                            <p>{store.street}<br />{store.city}, TX {store.zip}</p>
+                            <p><a href={store.tel}>{store.phone}</a></p>
+                            <p>{store.hoursSummary}</p>
+                        </div>
+                    ))}
                 </div>
 
                 <div className={styles.links} aria-label="Social media links">
-                    <a
-                        href="https://www.instagram.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Visit Vapor Aura on Instagram"
-                    >
+                    <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" aria-label="Vapor Aura on Instagram">
                         <FaInstagram aria-hidden="true" />
                     </a>
-                    <a
-                        href="https://www.facebook.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Visit Vapor Aura on Facebook"
-                    >
+                    <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" aria-label="Vapor Aura on Facebook">
                         <FaFacebookF aria-hidden="true" />
                     </a>
-                    <a
-                        href="https://www.tiktok.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Visit Vapor Aura on TikTok"
-                    >
-                        <FaTiktok aria-hidden="true" />
-                    </a>
-                    <a
-                        href="https://x.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Visit Vapor Aura on X"
-                    >
-                        <FaXTwitter aria-hidden="true" />
+                    <a href={DOORDASH_URL} target="_blank" rel="noopener noreferrer" aria-label="Order from Vapor Aura on DoorDash">
+                        <SiDoordash aria-hidden="true" />
                     </a>
                 </div>
-
-                <div className={styles.copy}>
-                    &copy; {new Date().getFullYear()} Vapor Aura. All rights reserved.
-                </div>
+            </div>
+            <div className={styles.legal}>
+                <p>Sales to adults 21 and over only. Valid photo ID required.</p>
+                <p>&copy; {new Date().getFullYear()} Vapor Aura. All rights reserved.</p>
             </div>
         </footer>
     );

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
 import { FaApplePay, FaCcMastercard, FaCcVisa, FaGooglePay } from "react-icons/fa6";
+import { SiDoordash } from "react-icons/si";
+import { DOORDASH_URL } from "@/lib/stores";
 
 interface CartItem {
     product: string;
@@ -92,7 +94,7 @@ export default function CheckoutPage() {
     }, []);
 
     const subtotal = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity * (item.unitPrice ?? UNIT_PRICE), 0), [cartItems]);
-    const deliveryFee = useMemo(() => DELIVERY_FEES[deliveryMethod], [deliveryMethod]);
+    const deliveryFee = useMemo(() => (subtotal > 0 ? DELIVERY_FEES[deliveryMethod] : 0), [deliveryMethod, subtotal]);
     const tax = useMemo(() => subtotal * TAX_RATE, [subtotal]);
     const total = useMemo(() => subtotal + deliveryFee + tax, [subtotal, deliveryFee, tax]);
 
@@ -330,6 +332,9 @@ export default function CheckoutPage() {
                             <br />
                             Our ordering system will be available soon.
                         </p>
+                        <a href={DOORDASH_URL} target="_blank" rel="noopener noreferrer" className={styles.maintenanceOrder}>
+                            <SiDoordash aria-hidden="true" /> Order on DoorDash
+                        </a>
                         <button type="button" onClick={() => { window.location.href = "/"; }}>
                             Return to Home
                         </button>

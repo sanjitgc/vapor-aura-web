@@ -1,175 +1,150 @@
 .hero {
-    min-height: 92vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    background: transparent;
-    background-image: none;
-    padding: 2rem;
-    padding-top: 104px;
-    /* Navbar height */
+    padding: clamp(2.25rem, 5vw, 4rem) 1.5rem clamp(3rem, 6vw, 4.5rem);
 }
 
 .hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: -1;
     pointer-events: none;
-    /* Darken hero backdrop so leaf/logo stand out over home gradients */
-    background: linear-gradient(to bottom, rgba(5, 5, 5, 0.5), rgba(5, 5, 5, 0.6));
+    background:
+        radial-gradient(55% 65% at 76% 42%, rgba(34, 197, 94, 0.13), transparent 70%),
+        linear-gradient(to bottom, rgba(5, 5, 5, 0.4), rgba(5, 5, 5, 0.65));
 }
 
-.hero::after {
-    content: none;
-}
-
-.leafAccent {
+.leaf {
     position: absolute;
-    left: -34px;
-    bottom: -22px;
-    width: clamp(190px, 24vw, 310px);
+    left: -46px;
+    bottom: -34px;
+    z-index: -1;
+    width: clamp(150px, 19vw, 260px);
     height: auto;
-    display: block;
-    background: transparent;
-    mix-blend-mode: normal;
-    filter: none;
-    border: none;
-    box-shadow: none;
-    z-index: 0;
+    opacity: 0.5;
     pointer-events: none;
-    opacity: 0.92;
 }
 
-.leafAccentTopRight {
-    position: absolute;
-    right: -40px;
-    top: -36px;
-    width: clamp(180px, 23vw, 300px);
-    height: auto;
-    display: block;
-    background: transparent;
-    mix-blend-mode: normal;
-    filter: none;
-    border: none;
-    box-shadow: none;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.9;
-    transform: scaleX(-1) rotate(8deg);
-}
-
-.content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    max-width: 880px;
-}
-
-.brandBlock {
-    display: flex;
-    flex-direction: column;
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     align-items: center;
-    margin-bottom: 1rem;
+    gap: clamp(1.5rem, 4vw, 4rem);
 }
 
-.heroLogo {
-    width: clamp(270px, 52vw, 680px);
-    height: auto;
-    display: block;
-    margin: 0 auto 0.45rem;
-    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.14));
-    image-rendering: auto;
-    -webkit-font-smoothing: antialiased;
+.copy {
+    max-width: 660px;
 }
 
 .title {
-    font-size: clamp(1.9rem, 4.8vw, 3.15rem);
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-    text-transform: none;
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(3.3rem, 5.9vw, 5.4rem);
+    line-height: 0.9;
+    letter-spacing: -0.005em;
+    margin-bottom: 1.4rem;
     text-wrap: balance;
 }
 
-.gradientText {
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px var(--primary-glow));
+/* Each line rises out of its own mask on load */
+.line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.05em;
+    margin-bottom: -0.05em;
+}
+
+.line > span {
+    display: inline-block;
+    animation: rise 1s var(--ease-out) both;
+}
+
+.line:nth-child(2) > span {
+    animation-delay: 0.09s;
 }
 
 .subtitle {
-    font-size: clamp(1rem, 2.2vw, 1.2rem);
-    color: #ccc;
-    margin-bottom: 2.25rem;
+    max-width: 34rem;
+    margin-bottom: 2rem;
+    font-size: clamp(1.02rem, 1.5vw, 1.15rem);
     line-height: 1.6;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    color: #c8ccc9;
+    animation: fadeUp 0.8s var(--ease-out) 0.3s both;
 }
 
 .actions {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 0.85rem;
+    animation: fadeUp 0.8s var(--ease-out) 0.42s both;
 }
 
-.visitCta {
-    margin-top: 1.1rem;
-    display: flex;
-    justify-content: center;
+.ddIcon {
+    flex: none;
+    font-size: 1.05em;
 }
 
-@media (max-width: 768px) {
+.stores {
+    max-width: 1200px;
+    margin: clamp(2rem, 4vw, 3rem) auto 0;
+    animation: fadeUp 0.9s var(--ease-out) 0.6s both;
+}
+
+@keyframes rise {
+    from { transform: translateY(105%); }
+    to { transform: none; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 899px) {
     .hero {
-        padding-top: 98px;
+        padding-top: 1.75rem;
     }
 
-    .heroLogo {
-        width: clamp(240px, 78vw, 420px);
-        margin-bottom: 0.35rem;
+    .inner {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
     }
 
-    .leafAccent {
-        left: -26px;
-        bottom: -18px;
-        width: clamp(150px, 42vw, 220px);
-        opacity: 0.9;
+    /* Figure first on small screens, then the headline */
+    .inner > :last-child {
+        order: -1;
     }
 
-    .leafAccentTopRight {
-        right: -28px;
-        top: -26px;
-        width: clamp(130px, 38vw, 195px);
-        opacity: 0.86;
+    .copy {
+        max-width: none;
     }
 
     .title {
-        font-size: clamp(1.7rem, 7.5vw, 2.4rem);
+        font-size: clamp(2.6rem, 11.2vw, 4.6rem);
+        margin-bottom: 1.1rem;
     }
 
     .subtitle {
-        max-width: 540px;
+        margin-bottom: 1.6rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .hero {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .actions {
         flex-direction: column;
-        align-items: center;
-        width: 100%;
     }
 
     .actions > a {
-        width: min(100%, 20rem);
-        box-sizing: border-box;
-    }
-
-    .visitCta {
-        margin-top: 0.85rem;
+        width: 100%;
     }
 }

@@ -1,16 +1,16 @@
 .main {
     min-height: auto;
-    padding: 6.3rem 1.5rem 3.1rem;
+    padding: 6.3rem 1.5rem 3.6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .container {
-    max-width: 940px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 2.2rem;
+    margin-bottom: clamp(1.8rem, 4vw, 2.6rem);
     background: transparent;
     background-image: none;
 }
@@ -21,28 +21,24 @@
 }
 
 .title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-family: var(--font-display-stack);
+    font-size: clamp(2.7rem, 6vw, 4.6rem);
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    text-transform: none;
-    font-family: inherit;
-    margin-bottom: 0.8rem;
-    background: linear-gradient(to right, #fff, #999);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    line-height: 0.92;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    color: #ededed;
 }
 
 .subtitle {
-    color: #888;
-    font-size: clamp(0.98rem, 2vw, 1.12rem);
+    color: var(--muted);
+    font-size: clamp(0.98rem, 2vw, 1.1rem);
 }
 
 .content {
     display: grid;
-    grid-template-columns: 0.92fr 1.08fr;
-    gap: 40px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    gap: 1.25rem;
     align-items: start;
 }
 
@@ -52,16 +48,26 @@
 
 .locationsColumn {
     display: grid;
-    grid-template-columns: 1.1fr 1.1fr;
-    gap: 30px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
     align-items: start;
 }
 
 .form {
-    background: var(--card-bg);
-    padding: 1.45rem;
-    border-radius: 1rem;
-    border: 1px solid var(--border);
+    position: relative;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #070907;
+    padding: clamp(1.2rem, 3vw, 1.75rem);
+    border-radius: 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Off-screen spam trap */
+.trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .formGroup {
@@ -71,8 +77,9 @@
 .label {
     display: block;
     margin-bottom: 0.4rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: var(--secondary);
+    color: #d6dad6;
 }
 
 .input,
@@ -80,14 +87,14 @@
 .select {
     width: 100%;
     padding: 0.72rem 0.82rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.75rem;
     color: #fff;
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.35;
-    transition: border-color 0.3s;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .textarea {
@@ -100,6 +107,7 @@
 .select:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
 }
 
 .submitBtn {
@@ -135,10 +143,9 @@
 
 .storeHoursLink {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    color: var(--secondary);
+    color: var(--muted);
     text-decoration: none;
     margin-bottom: 0.3rem;
     transition: text-decoration 0.2s ease;
@@ -149,9 +156,9 @@
 }
 
 .locationCard {
-    background: linear-gradient(165deg, rgba(10, 10, 10, 0.98), rgba(7, 7, 7, 0.98));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #070907;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.4rem;
     overflow: hidden;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -177,8 +184,11 @@
 }
 
 .locationCardTitle {
-    font-size: 1.12rem;
-    font-weight: 700;
+    font-family: var(--font-display-stack);
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
     color: #f1f1f1;
     margin: 0;
 }
@@ -197,11 +207,9 @@
 
 .locationLabel {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    text-transform: none;
-    letter-spacing: 0.3px;
-    color: var(--secondary);
+    color: var(--muted);
     margin-bottom: 0.3rem;
 }
 
@@ -248,7 +256,7 @@
     padding: 0.3rem 0;
     border: none;
     background: none;
-    color: var(--secondary);
+    color: #4ade80;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
@@ -257,7 +265,7 @@
 }
 
 .expandHoursBtn:hover {
-    color: #ff6b6b;
+    color: #86efac;
     text-decoration: underline;
 }
 
@@ -293,6 +301,11 @@
     font-weight: 600;
 }
 
+.hoursRowToday .hoursDay,
+.hoursRowToday .hoursTime {
+    color: #4ade80;
+}
+
 .hoursTime {
     color: #e4e4e4;
     font-weight: 600;
@@ -307,9 +320,12 @@
 }
 
 .mapTitle {
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
+    font-family: var(--font-display-stack);
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 1.1rem;
     color: #f1f1f1;
 }
 
@@ -320,40 +336,40 @@
 }
 
 .mapCard {
-    border: 1px solid var(--border);
-    border-radius: 0.85rem;
-    background: rgba(12, 12, 12, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.4rem;
+    background: #070907;
     overflow: hidden;
 }
 
 .mapFrame {
     width: 100%;
-    height: 190px;
+    height: 240px;
 }
 
 .mapCardTitle {
     font-size: 1.05rem;
-    color: var(--primary);
-    margin: 0.85rem 0.95rem 0.3rem;
+    color: #f1f1f1;
+    margin: 0.95rem 1.1rem 0.3rem;
 }
 
 .mapCardText {
-    color: #b8b8b8;
+    color: var(--muted);
     font-size: 0.95rem;
     line-height: 1.5;
-    margin: 0 0.95rem 1rem;
+    margin: 0 1.1rem 1.1rem;
 }
 
 .quickContact {
-    margin-top: 1.35rem;
+    margin-top: 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.9rem;
-    padding: 1rem 1.1rem;
-    background: linear-gradient(160deg, rgba(12, 12, 12, 0.9), rgba(7, 7, 7, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.4rem;
+    padding: 1rem 1.25rem;
+    background: #070907;
 }
 
 .quickText {
@@ -369,8 +385,8 @@
 }
 
 .socialLinks a {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #c8c8c8;
@@ -394,8 +410,8 @@
 }
 
 .socialLinks a svg {
-    width: 13px;
-    height: 13px;
+    width: 16px;
+    height: 16px;
 }
 
 @media (max-width: 768px) {

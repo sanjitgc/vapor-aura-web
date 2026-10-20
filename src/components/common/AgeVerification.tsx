@@ -10,16 +10,31 @@ export default function AgeVerification() {
 
     useEffect(() => {
         // Check if user has already verified
-        const hasVerified = localStorage.getItem("vapor-aura-age-verified");
+        let hasVerified: string | null = "true";
+        try {
+            hasVerified = localStorage.getItem("vapor-aura-age-verified");
+        } catch {
+            // Storage blocked: show the gate every visit.
+            hasVerified = null;
+        }
         if (!hasVerified) {
-            // Small delay to ensure client-side rendering matches 
+            document.documentElement.setAttribute("data-age-gate", "open");
+            // Small delay to ensure client-side rendering matches
             // and to avoid immediate state update warning if strictly interpreted
             requestAnimationFrame(() => setIsVisible(true));
+        } else {
+            document.documentElement.removeAttribute("data-age-gate");
         }
     }, []);
 
     const handleVerify = () => {
-        localStorage.setItem("vapor-aura-age-verified", "true");
+        try {
+            localStorage.setItem("vapor-aura-age-verified", "true");
+        } catch {
+            // Storage blocked: the visitor simply sees the gate again next time.
+        }
+        // Lets the hero's entrance animation play now that the page is visible.
+        document.documentElement.removeAttribute("data-age-gate");
         setIsVisible(false);
     };
 

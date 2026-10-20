@@ -1,0 +1,518 @@
+.section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
+    background:
+        radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.1), transparent 40%),
+        radial-gradient(circle at 92% 100%, rgba(239, 68, 68, 0.08), transparent 45%);
+}
+
+/* One leaf, top right, echoing the hero's */
+.section::after {
+    content: "";
+    position: absolute;
+    right: -48px;
+    top: -40px;
+    z-index: -1;
+    width: clamp(160px, 20vw, 280px);
+    aspect-ratio: 0.757;
+    background: url("/home-hero-leaf-clean.webp") no-repeat center / contain;
+    transform: scaleX(-1) rotate(10deg);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 25rem);
+    align-items: end;
+    gap: 0.9rem 3rem;
+    margin-bottom: clamp(2rem, 4vw, 2.75rem);
+}
+
+.title {
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: clamp(2.7rem, 6vw, 4.6rem);
+    line-height: 0.92;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.1rem;
+}
+
+.gridFour {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cell {
+    display: flex;
+}
+
+/* ---------- Tiles: every product stands on the same lit pedestal ---------- */
+
+.tile {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #070907;
+    overflow: hidden;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background:
+        radial-gradient(68% 58% at 50% 100%, rgba(34, 197, 94, 0.2), transparent 70%),
+        radial-gradient(55% 55% at 50% 38%, rgba(255, 255, 255, 0.045), transparent 70%);
+}
+
+.pedestal {
+    position: absolute;
+    left: 50%;
+    bottom: 9%;
+    width: 66%;
+    height: 13%;
+    translate: -50% 0;
+    border-radius: 50%;
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    background: radial-gradient(ellipse, rgba(74, 222, 128, 0.26), rgba(34, 197, 94, 0.06) 60%, transparent 72%);
+    box-shadow: 0 0 24px rgba(34, 197, 94, 0.26), inset 0 0 14px rgba(74, 222, 128, 0.26);
+    transition: box-shadow 0.45s ease, border-color 0.45s ease;
+}
+
+/* next/image `fill` sizes the img to the stage; padding seats the product on the pedestal.
+   Percent padding is relative to the stage width, so 11.5% here lands at the disc's centre line. */
+.product {
+    object-fit: contain;
+    object-position: 50% 100%;
+    padding: 6% 12% 11.5%;
+    filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.55));
+    transition: transform 0.55s var(--ease-out);
+}
+
+.tile:hover {
+    border-color: rgba(74, 222, 128, 0.32);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.tile:hover .product {
+    transform: translateY(-4%);
+}
+
+.tile:hover .pedestal {
+    border-color: rgba(74, 222, 128, 0.85);
+    box-shadow: 0 0 34px rgba(34, 197, 94, 0.45), inset 0 0 18px rgba(74, 222, 128, 0.4);
+}
+
+.body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.95rem 1.25rem 1.35rem;
+}
+
+.tileTitle {
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.tileText {
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+.tileCompact .tileTitle {
+    font-size: 1.45rem;
+}
+
+/* The Vape tile opens the flavor list; the whole tile is the hit area */
+.browse {
+    margin-top: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(74, 222, 128, 0.55);
+    background: rgba(34, 197, 94, 0.1);
+    color: #dfffe8;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.browse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.tileAction:hover .browse {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: rgba(74, 222, 128, 0.9);
+}
+
+.browse:focus-visible {
+    outline: none;
+}
+
+.tileAction:has(.browse:focus-visible) {
+    outline: 2px solid #4ade80;
+    outline-offset: 3px;
+}
+
+.browseIcon {
+    font-size: 0.8em;
+    transition: transform 0.35s var(--ease-out);
+}
+
+.tileOpen {
+    border-color: rgba(74, 222, 128, 0.5);
+}
+
+.tileOpen .browseIcon {
+    transform: rotate(180deg);
+}
+
+/* ---------- Flavor catalog ---------- */
+
+.catalog {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-top: 0;
+    scroll-margin-top: calc(var(--header-height) + 16px);
+    transition:
+        grid-template-rows 0.5s var(--ease-out),
+        opacity 0.35s ease,
+        margin-top 0.5s var(--ease-out);
+}
+
+.catalogOpen {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 1.25rem;
+}
+
+.catalogClip {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.catalogInner {
+    padding: clamp(1.1rem, 3vw, 1.75rem);
+    border-radius: 1.4rem;
+    border: 1px solid rgba(74, 222, 128, 0.22);
+    background: linear-gradient(180deg, rgba(34, 197, 94, 0.07), rgba(34, 197, 94, 0) 30%), #070907;
+}
+
+.catalogHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.4rem 2rem;
+    margin-bottom: 1.1rem;
+}
+
+.catalogTitle {
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.catalogNote {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.groups {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.group {
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.group:hover {
+    border-color: rgba(74, 222, 128, 0.25);
+}
+
+.groupOpen {
+    border-color: rgba(74, 222, 128, 0.4);
+    background: rgba(34, 197, 94, 0.04);
+}
+
+.groupButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    border-radius: inherit;
+}
+
+.groupName {
+    flex: 1;
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: 1.35rem;
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+.groupMeta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.groupPrice {
+    font-weight: 700;
+    color: #dfffe8;
+}
+
+.groupCount {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.caret {
+    flex: none;
+    color: var(--primary);
+    transition: transform 0.35s var(--ease-out);
+}
+
+.groupOpen .caret {
+    transform: rotate(180deg);
+}
+
+.flavorPanel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s var(--ease-out);
+}
+
+.flavorPanelOpen {
+    grid-template-rows: 1fr;
+}
+
+.flavorClip {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.flavorList {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.5rem;
+    padding: 0.15rem 1rem 1rem;
+}
+
+.flavorRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.4rem 0.45rem 0.4rem 0.85rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.3s ease;
+}
+
+.flavorRow:hover {
+    border-color: rgba(74, 222, 128, 0.3);
+}
+
+.flavorRowHighlight {
+    border-color: rgba(74, 222, 128, 0.85);
+    background: rgba(34, 197, 94, 0.16);
+    box-shadow: 0 0 18px rgba(34, 197, 94, 0.24);
+}
+
+.flavorName {
+    font-size: 0.9rem;
+    color: #e3e3e3;
+}
+
+.addBtn {
+    flex: none;
+    min-width: 4.6rem;
+    min-height: 34px;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    background: rgba(34, 197, 94, 0.1);
+    color: #eafff0;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.addBtn:hover {
+    background: rgba(34, 197, 94, 0.22);
+    border-color: rgba(74, 222, 128, 0.85);
+}
+
+.addBtn:active {
+    transform: scale(0.95);
+}
+
+.addBtnDone,
+.addBtnDone:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #04140a;
+}
+
+/* Confirmation pinned to the bottom of the screen so it's seen wherever you are in the list */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    z-index: 950;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    padding: 0.7rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    background: rgba(6, 20, 11, 0.94);
+    color: #dfffe8;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    translate: -50% 140%;
+    opacity: 0;
+    pointer-events: none;
+    transition: translate 0.45s var(--ease-out), opacity 0.3s ease;
+}
+
+.toastShow {
+    translate: -50% 0;
+    opacity: 1;
+}
+
+/* ---------- More categories ---------- */
+
+.more {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+
+.moreTitle {
+    margin-bottom: 1.2rem;
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+    .header {
+        grid-template-columns: 1fr;
+    }
+
+    .grid,
+    .gridFour {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: 3.5rem 1rem;
+    }
+
+    .grid {
+        gap: 0.7rem;
+    }
+
+    .tile {
+        border-radius: 1.1rem;
+    }
+
+    .body {
+        gap: 0.3rem;
+        padding: 0.75rem 0.85rem 1rem;
+    }
+
+    .tileTitle,
+    .tileCompact .tileTitle {
+        font-size: 1.35rem;
+    }
+
+    .tileText {
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+
+    .browse {
+        min-height: 38px;
+        padding: 0 0.8rem;
+        font-size: 0.82rem;
+    }
+
+    .groupButton {
+        gap: 0.7rem;
+        padding: 0.8rem 0.85rem;
+    }
+
+    .groupName {
+        font-size: 1.15rem;
+    }
+
+    .groupCount {
+        display: none;
+    }
+
+    .flavorList {
+        grid-template-columns: 1fr;
+        padding: 0.1rem 0.7rem 0.8rem;
+    }
+}
