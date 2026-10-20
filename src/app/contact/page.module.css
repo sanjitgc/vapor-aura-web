@@ -54,10 +54,20 @@
 }
 
 .form {
+    position: relative;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #070907;
     padding: clamp(1.2rem, 3vw, 1.75rem);
     border-radius: 1.4rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Off-screen spam trap */
+.trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .formGroup {

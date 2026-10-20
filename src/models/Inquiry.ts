@@ -32,6 +32,11 @@ const InquirySchema = new Schema({
         trim: true,
         maxlength: 5000,
     },
+    store: {
+        type: String,
+        enum: ["Either", "Sachse", "Irving"],
+        default: "Either",
+    },
     createdAt: {
         type: Date,
         default: Date.now,

@@ -117,6 +117,15 @@ export default function Contact() {
                         </div>
 
                         <div className={styles.formGroup}>
+                            <label htmlFor="store" className={styles.label}>Which store?</label>
+                            <select id="store" name="store" className={styles.select} defaultValue="Either">
+                                <option value="Either">Either store</option>
+                                <option value="Sachse">Sachse</option>
+                                <option value="Irving">Irving</option>
+                            </select>
+                        </div>
+
+                        <div className={styles.formGroup}>
                             <label htmlFor="subject" className={styles.label}>Subject</label>
                             <select id="subject" name="subject" className={styles.select} required>
                                 <option value="General Inquiry">General Inquiry</option>
@@ -130,6 +139,12 @@ export default function Contact() {
                         <div className={styles.formGroup}>
                             <label htmlFor="message" className={styles.label}>Message</label>
                             <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required maxLength={5000}></textarea>
+                        </div>
+
+                        {/* Spam trap: hidden from people, filled in by bots */}
+                        <div className={styles.trap} aria-hidden="true">
+                            <label htmlFor="website">Leave this field empty</label>
+                            <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
                         </div>
 
                         <Button className={styles.submitBtn} size="lg" disabled={isSubmitting}>
