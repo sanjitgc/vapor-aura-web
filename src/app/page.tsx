@@ -4,6 +4,7 @@ import Marquee from "@/components/home/Marquee";
 import ContactPage from "./contact/page";
 import WhyChoose from "@/components/common/WhyChoose";
 import Faq from "@/components/home/Faq";
+import Reviews from "@/components/home/Reviews";
 import ProductHighlights from "@/components/home/ProductHighlights";
 import NicotineWarning from "@/components/common/NicotineWarning";
 
@@ -19,6 +20,10 @@ export default function Home() {
 
             <section id="why-choose" className={styles.scrollSection}>
                 <WhyChoose />
+            </section>
+
+            <section id="reviews" className={styles.scrollSection}>
+                <Reviews />
             </section>
 
             <section id="faq" className={styles.scrollSection}>
