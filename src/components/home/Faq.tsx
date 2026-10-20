@@ -31,10 +31,6 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
         a: "Yes, you can order from Vapor Aura on DoorDash for delivery. What's available on DoorDash can differ from what's in the store.",
         link: { href: DOORDASH_URL, label: "Order on DoorDash" },
     },
-    {
-        q: "Do you offer wholesale?",
-        a: "Send us a message through the contact form below and choose Wholesale as the subject. We'll get back to you.",
-    },
 ];
 
 const faqSchema = {
