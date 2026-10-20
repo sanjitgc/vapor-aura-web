@@ -591,15 +591,6 @@
         font-size: 0.74rem;
         letter-spacing: 0.02em;
     }
-
-    .orderButton {
-        width: 38px;
-        padding: 0;
-    }
-
-    .orderLabelShort {
-        display: none;
-    }
 }
 
 @media (max-width: 768px) {

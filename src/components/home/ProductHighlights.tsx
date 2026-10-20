@@ -33,8 +33,8 @@ const categories: ProductCategory[] = [
     {
         name: "Kratom",
         description: "Kratom capsules, powders, tablets and shots from established brands. Ask our staff about the options we have in stock.",
-        image: "/products/kratom.webp",
-        alt: "7Tabz kratom tablet packs",
+        image: "/products/kratom-leaf.webp",
+        alt: "Kratom leaves",
     },
     {
         name: "CBD",
