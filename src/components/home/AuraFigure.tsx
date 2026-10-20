@@ -5,13 +5,13 @@ import styles from "./AuraFigure.module.css";
 // The seven chakra points on the logo's meditating figure, root to crown.
 // y is the dot's centre as a percentage of the figure image's height.
 const CHAKRAS = [
-    { y: 91.7, color: "#f33a19" },
-    { y: 74.5, color: "#ee9433" },
-    { y: 58.7, color: "#ede624" },
-    { y: 46.5, color: "#7ee8de" },
-    { y: 33.8, color: "#93d5ff" },
-    { y: 21.9, color: "#f76ba3" },
-    { y: 9.6, color: "#e0279a" },
+    { y: 92.0, color: "#f33a19" },
+    { y: 74.6, color: "#ee9433" },
+    { y: 58.6, color: "#ede624" },
+    { y: 46.3, color: "#7ee8de" },
+    { y: 33.4, color: "#93d5ff" },
+    { y: 21.4, color: "#f76ba3" },
+    { y: 8.9, color: "#e0279a" },
 ];
 
 const RINGS = 4;
@@ -35,10 +35,10 @@ export default function AuraFigure() {
                 </div>
                 <div className={styles.figure}>
                     <Image
-                        src="/aura-figure.webp"
+                        src="/aura-figure-v2.webp"
                         alt=""
-                        width={757}
-                        height={735}
+                        width={754}
+                        height={726}
                         priority
                         sizes="(max-width: 640px) 52vw, (max-width: 1024px) 34vw, 330px"
                         className={styles.figureImage}
