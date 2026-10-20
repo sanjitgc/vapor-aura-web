@@ -28,7 +28,7 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
     },
     {
         q: "Do you deliver?",
-        a: "Yes, you can order from Vapor Aura on DoorDash for delivery. What's available on DoorDash can differ from what's in the store.",
+        a: "Yes. Right now you can order from Vapor Aura on DoorDash for delivery, though DoorDash carries only part of our in-store selection. We're also building our own delivery service, which will offer a much wider range of products. Stay tuned.",
         link: { href: DOORDASH_URL, label: "Order on DoorDash" },
     },
 ];
