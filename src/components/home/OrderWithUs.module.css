@@ -60,12 +60,12 @@
 }
 
 .primary {
-    background: var(--primary);
-    color: #04140a;
+    background: var(--button);
+    color: var(--button-text);
 }
 
 .primary:hover {
-    background: #4ade80;
+    background: var(--button-hover);
 }
 
 .secondary {

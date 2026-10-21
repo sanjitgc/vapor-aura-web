@@ -16,6 +16,12 @@
   --card-bg: rgba(20, 20, 20, 0.6);
   --border: rgba(255, 255, 255, 0.1);
   --muted: #a8aca9;
+
+  /* Buttons: a deeper green that sits quietly on black (white text passes WCAG AA) */
+  --button: #15803d;
+  --button-hover: #188843;
+  --button-text: #ffffff;
+  --button-outline-text: #e8f5ec;
   /* Every section: black with a soft green glow in the top-left corner */
   --section-background: radial-gradient(circle at 15% 0%, rgba(34, 197, 94, 0.16), transparent 42%);
 

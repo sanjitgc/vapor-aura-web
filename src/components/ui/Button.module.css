@@ -16,15 +16,14 @@
 
 /* Variants */
 .primary {
-    background: var(--primary);
-    color: #04140a;
-    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.22), 0 0 20px var(--primary-glow);
+    background: var(--button);
+    color: var(--button-text);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .primary:hover {
-    transform: translateY(-2px);
-    background: #4ade80;
-    box-shadow: 0 14px 28px rgba(34, 197, 94, 0.28), 0 0 28px var(--primary-glow);
+    transform: translateY(-1px);
+    background: var(--button-hover);
 }
 
 .secondary {
@@ -34,21 +33,20 @@
 }
 
 .secondary:hover {
-    border-color: var(--primary);
-    background: rgba(34, 197, 94, 0.12);
+    border-color: var(--button-hover);
+    background: rgba(21, 128, 61, 0.14);
 }
 
 .outline {
     background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+    border: 2px solid var(--button);
+    color: var(--button-outline-text);
 }
 
 .outline:hover {
-    background: rgba(34, 197, 94, 0.12);
-    color: #4ade80;
-    box-shadow: 0 0 20px var(--primary-glow);
+    background: rgba(21, 128, 61, 0.16);
+    border-color: var(--button-hover);
+    color: #fff;
 }
 
 .btn:focus-visible {

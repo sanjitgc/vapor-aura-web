@@ -123,14 +123,14 @@
 }
 
 .actionPrimary {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #04140a;
+    background: var(--button);
+    border-color: var(--button);
+    color: var(--button-text);
 }
 
 .actionPrimary:hover {
-    background: #4ade80;
-    border-color: #4ade80;
+    background: var(--button-hover);
+    border-color: var(--button-hover);
 }
 
 @keyframes ping {
