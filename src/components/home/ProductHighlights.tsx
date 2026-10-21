@@ -66,6 +66,10 @@ const moreCategories: ProductCategory[] = [
         name: "Candles & incense",
         description: "Scented candles and incense, plus air fresheners and odor eliminators.",
     },
+    {
+        name: "And more",
+        description: "New products arrive all the time. Stop by or call either store to ask.",
+    },
 ];
 
 // Keep hyphenated words like "pre-rolls" and "e-liquids" on one line
