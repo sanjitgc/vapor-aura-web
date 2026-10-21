@@ -6,15 +6,14 @@
     background: var(--section-background);
 }
 
-/* One leaf, bottom right, peeking out from behind the product tiles
-   (kept away from the header text so it never sits under words) */
+/* One leaf, bottom right, tucked into the corner below the last row so it never sits under words */
 .section::after {
     content: "";
     position: absolute;
-    right: -48px;
-    bottom: -40px;
+    right: -56px;
+    bottom: -120px;
     z-index: -1;
-    width: clamp(160px, 20vw, 280px);
+    width: clamp(150px, 17vw, 240px);
     aspect-ratio: 0.757;
     background: url("/leaf-accent.webp") no-repeat center / contain;
     transform: scaleX(-1) rotate(-6deg);
@@ -32,7 +31,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 25rem);
     align-items: end;
     gap: 0.9rem 3rem;
-    margin-bottom: clamp(2rem, 4vw, 2.75rem);
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.25rem);
 }
 
 .title {
@@ -49,115 +48,56 @@
     line-height: 1.6;
 }
 
-/* Four per row. The second group wraps with flexbox so a short last row sits centred. */
-.grid,
-.moreGrid {
-    --gap: 1.1rem;
-    --cols: 4;
-    gap: var(--gap);
-}
+/* ---------- A shelf directory: four per row, a hairline above each category ---------- */
 
-.grid {
+.list {
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(2rem, 3.4vw, 2.75rem) clamp(1.25rem, 2.6vw, 2.25rem);
 }
 
-.moreGrid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.item {
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.moreGrid > .cell {
-    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
-    min-width: 0;
-}
-
-.cell {
-    display: flex;
-}
-
-/* ---------- Tiles: display only, so no hover effects that suggest a click ---------- */
-
-.tile {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    border-radius: 1.4rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #070907;
-    overflow: hidden;
-}
-
-/* A soft white spotlight and a glass display disc: neutral, so green stays for buttons */
-.stage {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    background:
-        radial-gradient(62% 52% at 50% 100%, rgba(255, 255, 255, 0.075), transparent 70%),
-        radial-gradient(55% 55% at 50% 38%, rgba(255, 255, 255, 0.04), transparent 70%);
-}
-
-.pedestal {
-    position: absolute;
-    left: 50%;
-    bottom: 9%;
-    width: 66%;
-    height: 13%;
-    translate: -50% 0;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03) 60%, transparent 72%);
-}
-
-/* next/image `fill` sizes the img to the stage; padding seats the product on the pedestal.
-   Percent padding is relative to the stage width, so 11.5% here lands at the disc's centre line. */
-.product {
-    object-fit: contain;
-    object-position: 50% 100%;
-    padding: 6% 12% 11.5%;
-    filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.55));
-}
-
-.body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    padding: 0.95rem 1.25rem 1.35rem;
-}
-
-.tileTitle {
+.itemTitle {
     font-family: var(--font-display-stack);
     font-weight: 800;
-    font-size: 1.75rem;
-    line-height: 1;
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+    line-height: 0.95;
     text-transform: uppercase;
 }
 
-.tileText {
+.itemText {
+    margin-top: 0.6rem;
+    max-width: 32ch;
     color: var(--muted);
-    font-size: 0.94rem;
+    font-size: 0.98rem;
     line-height: 1.55;
+}
+
+.listCompact .itemTitle {
+    font-size: clamp(1.3rem, 1.6vw, 1.5rem);
+}
+
+.listCompact .itemText {
+    font-size: 0.94rem;
 }
 
 .nowrap {
     white-space: nowrap;
 }
 
-.tileCompact .tileTitle {
-    font-size: 1.45rem;
-}
-
 /* ---------- More categories ---------- */
 
 .more {
-    margin-top: clamp(3rem, 6vw, 4.5rem);
+    margin-top: clamp(3.25rem, 6vw, 4.75rem);
 }
 
 .moreTitle {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.4rem;
     font-family: var(--font-display-stack);
     font-weight: 800;
     font-size: clamp(1.8rem, 3.2vw, 2.4rem);
@@ -170,38 +110,33 @@
         grid-template-columns: 1fr;
     }
 
-    .grid,
-    .moreGrid {
-        --cols: 2;
+    .list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 640px) {
     .section {
-        padding: 3.5rem 1rem;
+        padding: 3.5rem 1rem 4.5rem;
     }
 
-    .grid,
-    .moreGrid {
-        --gap: 0.7rem;
+    .list {
+        gap: 1.6rem 1rem;
     }
 
-    .tile {
-        border-radius: 1.1rem;
+    .item {
+        padding-top: 0.9rem;
     }
 
-    .body {
-        gap: 0.3rem;
-        padding: 0.75rem 0.85rem 1rem;
-    }
-
-    .tileTitle,
-    .tileCompact .tileTitle {
+    .itemTitle,
+    .listCompact .itemTitle {
         font-size: 1.35rem;
     }
 
-    .tileText {
-        font-size: 0.85rem;
-        line-height: 1.45;
+    .itemText,
+    .listCompact .itemText {
+        margin-top: 0.45rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
     }
 }
