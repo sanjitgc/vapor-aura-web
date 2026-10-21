@@ -22,8 +22,8 @@
   --button-hover: #188843;
   --button-text: #ffffff;
   --button-outline-text: #e8f5ec;
-  /* Every section: black with a soft green glow in the top-left corner */
-  --section-background: radial-gradient(circle at 15% 0%, rgba(34, 197, 94, 0.16), transparent 42%);
+  /* Every section: plain black, same as the contact section (no glows) */
+  --section-background: var(--background);
 
   /* Type: Bricolage Grotesque (condensed) for display, Inter for reading */
   --font-display-stack: var(--font-display), "Arial Narrow", system-ui, sans-serif;
