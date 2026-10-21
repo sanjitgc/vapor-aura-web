@@ -4,7 +4,8 @@ import styles from "./Hero.module.css";
 import Button from "@/components/ui/Button";
 import StoreStatus from "./StoreStatus";
 import AuraFigure from "./AuraFigure";
-import { DOORDASH_URL, OWN_DELIVERY_URL } from "@/lib/stores";
+import { DOORDASH_URL } from "@/lib/stores";
+import OrderWithUs from "./OrderWithUs";
 
 export default function Hero() {
     return (
@@ -38,9 +39,7 @@ export default function Hero() {
                             <SiDoordash aria-hidden="true" className={styles.ddIcon} />
                             Order on DoorDash
                         </Button>
-                        <Button href={OWN_DELIVERY_URL} variant="outline" size="lg" target="_blank">
-                            Order with us
-                        </Button>
+                        <OrderWithUs />
                         <Button href="/#locations" variant="outline" size="lg">
                             Find a store
                         </Button>
