@@ -6,10 +6,12 @@ import WhyChoose from "@/components/common/WhyChoose";
 import Faq from "@/components/home/Faq";
 import Reviews from "@/components/home/Reviews";
 import ProductHighlights from "@/components/home/ProductHighlights";
+import NicotineWarning from "@/components/common/NicotineWarning";
 
 export default function Home() {
     return (
         <main className={styles.main}>
+            <NicotineWarning />
             <section id="home" className={styles.scrollSection}>
                 <Hero />
                 <Marquee />
