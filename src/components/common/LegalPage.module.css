@@ -1,6 +1,25 @@
 .main {
     padding: calc(var(--header-height) + 3rem) 1.5rem 4.5rem;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 }
+
+/* Corner leaf, bottom right, low enough that it never sits under words */
+.main::after {
+    content: "";
+    position: absolute;
+    right: -48px;
+    bottom: -90px;
+    z-index: -1;
+    width: clamp(140px, 17vw, 240px);
+    aspect-ratio: 0.757;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: scaleX(-1) rotate(-6deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 
 .article {
     max-width: 46rem;

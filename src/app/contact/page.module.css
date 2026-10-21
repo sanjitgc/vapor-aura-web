@@ -2,7 +2,26 @@
     min-height: auto;
     padding: 6.3rem 1.5rem 3.6rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 }
+
+/* Corner leaf, bottom right, low enough that it never sits under words */
+.main::after {
+    content: "";
+    position: absolute;
+    right: -48px;
+    bottom: -110px;
+    z-index: -1;
+    width: clamp(140px, 17vw, 240px);
+    aspect-ratio: 0.757;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: scaleX(-1) rotate(-6deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 
 .container {
     max-width: 1200px;
