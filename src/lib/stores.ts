@@ -5,7 +5,8 @@ export const SOCIAL = {
     facebook: "https://www.facebook.com/profile.php?id=61588307159610",
 };
 
-// Vapor Aura's own delivery ordering site (the "Order with us" button).
+// Vapor Aura's own delivery ordering site. While it's under maintenance, "Order with us"
+// shows a notice pointing to DoorDash instead (src/components/home/OrderWithUs.tsx).
 export const OWN_DELIVERY_URL = "https://www.vaporauradelivery.com";
 
 // Public DoorDash page for Vapor Aura (DoorDash business ID 25183571). Customers pick a store

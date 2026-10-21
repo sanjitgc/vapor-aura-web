@@ -144,7 +144,8 @@
         flex-direction: column;
     }
 
-    .actions > a {
+    .actions > a,
+    .actions > button {
         width: 100%;
     }
 }
