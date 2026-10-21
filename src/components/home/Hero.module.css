@@ -2,7 +2,8 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding: clamp(2.25rem, 5vw, 4rem) 1.5rem clamp(3rem, 6vw, 4.5rem);
+    /* Clears the fixed navbar */
+    padding: calc(var(--header-height) + clamp(2.25rem, 5vw, 4rem)) 1.5rem clamp(3rem, 6vw, 4.5rem);
 }
 
 .hero::before {
@@ -107,7 +108,7 @@
 
 @media (max-width: 899px) {
     .hero {
-        padding-top: 1.75rem;
+        padding-top: calc(var(--header-height) + 1.75rem);
     }
 
     .inner {
