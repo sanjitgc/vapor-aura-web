@@ -1,6 +1,25 @@
 .main {
     padding: calc(var(--header-height) + 3rem) 1.5rem 4.5rem;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 }
+
+/* Corner leaf, bottom right, with room kept clear so it never sits under words */
+.main::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    bottom: -36px;
+    z-index: -1;
+    width: clamp(150px, 19vw, 260px);
+    aspect-ratio: 0.757;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: scaleX(-1) rotate(-6deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 
 .article {
     max-width: 46rem;
@@ -55,5 +74,18 @@
 @media (max-width: 640px) {
     .main {
         padding: calc(var(--header-height) + 2rem) 1rem 3.5rem;
+    }
+}
+
+/* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
+@media (max-width: 899px) {
+    .main {
+        padding-bottom: 10rem;
+    }
+
+    .main::after {
+        width: 132px;
+        right: -14px;
+        bottom: -14px;
     }
 }

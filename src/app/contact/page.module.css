@@ -2,7 +2,27 @@
     min-height: auto;
     padding: 6.3rem 1.5rem 3.6rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 }
+
+/* Corner leaf: on desktop it hangs into the empty top-right corner beside "Get in touch",
+   clear of the form and store cards (phones put it at the bottom, see below) */
+.main::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: -36px;
+    z-index: -1;
+    width: clamp(150px, 19vw, 260px);
+    aspect-ratio: 0.757;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: rotate(174deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 
 .container {
     max-width: 1200px;
@@ -438,5 +458,20 @@
     .quickContact {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+/* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
+@media (max-width: 899px) {
+    .main {
+        padding-bottom: 10rem;
+    }
+
+    .main::after {
+        top: auto;
+        width: 132px;
+        right: -14px;
+        bottom: -14px;
+        transform: scaleX(-1) rotate(-6deg);
     }
 }

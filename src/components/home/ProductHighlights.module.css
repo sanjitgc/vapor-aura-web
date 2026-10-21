@@ -10,10 +10,10 @@
 .section::after {
     content: "";
     position: absolute;
-    right: -56px;
-    bottom: -120px;
+    right: -40px;
+    bottom: -36px;
     z-index: -1;
-    width: clamp(150px, 17vw, 240px);
+    width: clamp(150px, 19vw, 260px);
     aspect-ratio: 0.757;
     background: url("/leaf-accent.webp") no-repeat center / contain;
     transform: scaleX(-1) rotate(-6deg);
@@ -108,6 +108,12 @@
 @media (max-width: 980px) {
     .header {
         grid-template-columns: 1fr;
+    }
+
+    .section::after {
+        width: 132px;
+        right: -14px;
+        bottom: -14px;
     }
 
     .list {

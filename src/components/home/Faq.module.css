@@ -1,7 +1,26 @@
 .section {
     padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 }
+
+/* Corner leaf, bottom left, with room kept clear so it never sits under words */
+.section::after {
+    content: "";
+    position: absolute;
+    left: -44px;
+    bottom: -36px;
+    z-index: -1;
+    width: clamp(150px, 19vw, 260px);
+    aspect-ratio: 0.757;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: rotate(4deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
 
 .container {
     max-width: 1200px;
@@ -105,5 +124,18 @@
 
     .answer {
         padding-right: 0;
+    }
+}
+
+/* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
+@media (max-width: 899px) {
+    .section {
+        padding-bottom: 10rem;
+    }
+
+    .section::after {
+        width: 132px;
+        left: -14px;
+        bottom: -14px;
     }
 }
