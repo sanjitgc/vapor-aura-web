@@ -104,11 +104,17 @@
     .item::before {
         top: 1.55rem;
     }
+}
 
-    /* Smaller and lower on phones so the leaf sits under the list, not behind its text */
+/* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
+@media (max-width: 899px) {
+    .section {
+        padding-bottom: 10rem;
+    }
+
     .section::before {
-        width: 120px;
-        left: -38px;
-        bottom: -60px;
+        width: 132px;
+        left: -14px;
+        bottom: -14px;
     }
 }
