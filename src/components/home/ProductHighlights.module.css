@@ -49,14 +49,28 @@
     line-height: 1.6;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.1rem;
+/* Four per row. The second group wraps with flexbox so a short last row sits centred. */
+.grid,
+.moreGrid {
+    --gap: 1.1rem;
+    --cols: 4;
+    gap: var(--gap);
 }
 
-.gridFour {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+}
+
+.moreGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.moreGrid > .cell {
+    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    min-width: 0;
 }
 
 .cell {
@@ -128,6 +142,10 @@
     line-height: 1.55;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 .tileCompact .tileTitle {
     font-size: 1.45rem;
 }
@@ -153,8 +171,8 @@
     }
 
     .grid,
-    .gridFour {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .moreGrid {
+        --cols: 2;
     }
 }
 
@@ -163,8 +181,9 @@
         padding: 3.5rem 1rem;
     }
 
-    .grid {
-        gap: 0.7rem;
+    .grid,
+    .moreGrid {
+        --gap: 0.7rem;
     }
 
     .tile {

@@ -6,10 +6,15 @@ const ITEMS = [
     "E-liquid",
     "Glass",
     "Hookah",
+    "Hemp flower",
+    "Pre-rolls",
     "Kratom",
     "CBD",
     "Vaporizers",
     "Edibles",
+    "Detox",
+    "Lighters & torches",
+    "Candles & incense",
     "Coils & pods",
 ];
 

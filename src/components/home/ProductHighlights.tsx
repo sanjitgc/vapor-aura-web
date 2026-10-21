@@ -11,12 +11,19 @@ interface ProductCategory {
     alt: string;
 }
 
+// The main shelves: two rows of four on desktop.
 const categories: ProductCategory[] = [
     {
         name: "Vape",
         description: "Disposables, pod systems and devices from Geek Bar, Foger, Fifty Bar and more.",
         image: "/products/vape.webp",
         alt: "Geek Bar, Juicy Bar and RAZ disposable vapes",
+    },
+    {
+        name: "E-Juices",
+        description: "Freebase and nicotine salt e-liquids from Naked and more.",
+        image: "/products/e-liquid.webp",
+        alt: "Three e-liquid bottles, including Juice Head and Naked",
     },
     {
         name: "Glass",
@@ -31,6 +38,18 @@ const categories: ProductCategory[] = [
         alt: "DaVinci, Crafty, Mighty and Firefly vaporizers",
     },
     {
+        name: "Hookah",
+        description: "Hookahs, bowls, hoses, coals and shisha, plus spare parts.",
+        image: "/products/hookah.webp",
+        alt: "Hookah with a braided hose",
+    },
+    {
+        name: "Flower & pre-rolls",
+        description: "Hemp flower and pre-rolls in a range of strains, plus rolling trays.",
+        image: "/products/flower-prerolls.webp",
+        alt: "Two pre-rolls and a hemp flower bud on a rolling tray",
+    },
+    {
         name: "Kratom",
         description: "Kratom capsules, powders, tablets and shots from established brands.",
         image: "/products/kratom-leaf.webp",
@@ -42,20 +61,14 @@ const categories: ProductCategory[] = [
         image: "/products/cbd.webp",
         alt: "CBD oil dropper bottles",
     },
-    {
-        name: "Hookah",
-        description: "Hookahs, bowls, hoses, coals and shisha, plus spare parts.",
-        image: "/products/hookah.webp",
-        alt: "Hookah with a braided hose",
-    },
 ];
 
 const moreCategories: ProductCategory[] = [
     {
-        name: "E-Juices",
-        description: "Freebase and nicotine salt e-liquids from Naked and more.",
-        image: "/products/e-liquid.webp",
-        alt: "Three e-liquid bottles, including Juice Head and Naked",
+        name: "Edibles",
+        description: "Hemp-derived gummies, chocolates and treats.",
+        image: "/products/edibles.webp",
+        alt: "Assorted hemp edible packs",
     },
     {
         name: "Mushroom",
@@ -64,10 +77,10 @@ const moreCategories: ProductCategory[] = [
         alt: "Float mushroom gummies pack",
     },
     {
-        name: "Edibles",
-        description: "Hemp-derived gummies, chocolates and treats.",
-        image: "/products/edibles.webp",
-        alt: "Assorted hemp edible packs",
+        name: "Detox",
+        description: "Detox drinks in popular flavors, plus other cleanse products.",
+        image: "/products/detox.webp",
+        alt: "Two detox drink bottles and capsules",
     },
     {
         name: "Coils / Pods",
@@ -75,7 +88,32 @@ const moreCategories: ProductCategory[] = [
         image: "/products/coils-pods.webp",
         alt: "GeekVape coils and SMOK replacement pods",
     },
+    {
+        name: "Lighters & torches",
+        description: "Pocket and torch lighters, plus butane and Zippo fluid for refills.",
+        image: "/products/lighters.webp",
+        alt: "Lighter fluid, a butane can, a torch lighter and a pocket lighter",
+    },
+    {
+        name: "Candles & incense",
+        description: "Scented candles and incense, plus air fresheners and odor eliminators.",
+        image: "/products/candles-incense.webp",
+        alt: "Odor eliminator spray, a jar candle and burning incense sticks",
+    },
 ];
+
+// Keep hyphenated words like "pre-rolls" and "e-liquids" on one line
+function keepHyphenated(text: string) {
+    return text.split(/(\S+-\S+)/g).map((part, i) =>
+        i % 2 ? (
+            <span key={i} className={styles.nowrap}>
+                {part}
+            </span>
+        ) : (
+            part
+        ),
+    );
+}
 
 function Stage({ image, alt, sizes }: { image: string; alt: string; sizes: string }) {
     return (
@@ -108,11 +146,11 @@ export default function ProductHighlights() {
                                 <Stage
                                     image={category.image}
                                     alt={category.alt}
-                                    sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 360px"
+                                    sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 290px"
                                 />
                                 <div className={styles.body}>
-                                    <h3 className={styles.tileTitle}>{category.name}</h3>
-                                    <p className={styles.tileText}>{category.description}</p>
+                                    <h3 className={styles.tileTitle}>{keepHyphenated(category.name)}</h3>
+                                    <p className={styles.tileText}>{keepHyphenated(category.description)}</p>
                                 </div>
                             </article>
                         </AnimateIn>
@@ -121,18 +159,18 @@ export default function ProductHighlights() {
 
                 <div className={styles.more}>
                     <h3 className={styles.moreTitle}>Also on the shelves</h3>
-                    <div className={`${styles.grid} ${styles.gridFour}`}>
+                    <div className={styles.moreGrid}>
                         {moreCategories.map((category, index) => (
                             <AnimateIn key={category.name} delay={0.04 + index * 0.06} className={styles.cell}>
                                 <article className={`${styles.tile} ${styles.tileCompact}`}>
                                     <Stage
                                         image={category.image}
                                         alt={category.alt}
-                                        sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 270px"
+                                        sizes="(max-width: 640px) 46vw, (max-width: 980px) 44vw, 290px"
                                     />
                                     <div className={styles.body}>
-                                        <h4 className={styles.tileTitle}>{category.name}</h4>
-                                        <p className={styles.tileText}>{category.description}</p>
+                                        <h4 className={styles.tileTitle}>{keepHyphenated(category.name)}</h4>
+                                        <p className={styles.tileText}>{keepHyphenated(category.description)}</p>
                                     </div>
                                 </article>
                             </AnimateIn>

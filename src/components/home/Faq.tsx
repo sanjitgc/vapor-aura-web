@@ -23,8 +23,8 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
         a: "Popular disposables and pod systems including Geek Bar Pulse, Geek Bar Pulse X, Foger, Fifty Bar and Off-Stamp, in dozens of flavors. Stock changes quickly, so call your store to check a specific flavor.",
     },
     {
-        q: "Do you sell hookah, glass, kratom and CBD?",
-        a: "Yes. Along with vapes and e-liquid, we carry hookahs and hookah supplies, glass, dry herb and concentrate vaporizers, kratom, CBD, hemp edibles, and replacement coils and pods.",
+        q: "What do you carry besides vapes?",
+        a: "Along with vapes and e-liquid, we carry hookahs and hookah supplies, glass, dry herb and concentrate vaporizers, hemp flower and pre-rolls, kratom, CBD, hemp edibles and detox drinks. You'll also find lighters and torch lighters, butane and Zippo fluid, rolling trays, candles, incense, air fresheners, odor eliminators, and replacement coils and pods.",
     },
     {
         q: "Do you deliver?",
