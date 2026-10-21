@@ -138,3 +138,16 @@
         width: 100%;
     }
 }
+
+/* Tablets and phones: a smaller leaf, with room kept below the store cards so the whole leaf shows */
+@media (max-width: 899px) {
+    .hero {
+        padding-bottom: 10rem;
+    }
+
+    .leaf {
+        width: 132px;
+        left: -14px;
+        bottom: -14px;
+    }
+}
