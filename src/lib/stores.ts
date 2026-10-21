@@ -5,6 +5,9 @@ export const SOCIAL = {
     facebook: "https://www.facebook.com/profile.php?id=61588307159610",
 };
 
+// Vapor Aura's own delivery ordering site (the "Order with us" button).
+export const OWN_DELIVERY_URL = "https://www.vaporauradelivery.com";
+
 // Public DoorDash page for Vapor Aura (DoorDash business ID 25183571). Customers pick a store
 // there, the same way howdyvapes.com sends people to its DoorDash business page.
 // Every "Order online" button on the site uses this one link.

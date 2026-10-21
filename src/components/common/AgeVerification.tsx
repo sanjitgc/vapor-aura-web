@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import styles from "./AgeVerification.module.css";
 import Button from "@/components/ui/Button";
 
 export default function AgeVerification() {
     const [isVisible, setIsVisible] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         // Check if user has already verified
@@ -42,7 +44,8 @@ export default function AgeVerification() {
         window.location.href = "https://www.google.com";
     };
 
-    if (!isVisible) return null;
+    // The policy pages linked from the gate stay readable without passing it.
+    if (!isVisible || pathname === "/privacy" || pathname === "/terms") return null;
 
     return (
         <div className={styles.overlay}>
@@ -72,7 +75,8 @@ export default function AgeVerification() {
                 </div>
 
                 <p className={styles.disclaimer}>
-                    By entering, you agree to our Terms of Service and Privacy Policy.
+                    By entering, you agree to our <a href="/terms">Terms of Use</a> and{" "}
+                    <a href="/privacy">Privacy Policy</a>.
                 </p>
             </div>
         </div>

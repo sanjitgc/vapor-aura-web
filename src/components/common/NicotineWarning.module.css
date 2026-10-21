@@ -1,9 +1,9 @@
 .band {
     margin-top: var(--header-height);
-    min-height: 20vh;
-    min-height: 20svh;
+    /* Smaller than the FDA's 20%-of-screen spec, by the owner's choice */
+    min-height: clamp(72px, 11svh, 110px);
     display: flex;
-    padding: 10px;
+    padding: 8px;
     background: #000;
     color: #fff;
 }
@@ -12,15 +12,15 @@
     flex: 1;
     display: grid;
     place-items: center;
-    padding: 10px 16px;
-    border: 3px solid #fff;
+    padding: 8px 16px;
+    border: 2px solid #fff;
 }
 
 .box p {
-    max-width: 42ch;
+    max-width: 80ch;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 700;
-    font-size: clamp(16px, 2.3vw, 30px);
+    font-size: clamp(14px, 1.6vw, 22px);
     line-height: 1.3;
     text-align: center;
 }

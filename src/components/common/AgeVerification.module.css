@@ -65,7 +65,13 @@
 
 .disclaimer {
     font-size: 0.75rem;
-    color: #666;
+    color: #8a8a8a;
+}
+
+.disclaimer a {
+    color: #c9ccc9;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 @keyframes fadeIn {

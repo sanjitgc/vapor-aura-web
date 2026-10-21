@@ -36,9 +36,9 @@ export const metadata: Metadata = {
     siteName: "Vapor Aura",
     title: "Vapor Aura | Vape & Smoke Shop in Sachse and Irving, TX",
     description: "21+ vape and smoke shop in Sachse and Irving, TX. Irving is open 24 hours.",
-    images: [{ url: "/vapor-aura-logo-new.png", alt: "Vapor Aura" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Vapor Aura, vape and smoke shop in Sachse and Irving, TX" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/og-image.jpg"] },
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
