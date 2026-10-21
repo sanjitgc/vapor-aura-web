@@ -40,8 +40,8 @@ export default function Footer() {
             <div className={styles.legal}>
                 <p>Sales to adults 21 and over only. Valid photo ID required.</p>
                 <p className={styles.legalLinks}>
-                    <Link href="/privacy">Privacy Policy</Link>
-                    <Link href="/terms">Terms of Use</Link>
+                    <Link href="/privacy">Privacy policy</Link>
+                    <Link href="/terms">Terms of use</Link>
                 </p>
                 <p>&copy; {new Date().getFullYear()} Vapor Aura. All rights reserved.</p>
             </div>

@@ -1,25 +1,30 @@
 import styles from "./WhyChoose.module.css";
+import { STORES } from "@/lib/stores";
 
+const sachse = STORES.find((s) => s.slug === "sachse")!;
+
+// Specific, true points only. Update these if hours or policies change.
 const reasons = [
     {
-        title: "Exceptional service, every time",
-        description: "Fast, reliable, and attentive service designed around your convenience.",
+        title: "Open late, every day",
+        description: `Irving is open 24 hours, 7 days a week. Sachse is open ${sachse.hoursSummary}.`,
     },
     {
-        title: "Uncompromising customer satisfaction",
-        description: "Your experience matters. We are committed to exceeding expectations at every visit.",
+        title: "Staff who know the products",
+        description:
+            "We'll compare devices, explain flavors and nicotine strengths, and match the right coil or pod to your device.",
     },
     {
-        title: "Expert guidance you can trust",
-        description: "Our knowledgeable and experienced team helps you find the perfect products with confidence.",
+        title: "Everything in one stop",
+        description: "Vapes, e-liquid, glass, hookah, vaporizers, hemp flower, kratom, CBD, edibles, detox and more.",
     },
     {
-        title: "Effortless, professional experience",
-        description: "From selection to checkout, we make every interaction smooth and seamless.",
+        title: "Clean stores, fair prices",
+        description: "Well-organized shops and fair prices, both mentioned often in our Google reviews.",
     },
     {
-        title: "Premium quality at competitive prices",
-        description: "Enjoy top-tier products, fair pricing, and customer care that sets a new standard.",
+        title: "21+ only, ID checked",
+        description: "We check a valid photo ID on every sale, every time.",
     },
 ];
 
@@ -32,8 +37,8 @@ export default function WhyChoose() {
                         Why choose Vapor Aura?
                     </h2>
                     <p className={styles.subtitle}>
-                        If you&apos;re looking for more than just a smoke shop, Vapor Aura delivers an elevated
-                        experience built on quality, trust, and expertise.
+                        Two stores, late hours, a full range of products and people who&apos;ll help you find the
+                        right thing.
                     </p>
                 </div>
 

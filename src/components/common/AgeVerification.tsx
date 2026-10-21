@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import styles from "./AgeVerification.module.css";
@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 export default function AgeVerification() {
     const [isVisible, setIsVisible] = useState(false);
     const pathname = usePathname();
+    const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // Check if user has already verified
@@ -29,6 +30,21 @@ export default function AgeVerification() {
         }
     }, []);
 
+    const isPolicyPage = pathname === "/privacy" || pathname === "/terms";
+    const isOpen = isVisible && !isPolicyPage;
+
+    // While the gate is up: keep the page behind it still and move keyboard focus into it
+    // (on the card itself, so Tab goes straight to the two choices).
+    useEffect(() => {
+        if (!isOpen) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        cardRef.current?.focus({ preventScroll: true });
+        return () => {
+            document.body.style.overflow = previous;
+        };
+    }, [isOpen]);
+
     const handleVerify = () => {
         try {
             localStorage.setItem("vapor-aura-age-verified", "true");
@@ -45,11 +61,19 @@ export default function AgeVerification() {
     };
 
     // The policy pages linked from the gate stay readable without passing it.
-    if (!isVisible || pathname === "/privacy" || pathname === "/terms") return null;
+    if (!isOpen) return null;
 
     return (
         <div className={styles.overlay}>
-            <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="age-verification-title">
+            <div
+                ref={cardRef}
+                tabIndex={-1}
+                className={styles.card}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="age-verification-title"
+                aria-describedby="age-verification-text"
+            >
                 <Image
                     src="/vapor-aura-logo-new.png"
                     alt="Vapor Aura"
@@ -58,25 +82,25 @@ export default function AgeVerification() {
                     className={styles.logo}
                     priority
                 />
-                <h2 id="age-verification-title" className={styles.title}>AGE VERIFICATION</h2>
-                <p className={styles.message}>
-                    You must be 21 years of age or older to enter this site.
-                    <br />
-                    Please verify your age to continue.
+                <h2 id="age-verification-title" className={styles.title}>
+                    Are you 21 or older?
+                </h2>
+                <p id="age-verification-text" className={styles.message}>
+                    You must be 21 or older to enter this site. We check a valid photo ID on every purchase.
                 </p>
 
                 <div className={styles.actions}>
-                    <Button onClick={handleDeny} variant="outline" size="md">
-                        I am under 21
+                    <Button onClick={handleVerify} variant="primary" size="lg">
+                        Yes, I&apos;m 21 or older
                     </Button>
-                    <Button onClick={handleVerify} variant="primary" size="md">
-                        I am 21+
+                    <Button onClick={handleDeny} variant="outline" size="lg">
+                        No, I&apos;m under 21
                     </Button>
                 </div>
 
                 <p className={styles.disclaimer}>
-                    By entering, you agree to our <a href="/terms">Terms of Use</a> and{" "}
-                    <a href="/privacy">Privacy Policy</a>.
+                    By entering, you agree to our <a href="/terms">terms of use</a> and{" "}
+                    <a href="/privacy">privacy policy</a>.
                 </p>
             </div>
         </div>

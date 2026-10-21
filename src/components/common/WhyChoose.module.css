@@ -15,8 +15,8 @@
     z-index: -1;
     width: clamp(150px, 19vw, 260px);
     aspect-ratio: 0.757;
-    background: url("/home-hero-leaf-clean.webp") no-repeat center / contain;
-    opacity: 0.4;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    opacity: 0.8;
     pointer-events: none;
 }
 
@@ -59,22 +59,16 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-/* Leaf-green marker; alternates with the logo's red */
+/* Small red dot from the logo */
 .item::before {
     content: "";
     position: absolute;
     left: 0;
     top: 1.85rem;
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 12px var(--primary-glow);
-}
-
-.item:nth-child(even)::before {
     background: var(--secondary);
-    box-shadow: 0 0 12px var(--secondary-glow);
 }
 
 .itemTitle {
@@ -109,5 +103,12 @@
 
     .item::before {
         top: 1.55rem;
+    }
+
+    /* Smaller and lower on phones so the leaf sits under the list, not behind its text */
+    .section::before {
+        width: 120px;
+        left: -38px;
+        bottom: -60px;
     }
 }

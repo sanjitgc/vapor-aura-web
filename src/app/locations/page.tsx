@@ -1,68 +1,49 @@
+import type { Metadata } from "next";
 import styles from "./page.module.css";
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
-import MapSelector from "@/components/common/MapSelector";
+import StoreStatus from "@/components/home/StoreStatus";
+import { STORES } from "@/lib/stores";
 
-const locations = [
-    {
-        id: 1,
-        name: "Vapor Aura - Sachse",
-        address: "5848 S State Hwy 78 #108, Sachse, TX 75048",
-        phone: "(512) 555-0123",
-        hours: "Sun–Wed: 7 AM – 1 AM · Thu–Sat: 7 AM – 2 AM",
-        mapUrl: "https://maps.google.com/maps?q=5848+S+State+Hwy+78+%23108,+Sachse,+TX+75048&t=&z=13&ie=UTF8&iwloc=&output=embed"
-    },
-    {
-        id: 2,
-        name: "Vapor Aura - Irving",
-        address: "825 W Royal Ln #140, Irving, TX 75039",
-        phone: "(512) 555-0456",
-        hours: "Open 24 hours",
-        mapUrl: "https://maps.google.com/maps?q=825+W+Royal+Ln+%23140,+Irving,+TX+75039&t=&z=13&ie=UTF8&iwloc=&output=embed"
-    }
-];
+export const metadata: Metadata = {
+    title: "Store locations | Vapor Aura Sachse and Irving, TX",
+    description:
+        "Addresses, phone numbers and hours for Vapor Aura in Sachse (5848 S State Hwy 78) and Irving (825 W Royal Ln, open 24 hours).",
+    alternates: { canonical: "/locations" },
+};
+
+function mapEmbed(store: (typeof STORES)[number]) {
+    const q = encodeURIComponent(`${store.street}, ${store.city}, TX ${store.zip}`);
+    return `https://maps.google.com/maps?q=${q}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+}
 
 export default function Locations() {
     return (
         <main className={styles.main}>
-            <header className={styles.header}>
-                <h1 className={styles.title}>Our Locations</h1>
-                <p className={styles.subtitle}>Visit us at one of our premium smoke shops near you.</p>
-            </header>
+            <div className={styles.container}>
+                <header className={styles.header}>
+                    <h1 className={styles.title}>Our stores</h1>
+                    <p className={styles.subtitle}>
+                        Two stores in the Dallas area. Irving is open 24 hours, and Sachse is open until 1 AM most
+                        nights.
+                    </p>
+                </header>
 
-            <div className={styles.grid}>
-                {locations.map((loc) => (
-                    <Card key={loc.id} className={styles.locationCard}>
-                        <div className={styles.mapContainer}>
+                <StoreStatus />
+
+                <div className={styles.maps}>
+                    {STORES.map((store) => (
+                        <div key={store.slug} className={styles.map}>
                             <iframe
-                                src={loc.mapUrl}
-                                title={`${loc.name} map`}
+                                src={mapEmbed(store)}
+                                title={`Map of ${store.name}`}
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0 }}
-                                allowFullScreen={true}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
+                            />
                         </div>
-
-                        <div className={styles.info}>
-                            <h2 className={styles.name}>{loc.name}</h2>
-                            <div className={styles.details}>
-                                <p><strong>Address:</strong> {loc.address}</p>
-                                <p><strong>Phone:</strong> {loc.phone}</p>
-                                <p><strong>Hours:</strong> {loc.hours}</p>
-                            </div>
-
-                            <div className={styles.actions}>
-                                <MapSelector address={loc.address} />
-                                <Button href={`tel:${loc.phone.replace(/[^0-9]/g, '')}`} variant="secondary" size="md">
-                                    Call Now
-                                </Button>
-                            </div>
-                        </div>
-                    </Card>
-                ))}
+                    ))}
+                </div>
             </div>
         </main>
     );
