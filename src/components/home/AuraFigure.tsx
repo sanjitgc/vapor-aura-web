@@ -35,7 +35,7 @@ export default function AuraFigure() {
                 </div>
                 <div className={styles.figure}>
                     <Image
-                        src="/aura-figure-v2.webp"
+                        src="/aura-figure-v3.webp"
                         alt=""
                         width={754}
                         height={726}

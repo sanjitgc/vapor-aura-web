@@ -35,8 +35,8 @@
     border-radius: 50%;
     background: radial-gradient(
         circle,
-        rgba(239, 68, 68, 0.3) 0%,
-        rgba(239, 68, 68, 0.08) 30%,
+        rgba(185, 28, 28, 0.34) 0%,
+        rgba(185, 28, 28, 0.1) 30%,
         rgba(34, 197, 94, 0.16) 46%,
         rgba(34, 197, 94, 0) 70%
     );
@@ -138,7 +138,7 @@
     display: block;
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 0 22px rgba(239, 68, 68, 0.35)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.8));
+    filter: drop-shadow(0 0 22px rgba(185, 28, 28, 0.45)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.8));
 }
 
 .chakra {
