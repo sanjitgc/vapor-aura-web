@@ -15,8 +15,9 @@
     z-index: -1;
     width: clamp(150px, 19vw, 260px);
     aspect-ratio: 0.757;
-    background: url("/home-hero-leaf-clean.webp") no-repeat center / contain;
-    opacity: 0.4;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 16px rgba(34, 197, 94, 0.22));
     pointer-events: none;
 }
 
@@ -109,5 +110,12 @@
 
     .item::before {
         top: 1.55rem;
+    }
+
+    /* Smaller and lower on phones so the leaf sits under the list, not behind its text */
+    .section::before {
+        width: 120px;
+        left: -38px;
+        bottom: -60px;
     }
 }

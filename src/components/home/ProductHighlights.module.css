@@ -8,18 +8,20 @@
         radial-gradient(circle at 92% 100%, rgba(239, 68, 68, 0.08), transparent 45%);
 }
 
-/* One leaf, top right, echoing the hero's */
+/* One leaf, bottom right, peeking out from behind the product tiles
+   (kept away from the header text so it never sits under words) */
 .section::after {
     content: "";
     position: absolute;
     right: -48px;
-    top: -40px;
+    bottom: -40px;
     z-index: -1;
     width: clamp(160px, 20vw, 280px);
     aspect-ratio: 0.757;
-    background: url("/home-hero-leaf-clean.webp") no-repeat center / contain;
-    transform: scaleX(-1) rotate(10deg);
-    opacity: 0.35;
+    background: url("/leaf-accent.webp") no-repeat center / contain;
+    transform: scaleX(-1) rotate(-6deg);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 16px rgba(34, 197, 94, 0.25));
     pointer-events: none;
 }
 

@@ -11,12 +11,12 @@ export default function Hero() {
     return (
         <section className={styles.hero} aria-labelledby="hero-title">
             <Image
-                src="/home-hero-leaf-clean.webp"
+                src="/leaf-accent.webp"
                 alt=""
-                width={520}
-                height={687}
+                width={720}
+                height={951}
                 className={styles.leaf}
-                sizes="(max-width: 640px) 140px, 260px"
+                sizes="(max-width: 640px) 150px, 260px"
                 aria-hidden="true"
             />
 
