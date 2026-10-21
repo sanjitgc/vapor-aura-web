@@ -3,9 +3,7 @@
     overflow: hidden;
     padding: 1.1rem 0;
     border-block: 1px solid rgba(255, 255, 255, 0.08);
-    background:
-        linear-gradient(90deg, rgba(34, 197, 94, 0.08), rgba(239, 68, 68, 0.06)),
-        rgba(5, 5, 5, 0.6);
+    background: #080a08;
     /* Fade the ends so items slide in and out of view */
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
@@ -39,20 +37,14 @@
     color: #ededed;
 }
 
-/* Small leaf-green and robe-red dots between items, alternating */
+/* Small red dots from the logo between items */
 .group li::after {
     content: "";
-    width: 0.32em;
-    height: 0.32em;
+    width: 0.26em;
+    height: 0.26em;
     margin: 0 0.75em;
     border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 12px var(--primary-glow);
-}
-
-.group li:nth-child(even)::after {
     background: var(--secondary);
-    box-shadow: 0 0 12px var(--secondary-glow);
 }
 
 .group li.outline {

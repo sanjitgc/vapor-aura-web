@@ -14,7 +14,7 @@ export default function TermsPage() {
     return (
         <main className={styles.main}>
             <article className={styles.article}>
-                <h1 className={styles.title}>Terms of Use</h1>
+                <h1 className={styles.title}>Terms of use</h1>
                 <p className={styles.updated}>Last updated October 20, 2026</p>
 
                 <p>
@@ -69,7 +69,7 @@ export default function TermsPage() {
 
                 <h2>Privacy and changes</h2>
                 <p>
-                    Our <Link href="/privacy">Privacy Policy</Link> explains how we handle your information. We may
+                    Our <Link href="/privacy">privacy policy</Link> explains how we handle your information. We may
                     update these terms and will post the new version here with a new date.
                 </p>
 

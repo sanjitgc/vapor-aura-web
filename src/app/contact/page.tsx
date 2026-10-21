@@ -85,7 +85,7 @@ export default function Contact() {
         <main className={styles.main}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Get in Touch</h2>
+                    <h2 className={styles.title}>Get in touch</h2>
                     <p className={styles.subtitle}>
                         Questions? Wholesale inquiries? Feedback? We want to hear from you.
                     </p>
@@ -96,7 +96,7 @@ export default function Contact() {
                         <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <label htmlFor="name" className={styles.label}>Name</label>
-                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your Name" required maxLength={100} />
+                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required maxLength={100} />
                         </div>
 
                         <div className={styles.formGroup}>
@@ -128,9 +128,9 @@ export default function Contact() {
                         <div className={styles.formGroup}>
                             <label htmlFor="subject" className={styles.label}>Subject</label>
                             <select id="subject" name="subject" className={styles.select} required>
-                                <option value="General Inquiry">General Inquiry</option>
-                                <option value="Store Experience">Store Experience</option>
-                                <option value="Product Request">Product Request</option>
+                                <option value="General Inquiry">General inquiry</option>
+                                <option value="Store Experience">Store experience</option>
+                                <option value="Product Request">Product request</option>
                                 <option value="Wholesale">Wholesale</option>
                                 <option value="Careers">Careers</option>
                             </select>
@@ -148,7 +148,7 @@ export default function Contact() {
                         </div>
 
                         <Button className={styles.submitBtn} size="lg" disabled={isSubmitting}>
-                            {isSubmitting ? "Sending..." : "Send Message"}
+                            {isSubmitting ? "Sending…" : "Send message"}
                         </Button>
 
                         {status && (
@@ -187,7 +187,7 @@ export default function Contact() {
                                             rel="noopener noreferrer"
                                             className={styles.storeHoursLink}
                                         >
-                                            Store Hours
+                                            Store hours
                                         </a>
                                         <div className={styles.hoursContainer}>
                                             <div
@@ -211,7 +211,7 @@ export default function Contact() {
                                                 className={`${styles.todayHours} ${(expandedHours[location.name] ?? true) ? styles.todayHoursHidden : ""}`}
                                                 aria-hidden={expandedHours[location.name] ?? true}
                                             >
-                                                <strong>Today&apos;s Hours</strong>
+                                                <strong>Today&apos;s hours</strong>
                                                 <span className={styles.todayHoursValue}>
                                                     {(todayDay && location.hours.find((h) => h.day === todayDay)?.time) ?? "—"}
                                                 </span>
@@ -222,7 +222,7 @@ export default function Contact() {
                                                 onClick={() => toggleHours(location.name)}
                                                 aria-expanded={expandedHours[location.name] ?? true}
                                             >
-                                                {(expandedHours[location.name] ?? true) ? "Hide Full Hours" : "View Full Hours"}
+                                                {(expandedHours[location.name] ?? true) ? "Hide full hours" : "View full hours"}
                                             </button>
                                         </div>
                                     </div>
@@ -233,7 +233,7 @@ export default function Contact() {
                 </div>
 
                 <section id="locations" className={styles.mapSection} aria-labelledby="contact-map-title">
-                    <h2 id="contact-map-title" className={styles.mapTitle}>Visit Our Locations</h2>
+                    <h2 id="contact-map-title" className={styles.mapTitle}>Visit our locations</h2>
                     <div className={styles.mapGrid}>
                         {storeLocations.map((location) => (
                             <article key={location.name} className={styles.mapCard}>

@@ -10,7 +10,7 @@ import { DOORDASH_URL } from "@/lib/stores";
 
 const links = [
     { href: "/#home", label: "Home", hash: "#home" },
-    { href: "/#why-choose", label: "About Us", hash: "#why-choose" },
+    { href: "/#why-choose", label: "About us", hash: "#why-choose" },
     { href: "/#products", label: "Products", hash: "#products" },
     { href: "/#contact", label: "Contact", hash: "#contact" },
     { href: "/#locations", label: "Locations", hash: "#locations" },

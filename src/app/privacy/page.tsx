@@ -14,7 +14,7 @@ export default function PrivacyPage() {
     return (
         <main className={styles.main}>
             <article className={styles.article}>
-                <h1 className={styles.title}>Privacy Policy</h1>
+                <h1 className={styles.title}>Privacy policy</h1>
                 <p className={styles.updated}>Last updated October 20, 2026</p>
 
                 <p>

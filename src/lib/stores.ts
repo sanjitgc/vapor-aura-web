@@ -23,7 +23,8 @@ export const STORES = [
         zip: "75048",
         phone: "(214) 501-3222",
         tel: "tel:+12145013222",
-        hoursSummary: "Sun–Wed 7 AM–1 AM, Thu–Sat 7 AM–2 AM",
+        // Invisible no-break characters keep "7 AM–1 AM" and "Thu–Sat" from splitting across lines
+        hoursSummary: "Sun\u2060–\u2060Wed 7\u00a0AM\u2060–\u20601\u00a0AM, Thu\u2060–\u2060Sat 7\u00a0AM\u2060–\u20602\u00a0AM",
         // schema.org: closing after midnight is written as the next day's time
         openingHours: [
             { days: ["Sunday", "Monday", "Tuesday", "Wednesday"], opens: "07:00", closes: "01:00" },
