@@ -11,9 +11,10 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    /* Same dark look as the Why choose section, plus a soft glow behind the figure */
     background:
         radial-gradient(55% 65% at 76% 42%, rgba(34, 197, 94, 0.13), transparent 70%),
-        linear-gradient(to bottom, rgba(5, 5, 5, 0.4), rgba(5, 5, 5, 0.65));
+        var(--section-background);
 }
 
 .leaf {

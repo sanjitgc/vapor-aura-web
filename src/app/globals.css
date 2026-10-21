@@ -55,9 +55,6 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  background-image: 
-    radial-gradient(circle at 50% 0%, var(--primary-glow) 0%, transparent 50%),
-    radial-gradient(circle at 100% 0%, var(--secondary-glow) 0%, transparent 30%);
   min-height: 100vh;
   padding-bottom: calc(var(--fixed-footer-height) + env(safe-area-inset-bottom));
   -webkit-font-smoothing: antialiased;
