@@ -129,7 +129,7 @@ export default function Contact() {
                 <div className={styles.header}>
                     <h2 className={styles.title}>Get in touch</h2>
                     <p className={styles.subtitle}>
-                        Questions? Wholesale inquiries? Feedback? We want to hear from you.
+                        Questions? Feedback? We want to hear from you.
                     </p>
                 </div>
 
@@ -202,7 +202,6 @@ export default function Contact() {
                                 <option value="General Inquiry">General inquiry</option>
                                 <option value="Store Experience">Store experience</option>
                                 <option value="Product Request">Product request</option>
-                                <option value="Wholesale">Wholesale</option>
                                 <option value="Careers">Careers</option>
                             </select>
                         </div>

@@ -2,7 +2,6 @@ export const INQUIRY_SUBJECTS = [
     "General Inquiry",
     "Store Experience",
     "Product Request",
-    "Wholesale",
     "Careers",
 ] as const;
 

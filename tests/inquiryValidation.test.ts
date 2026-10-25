@@ -36,7 +36,7 @@ test("sanitizes and normalizes valid data", () => {
         createFormData({
             name: "  Jane Doe  ",
             email: "  JANE@EXAMPLE.COM  ",
-            subject: "  wholesale  ",
+            subject: "  product request  ",
             message: "  Hello  ",
         }),
     );
@@ -46,7 +46,7 @@ test("sanitizes and normalizes valid data", () => {
         assert.deepEqual(result.data, {
             name: "Jane Doe",
             email: "jane@example.com",
-            subject: "Wholesale",
+            subject: "Product Request",
             message: "Hello",
             phone: "",
             store: "Either",
