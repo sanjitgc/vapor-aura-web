@@ -6,7 +6,7 @@ import type { SanitizedInquiryInput } from "../src/lib/inquiryValidation";
 const base: SanitizedInquiryInput = {
     name: "Jane <b>Doe</b>",
     email: "jane@example.com",
-    subject: "Wholesale",
+    subject: "Product Request",
     message: "Do you carry <script>alert(1)</script> glass?",
     phone: "(214) 555-0101",
     store: "Irving",
@@ -37,7 +37,7 @@ test("shop alert goes to the shop inbox and replies go to the customer", () => {
         assert.equal(SHOP_INBOX, "vaporaurasmokeshop@gmail.com");
         assert.equal(email.reply_to, "jane@example.com");
         assert.match(email.from, /onboarding@resend\.dev/);
-        assert.match(email.subject, /Wholesale/);
+        assert.match(email.subject, /Product Request/);
         assert.match(email.subject, /Irving/);
         assert.match(email.text, /Phone: \(214\) 555-0101/);
         assert.match(email.text, /Oct 20, 2026, 3:00 PM/);
