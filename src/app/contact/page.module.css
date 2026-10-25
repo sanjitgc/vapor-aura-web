@@ -130,6 +130,23 @@
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
 }
 
+/* A field with a problem: red border and a short note under it */
+.input[aria-invalid="true"] {
+    border-color: #ef4444;
+}
+
+.input[aria-invalid="true"]:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.fieldError {
+    margin-top: 0.4rem;
+    color: #f87171;
+    font-size: 0.88rem;
+    line-height: 1.4;
+}
+
 .submitBtn {
     width: min(330px, 100%);
     margin: 0.15rem auto 0;
