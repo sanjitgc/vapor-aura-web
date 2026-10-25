@@ -9,7 +9,7 @@ interface ProductCategory {
 const categories: ProductCategory[] = [
     {
         name: "Vape",
-        description: "Disposables, pod systems and devices from Geek Bar, Foger, Fifty Bar and more.",
+        description: "Disposables, pod systems and devices from Geek Bar, Lost Mary, RAZ, Foger, Fifty Bar and more.",
     },
     {
         name: "E-Juices",
@@ -21,7 +21,7 @@ const categories: ProductCategory[] = [
     },
     {
         name: "Vaporizer",
-        description: "Dry herb and concentrate vaporizers, from pens to premium portables.",
+        description: "Dry herb and concentrate vaporizers and Puffco devices, plus 510\u00a0batteries like the Cartbox and cart\u00a0pens.",
     },
     {
         name: "Hookah",
@@ -48,7 +48,7 @@ const moreCategories: ProductCategory[] = [
     },
     {
         name: "Mushroom",
-        description: "Mushroom gummies and more in a variety of flavors.",
+        description: "Mushroom gummies and chocolates in a variety of flavors.",
     },
     {
         name: "Detox",
