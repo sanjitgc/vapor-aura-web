@@ -55,6 +55,10 @@ const moreCategories: ProductCategory[] = [
         description: "Detox drinks in popular flavors, plus other cleanse products.",
     },
     {
+        name: "CBD for pets",
+        description: "CBD treats and tinctures made just for pets.",
+    },
+    {
         name: "Coils / Pods",
         description: "Replacement coils and pods for SMOK, GeekVape and more.",
     },
@@ -65,10 +69,6 @@ const moreCategories: ProductCategory[] = [
     {
         name: "Candles & incense",
         description: "Scented candles and incense, plus air fresheners and odor eliminators.",
-    },
-    {
-        name: "And more",
-        description: "New products arrive all the time. Stop by or call either store to ask.",
     },
 ];
 
@@ -119,6 +119,10 @@ export default function ProductHighlights() {
                             </li>
                         ))}
                     </ul>
+                    <p className={styles.moreNote}>
+                        <strong>And more.</strong> New products arrive all the time. Stop by or call either store to
+                        ask.
+                    </p>
                 </div>
             </div>
         </section>

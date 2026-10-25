@@ -10,6 +10,7 @@ const ITEMS = [
     "Pre-rolls",
     "Kratom",
     "CBD",
+    "Pet CBD",
     "Vaporizers",
     "Edibles",
     "Detox",

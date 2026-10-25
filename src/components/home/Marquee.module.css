@@ -12,7 +12,7 @@
 .track {
     display: flex;
     width: max-content;
-    animation: scroll 88s linear infinite;
+    animation: scroll 92s linear infinite;
 }
 
 .marquee:hover .track {

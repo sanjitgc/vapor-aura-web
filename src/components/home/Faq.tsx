@@ -24,7 +24,7 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
     },
     {
         q: "What do you carry besides vapes?",
-        a: "Along with vapes and e-liquid, we carry hookahs and hookah supplies, glass, dry herb and concentrate vaporizers, hemp flower and pre-rolls, kratom, CBD, hemp edibles and detox drinks. You'll also find lighters and torch lighters, butane and Zippo fluid, rolling trays, candles, incense, air fresheners, odor eliminators, and replacement coils and pods.",
+        a: "Along with vapes and e-liquid, we carry hookahs and hookah supplies, glass, dry herb and concentrate vaporizers, hemp flower and pre-rolls, kratom, CBD (including CBD for pets), hemp edibles and detox drinks. You'll also find lighters and torch lighters, butane and Zippo fluid, rolling trays, candles, incense, air fresheners, odor eliminators, and replacement coils and pods.",
     },
     {
         q: "Do you deliver?",
