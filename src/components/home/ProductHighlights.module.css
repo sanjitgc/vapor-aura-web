@@ -2,11 +2,12 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
+    /* Extra room at the bottom so the corner leaf shows in full below the last row */
+    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem 12.5rem;
     background: var(--section-background);
 }
 
-/* One leaf, bottom right, tucked into the corner below the last row so it never sits under words */
+/* One leaf, bottom right, in the room kept below the last row so it never sits under words */
 .section::after {
     content: "";
     position: absolute;
@@ -144,5 +145,12 @@
         margin-top: 0.45rem;
         font-size: 0.88rem;
         line-height: 1.5;
+    }
+}
+
+/* Tablets and phones: room kept below the last row so the whole leaf shows clear of text */
+@media (max-width: 899px) {
+    .section {
+        padding-bottom: 10rem;
     }
 }
