@@ -2,11 +2,12 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
+    /* Extra room at the bottom so the corner leaf shows in full below the last row */
+    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem 12.5rem;
     background: var(--section-background);
 }
 
-/* One leaf, bottom right, tucked into the corner below the last row so it never sits under words */
+/* One leaf, bottom right, in the room kept below the last row so it never sits under words */
 .section::after {
     content: "";
     position: absolute;
@@ -105,20 +106,6 @@
     text-transform: uppercase;
 }
 
-/* Closing line after the last row; kept narrow so the corner leaf has the right side to itself */
-.moreNote {
-    margin-top: clamp(2rem, 3.4vw, 2.75rem);
-    max-width: 42rem;
-    color: var(--muted);
-    font-size: 0.98rem;
-    line-height: 1.55;
-}
-
-.moreNote strong {
-    color: #ededed;
-    font-weight: 700;
-}
-
 @media (max-width: 980px) {
     .header {
         grid-template-columns: 1fr;
@@ -161,7 +148,7 @@
     }
 }
 
-/* Tablets and phones: room kept below the closing line so the whole leaf shows clear of text */
+/* Tablets and phones: room kept below the last row so the whole leaf shows clear of text */
 @media (max-width: 899px) {
     .section {
         padding-bottom: 10rem;
