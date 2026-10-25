@@ -12,7 +12,7 @@ const reasons = [
     {
         title: "Staff who know the products",
         description:
-            "We'll compare devices, explain flavors and nicotine strengths, and match the right coil or pod to your device.",
+            "We'll compare devices, explain flavors and nicotine strengths, and match the right coil or pod to your device. Ask us anything and we'll help you find exactly what you're looking for. If we don't have it, we can order it in for you.",
     },
     {
         title: "Everything in one stop",

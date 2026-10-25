@@ -12,7 +12,7 @@ export async function submitInquiry(formData: FormData) {
     try {
         const validation = validateInquiryFormData(formData);
         if (!validation.ok) {
-            return { success: false, message: validation.message };
+            return { success: false, message: validation.message, field: validation.field };
         }
 
         // Bots that fill the hidden field get a normal-looking reply and nothing is stored or sent.

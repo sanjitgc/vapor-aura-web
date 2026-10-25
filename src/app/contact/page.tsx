@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
 import { useEffect, useRef, useState } from "react";
+import { emailProblem, normalizePhone, PHONE_PROBLEM, type InquiryField } from "@/lib/inquiryValidation";
 import { FaFacebookF, FaInstagram, FaLocationDot } from "react-icons/fa6";
 import { SOCIAL } from "@/lib/stores";
 
@@ -54,6 +55,29 @@ export default function Contact() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [todayDay, setTodayDay] = useState<string | null>(null);
     const [expandedHours, setExpandedHours] = useState<Record<string, boolean>>({});
+    const [fieldErrors, setFieldErrors] = useState<Partial<Record<InquiryField, string>>>({});
+
+    // Check one field; returns its error (if any) and shows it under the field
+    function checkField(field: InquiryField, input: HTMLInputElement | null): string | undefined {
+        if (!input) return undefined;
+        let error: string | undefined;
+        if (field === "email") {
+            error = emailProblem(input.value) ?? undefined;
+        } else {
+            const formatted = normalizePhone(input.value);
+            if (formatted === null) error = PHONE_PROBLEM;
+            else if (formatted && formatted !== input.value) input.value = formatted;
+        }
+        setFieldErrors((prev) => ({ ...prev, [field]: error }));
+        return error;
+    }
+
+    // While an error is showing, clear it as soon as the value is fixed
+    function recheck(field: InquiryField, input: HTMLInputElement) {
+        if (!fieldErrors[field]) return;
+        const fixed = field === "email" ? !emailProblem(input.value) : normalizePhone(input.value) !== null;
+        if (fixed) setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
 
     useEffect(() => {
         setTodayDay(new Date().toLocaleDateString("en-US", { weekday: "long", timeZone: "America/Chicago" }));
@@ -67,17 +91,35 @@ export default function Contact() {
         e.preventDefault();
         if (!formRef.current) return;
 
+        const form = formRef.current;
+        const emailInput = form.elements.namedItem("email") as HTMLInputElement | null;
+        const phoneInput = form.elements.namedItem("phone") as HTMLInputElement | null;
+        const emailError = checkField("email", emailInput);
+        const phoneError = checkField("phone", phoneInput);
+        if (emailError || phoneError) {
+            setStatus(null);
+            (emailError ? emailInput : phoneInput)?.focus();
+            return;
+        }
+
         setIsSubmitting(true);
         setStatus(null);
 
         const formData = new FormData(formRef.current);
         const result = await submitInquiry(formData);
 
-        setStatus(result);
         setIsSubmitting(false);
+        if (!result.success && result.field) {
+            // The server found a problem with one field: show it on that field
+            setFieldErrors((prev) => ({ ...prev, [result.field as InquiryField]: result.message }));
+            (form.elements.namedItem(result.field) as HTMLInputElement | null)?.focus();
+            return;
+        }
+        setStatus(result);
 
         if (result.success) {
-            formRef.current.reset();
+            form.reset();
+            setFieldErrors({});
         }
     };
 
@@ -101,19 +143,48 @@ export default function Contact() {
 
                         <div className={styles.formGroup}>
                             <label htmlFor="email" className={styles.label}>Email</label>
-                            <input type="email" id="email" name="email" className={styles.input} placeholder="your@email.com" required maxLength={255} />
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className={styles.input}
+                                placeholder="your@email.com"
+                                required
+                                maxLength={255}
+                                autoComplete="email"
+                                aria-invalid={fieldErrors.email ? true : undefined}
+                                aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                                onBlur={(e) => e.currentTarget.value.trim() && checkField("email", e.currentTarget)}
+                                onChange={(e) => recheck("email", e.currentTarget)}
+                            />
+                            {fieldErrors.email && (
+                                <p id="email-error" className={styles.fieldError}>
+                                    {fieldErrors.email}
+                                </p>
+                            )}
                         </div>
 
                         <div className={styles.formGroup}>
-                            <label htmlFor="phone" className={styles.label}>Phone</label>
+                            <label htmlFor="phone" className={styles.label}>Phone (optional)</label>
                             <input
                                 type="tel"
                                 id="phone"
                                 name="phone"
                                 className={styles.input}
-                                placeholder="(555) 123-4567"
+                                placeholder="(214) 501-3222"
                                 maxLength={25}
+                                autoComplete="tel"
+                                inputMode="tel"
+                                aria-invalid={fieldErrors.phone ? true : undefined}
+                                aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+                                onBlur={(e) => checkField("phone", e.currentTarget)}
+                                onChange={(e) => recheck("phone", e.currentTarget)}
                             />
+                            {fieldErrors.phone && (
+                                <p id="phone-error" className={styles.fieldError}>
+                                    {fieldErrors.phone}
+                                </p>
+                            )}
                         </div>
 
                         <div className={styles.formGroup}>

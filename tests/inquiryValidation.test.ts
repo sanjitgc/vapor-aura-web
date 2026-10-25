@@ -26,7 +26,8 @@ test("returns error for invalid email format", () => {
     const result = validateInquiryFormData(createFormData({ email: "bad-email" }));
     assert.equal(result.ok, false);
     if (!result.ok) {
-        assert.equal(result.message, "Please provide a valid email address");
+        assert.equal(result.message, "Enter a valid email address, like name@example.com.");
+        assert.equal(result.field, "email");
     }
 });
 
@@ -84,5 +85,43 @@ test("returns error when input exceeds limits", () => {
     assert.equal(result.ok, false);
     if (!result.ok) {
         assert.equal(result.message, "One or more fields are too long");
+    }
+});
+
+test("flags common email domain typos", () => {
+    const result = validateInquiryFormData(createFormData({ email: "jane@gmial.com" }));
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+        assert.equal(result.message, "Check your email. Did you mean jane@gmail.com?");
+    }
+});
+
+test("accepts and formats a valid US phone number", () => {
+    const formData = createFormData();
+    formData.set("phone", "+1 214.501.3222");
+    const result = validateInquiryFormData(formData);
+    assert.equal(result.ok, true);
+    if (result.ok) {
+        assert.equal(result.data.phone, "(214) 501-3222");
+    }
+});
+
+test("leaves phone optional", () => {
+    const result = validateInquiryFormData(createFormData());
+    assert.equal(result.ok, true);
+    if (result.ok) {
+        assert.equal(result.data.phone, "");
+    }
+});
+
+test("rejects phone numbers that are not real US numbers", () => {
+    for (const phone of ["12345", "(014) 501-3222", "214-501-32222", "call me", "5555555555"]) {
+        const formData = createFormData();
+        formData.set("phone", phone);
+        const result = validateInquiryFormData(formData);
+        assert.equal(result.ok, false, phone);
+        if (!result.ok) {
+            assert.equal(result.field, "phone");
+        }
     }
 });
