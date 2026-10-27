@@ -1,46 +1,59 @@
-import type { Metadata } from "next";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
 import styles from "./page.module.css";
 import StoreStatus from "@/components/home/StoreStatus";
-import { STORES } from "@/lib/stores";
+import NicotineWarning from "@/components/common/NicotineWarning";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import { STORES, mapEmbedUrl } from "@/lib/stores";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-    title: "Store locations | Vapor Aura Sachse and Irving, TX",
+export const metadata = pageMetadata({
+    title: "Store Locations in Sachse & Irving, TX | Vapor Aura",
     description:
-        "Addresses, phone numbers and hours for Vapor Aura in Sachse (5848 S State Hwy 78) and Irving (825 W Royal Ln, open 24 hours).",
-    alternates: { canonical: "/locations" },
-};
+        "Vapor Aura's two stores: Sachse at 5848 S State Hwy 78, open until 1–2 AM, and Irving at 825 W Royal Ln, open 24 hours. Hours, phones and directions.",
+    path: "/locations",
+});
 
-function mapEmbed(store: (typeof STORES)[number]) {
-    const q = encodeURIComponent(`${store.street}, ${store.city}, TX ${store.zip}`);
-    return `https://maps.google.com/maps?q=${q}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
-}
+const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "Locations", path: "/locations" },
+];
 
 export default function Locations() {
     return (
         <main className={styles.main}>
+            <NicotineWarning />
             <div className={styles.container}>
+                <Breadcrumbs crumbs={crumbs} className={styles.crumbs} />
+
                 <header className={styles.header}>
                     <h1 className={styles.title}>Our stores</h1>
                     <p className={styles.subtitle}>
                         Two stores in the Dallas area. Irving is open 24 hours, and Sachse is open until 1 AM most
-                        nights.
+                        nights and 2 AM Thursday through Saturday.
                     </p>
                 </header>
 
-                <StoreStatus />
+                <StoreStatus headingLevel="h2" />
 
                 <div className={styles.maps}>
                     {STORES.map((store) => (
-                        <div key={store.slug} className={styles.map}>
-                            <iframe
-                                src={mapEmbed(store)}
-                                title={`Map of ${store.name}`}
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            />
+                        <div key={store.slug} className={styles.mapCard} data-store={store.slug}>
+                            <div className={styles.map}>
+                                <iframe
+                                    src={mapEmbedUrl(store)}
+                                    title={`Map of ${store.name}`}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
+                            </div>
+                            <Link href={store.path} className={styles.storeLink}>
+                                Hours, directions and what&apos;s in the {store.city} store{" "}
+                                <FaArrowRight aria-hidden="true" />
+                            </Link>
                         </div>
                     ))}
                 </div>

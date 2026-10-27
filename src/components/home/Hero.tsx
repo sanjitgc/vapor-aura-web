@@ -25,7 +25,7 @@ export default function Hero() {
                     <h1 id="hero-title" className={styles.title}>
                         <span className={styles.line}>
                             <span>Vape &amp; smoke shop</span>
-                        </span>
+                        </span>{" "}
                         <span className={styles.line}>
                             <span>in Sachse &amp; Irving</span>
                         </span>
@@ -40,7 +40,7 @@ export default function Hero() {
                             Order on DoorDash
                         </Button>
                         <OrderWithUs />
-                        <Button href="/#locations" variant="outline" size="lg">
+                        <Button href="/locations" variant="outline" size="lg">
                             Find a store
                         </Button>
                     </div>
