@@ -4,15 +4,15 @@ import Script from "next/script";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { STORES } from "@/lib/stores";
+import { GA_ID } from "@/lib/analytics";
 
-// Google Analytics 4, switched on by setting NEXT_PUBLIC_GA_ID (e.g. "G-XXXXXXXXXX") in Vercel.
-// Without it nothing loads. Besides page views, it records the taps that turn into store visits:
+// Google Analytics 4. The measurement ID comes from src/lib/analytics.ts.
+// Besides page views, it records the taps that turn into store visits:
 //   call_click        a phone number was tapped
 //   directions_click  a Google Maps "Directions" link was tapped
 //   doordash_click    an "Order on DoorDash" link was tapped
 //   location_page_view  someone opened /sachse or /irving
 // Each event carries `store` ("sachse", "irving" or "both") so the stores can be compared.
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 declare global {
     interface Window {

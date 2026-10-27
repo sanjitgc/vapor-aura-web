@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import styles from "@/components/common/LegalPage.module.css";
 import { STORES } from "@/lib/stores";
+import { GA_ID } from "@/lib/analytics";
 
 const CONTACT_EMAIL = "vaporaurasmokeshop@gmail.com";
 
-// The analytics paragraphs show only when Google Analytics is switched on (NEXT_PUBLIC_GA_ID in Vercel)
-const USES_ANALYTICS = Boolean(process.env.NEXT_PUBLIC_GA_ID);
+// The analytics paragraphs show only when Google Analytics is switched on (src/lib/analytics.ts)
+const USES_ANALYTICS = Boolean(GA_ID);
 
 export const metadata: Metadata = {
     title: "Privacy Policy | Vapor Aura",
