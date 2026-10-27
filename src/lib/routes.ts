@@ -3,6 +3,7 @@
 // `updated` = the date the page's content last really changed. Bump it when you edit a page;
 // search engines learn to ignore dates that change on every deploy.
 import { STORES } from "./stores";
+import { CATEGORY_PAGES } from "./categoryPages";
 
 export interface SiteRoute {
     path: string;
@@ -21,6 +22,8 @@ const PAGES: SiteRoute[] = [
 ];
 
 const STORE_PAGES_UPDATED = "2026-10-27";
+// Category pages (/products/hookah and so on), added from src/lib/categoryPages.ts
+const CATEGORY_PAGES_UPDATED = "2026-10-27";
 
 export function siteRoutes(): SiteRoute[] {
     const storeRoutes: SiteRoute[] = STORES.map((store) => ({
@@ -29,8 +32,15 @@ export function siteRoutes(): SiteRoute[] {
         changeFrequency: "weekly",
         priority: 0.9,
     }));
-    // Home first, then the store pages, then everything else
-    return [PAGES[0], ...storeRoutes, ...PAGES.slice(1)];
+    const categoryRoutes: SiteRoute[] = CATEGORY_PAGES.map((page) => ({
+        path: page.path,
+        updated: CATEGORY_PAGES_UPDATED,
+        changeFrequency: "monthly",
+        priority: 0.7,
+    }));
+    // Home first, then the store pages, then /products and its categories, then everything else
+    const [home, products, ...rest] = PAGES;
+    return [home, ...storeRoutes, products, ...categoryRoutes, ...rest];
 }
 
 // Never in the sitemap and kept out of search: shopping cart, admin tools and the API

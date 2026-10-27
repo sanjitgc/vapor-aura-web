@@ -1,5 +1,8 @@
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
 import styles from "./ProductHighlights.module.css";
 import { CATEGORIES, MORE_CATEGORIES } from "@/lib/catalog";
+import { categoryPagePath } from "@/lib/categoryPages";
 
 // Keep hyphenated words like "pre-rolls" and "e-liquids" on one line
 function keepHyphenated(text: string) {
@@ -11,6 +14,18 @@ function keepHyphenated(text: string) {
         ) : (
             part
         ),
+    );
+}
+
+// A category's name, linked to its own page (/products/hookah) when it has one
+function CategoryName({ id, name }: { id: string; name: string }) {
+    const path = categoryPagePath(id);
+    if (!path) return <>{keepHyphenated(name)}</>;
+    return (
+        <Link href={path} className={styles.itemLink}>
+            {keepHyphenated(name)}
+            <FaArrowRight aria-hidden="true" className={styles.itemArrow} />
+        </Link>
     );
 }
 
@@ -50,7 +65,9 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                 <ul className={styles.list}>
                     {CATEGORIES.map((category) => (
                         <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
-                            <ItemHeading className={styles.itemTitle}>{keepHyphenated(category.name)}</ItemHeading>
+                            <ItemHeading className={styles.itemTitle}>
+                                <CategoryName id={category.id} name={category.name} />
+                            </ItemHeading>
                             <p className={styles.itemText}>{keepHyphenated(category.description)}</p>
                         </li>
                     ))}
@@ -62,7 +79,7 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                         {MORE_CATEGORIES.map((category) => (
                             <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
                                 <MoreItemHeading className={styles.itemTitle}>
-                                    {keepHyphenated(category.name)}
+                                    <CategoryName id={category.id} name={category.name} />
                                 </MoreItemHeading>
                                 <p className={styles.itemText}>{keepHyphenated(category.description)}</p>
                             </li>

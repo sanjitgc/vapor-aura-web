@@ -69,6 +69,30 @@
     color: #4ade80;
 }
 
+.categories {
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.categories ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 0.15rem 1.5rem;
+    margin-top: 0.1rem;
+}
+
+.categories a {
+    color: rgba(237, 237, 237, 0.75);
+    text-decoration: none;
+}
+
+.categories a:hover {
+    color: #4ade80;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .links {
     display: flex;
     align-items: center;
