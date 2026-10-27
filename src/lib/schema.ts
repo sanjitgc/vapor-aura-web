@@ -11,6 +11,7 @@ import {
     schemaPhone,
     type Store,
 } from "./stores";
+import { CATEGORY_PAGES, type CategoryPageCopy } from "./categoryPages";
 
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -85,6 +86,34 @@ export function storeSchema(store: Store) {
         parentOrganization: { "@id": ORGANIZATION_ID },
         areaServed: store.servedPlaces.map((name) => ({ "@type": "Place", name })),
         description: `Vapor Aura's ${store.city} store at ${fullAddress(store)}. Vapes, e-liquid, glass, hookah and more. 21+ only.`,
+        // The categories this store carries, each with its own page. Names and links only: no Product
+        // or Offer details, which Google doesn't allow for tobacco and vaping products.
+        hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: `What Vapor Aura ${store.city} carries`,
+            itemListElement: CATEGORY_PAGES.map((page) => ({
+                "@type": "OfferCatalog",
+                name: page.name,
+                url: `${SITE_URL}${page.path}`,
+            })),
+        },
+    };
+}
+
+// A category page (/products/hookah): a collection page about one kind of product, carried at both stores
+export function categoryPageSchema(copy: CategoryPageCopy) {
+    const url = `${SITE_URL}${copy.path}`;
+    return {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: copy.metaTitle,
+        description: copy.metaDescription,
+        inLanguage: "en-US",
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@type": "Thing", name: copy.h1[0] },
+        mentions: STORES.map((store) => ({ "@id": storeId(store) })),
     };
 }
 

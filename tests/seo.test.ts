@@ -5,6 +5,9 @@ import { storeSchema, organizationSchema, breadcrumbSchema } from "../src/lib/sc
 import { siteRoutes, PRIVATE_PATHS } from "../src/lib/routes";
 import { storeStatus } from "../src/lib/hours";
 import { STORE_PAGES, storeShelves } from "../src/lib/storePages";
+import { CATEGORY_PAGES, categoryPagePath } from "../src/lib/categoryPages";
+import { categoryById } from "../src/lib/catalog";
+import { categoryPageSchema } from "../src/lib/schema";
 
 test("site URL is the www host Vercel serves", () => {
     assert.equal(SITE_URL, "https://www.vaporauratx.com");
@@ -59,6 +62,7 @@ test("sitemap lists every store page and no private page", () => {
     const paths = siteRoutes().map((r) => r.path);
     for (const store of STORES) assert.ok(paths.includes(store.path), `${store.path} missing`);
     for (const p of ["/", "/products", "/locations", "/contact"]) assert.ok(paths.includes(p), `${p} missing`);
+    for (const page of CATEGORY_PAGES) assert.ok(paths.includes(page.path), `${page.path} missing`);
     for (const p of paths) assert.ok(!PRIVATE_PATHS.some((priv) => p.startsWith(priv.replace(/\/$/, ""))), `${p} is private`);
     assert.equal(new Set(paths).size, paths.length, "duplicate path");
     for (const r of siteRoutes()) assert.match(r.updated, /^\d{4}-\d{2}-\d{2}$/);
@@ -80,4 +84,62 @@ test("store pages only list shelves that exist, without brand names", () => {
         assert.doesNotMatch(shelf.text, /Geek Bar|Lost Mary|RAZ|Foger|Fifty Bar/);
     }
     assert.ok(!shelves.some((s) => ["flower", "edibles", "mushroom"].includes(s.id)));
+});
+
+test("category pages fit in search results and don't repeat each other", () => {
+    assert.equal(CATEGORY_PAGES.length, 7);
+    for (const page of CATEGORY_PAGES) {
+        assert.equal(page.path, `/products/${page.slug}`);
+        assert.ok(page.metaTitle.length <= 60, page.metaTitle);
+        assert.ok(page.metaDescription.length >= 120 && page.metaDescription.length <= 160, page.metaDescription);
+        for (const city of ["Sachse", "Irving"]) {
+            assert.ok(page.metaTitle.includes(city), `${page.slug} title needs ${city}`);
+            assert.ok(page.metaDescription.includes(city), `${page.slug} description needs ${city}`);
+        }
+        assert.ok(page.shelf.length >= 3 && page.tips.length >= 3 && page.faq.length >= 3, page.slug);
+        for (const id of page.catalogIds) assert.ok(categoryById(id), `${page.slug}: unknown catalog id ${id}`);
+    }
+    for (const key of ["slug", "metaTitle", "metaDescription", "intro"] as const) {
+        assert.equal(new Set(CATEGORY_PAGES.map((p) => p[key])).size, CATEGORY_PAGES.length, `duplicate ${key}`);
+    }
+    assert.equal(new Set(CATEGORY_PAGES.map((p) => p.h1.join(" "))).size, CATEGORY_PAGES.length, "duplicate H1");
+});
+
+test("category pages follow the content rules: no brands, no banned products, no health claims", () => {
+    for (const page of CATEGORY_PAGES) {
+        const text = JSON.stringify(page);
+        // Brand names (Texas SB 2024: describe categories, not brands)
+        assert.doesNotMatch(text, /Geek ?Bar|Lost Mary|Foger|Fifty Bar|Elf ?Bar|GeekVape|Puffco|Naked|Cartbox/i, page.slug);
+        assert.doesNotMatch(text, /\b(RAZ|SMOK)\b/, page.slug);
+        // Products the site doesn't build search traffic around
+        assert.doesNotMatch(text, /delta|kratom|mushroom|cannabis|marijuana|\bweed\b|THCA|7-OH/i, page.slug);
+        if (page.slug !== "cbd") assert.doesNotMatch(text, /\bTHC\b/, page.slug);
+        // Health, cure or quit-smoking claims
+        assert.doesNotMatch(
+            text,
+            /\b(cures?|cured|treatment|heal(s|ing)?|relief|relieve|anxiety|pain|sleep|insomnia|quit(ting)?|cessation|safer|healthier|wellness)\b/i,
+            page.slug,
+        );
+    }
+});
+
+test("nicotine pages carry the FDA warning, accessories don't", () => {
+    const withWarning = CATEGORY_PAGES.filter((p) => p.nicotine).map((p) => p.slug).sort();
+    assert.deepEqual(withWarning, ["disposable-vapes", "e-liquid", "hookah"]);
+});
+
+test("catalog categories, store pages and store schema link to the category pages", () => {
+    assert.equal(categoryPagePath("hookah"), "/products/hookah");
+    assert.equal(categoryPagePath("pet-cbd"), "/products/cbd");
+    assert.equal(categoryPagePath("kratom"), undefined);
+    const shelves = storeShelves();
+    assert.equal(shelves.find((s) => s.id === "glass")?.href, "/products/glass");
+    assert.equal(shelves.find((s) => s.id === "kratom")?.href, "/products#kratom");
+    for (const store of STORES) {
+        const urls = storeSchema(store).hasOfferCatalog.itemListElement.map((item) => item.url);
+        assert.deepEqual(urls, CATEGORY_PAGES.map((p) => `${SITE_URL}${p.path}`));
+    }
+    const schema = categoryPageSchema(CATEGORY_PAGES[0]);
+    assert.equal(schema["@type"], "CollectionPage");
+    assert.equal(schema.url, `${SITE_URL}/products/disposable-vapes`);
 });

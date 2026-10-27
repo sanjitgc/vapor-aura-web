@@ -1,6 +1,7 @@
 // Words for the two store pages (/sachse, /irving). Facts only: every line here must stay true
 // for that store. Hours, address and phone come from stores.ts, so they update in one place.
 import { categoryById } from "./catalog";
+import { categoryPagePath } from "./categoryPages";
 import { fullAddress, getStore, type Store } from "./stores";
 
 export interface StorePageCopy {
@@ -86,7 +87,8 @@ export const STORE_PAGES: Record<Store["slug"], StorePageCopy> = {
     irving: copyFor("irving"),
 };
 
-// The shelves listed on each store page, linking to /products#<id>. Hemp flower, pre-rolls,
+// The shelves listed on each store page, linking to the category's own page (/products/hookah) or,
+// for categories without one, to its spot on /products (/products#kratom). Hemp flower, pre-rolls,
 // edibles and mushroom products are left off on purpose: the federal hemp definition changes on
 // December 11, 2026, so the store pages don't build search traffic around them.
 const SHELVES: { id: string; label: string }[] = [
@@ -106,6 +108,6 @@ export function storeShelves() {
     return SHELVES.map(({ id, label }) => {
         const category = categoryById(id);
         if (!category?.short) throw new Error(`Category ${id} needs a short description`);
-        return { id, label, text: category.short };
+        return { id, label, text: category.short, href: categoryPagePath(id) ?? `/products#${id}` };
     });
 }

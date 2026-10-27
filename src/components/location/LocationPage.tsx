@@ -128,7 +128,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     <ul className={styles.shelves}>
                         {storeShelves().map((shelf) => (
                             <li key={shelf.id}>
-                                <Link href={`/products#${shelf.id}`} className={styles.shelf}>
+                                <Link href={shelf.href} className={styles.shelf}>
                                     <span className={styles.shelfName}>{shelf.label}</span>
                                     <span className={styles.shelfText}>{shelf.text}</span>
                                 </Link>
