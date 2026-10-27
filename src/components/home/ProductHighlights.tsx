@@ -1,80 +1,5 @@
 import styles from "./ProductHighlights.module.css";
-
-interface ProductCategory {
-    name: string;
-    description: string;
-}
-
-// The main shelves: two rows of four on desktop.
-const categories: ProductCategory[] = [
-    {
-        name: "Vape",
-        description: "Disposables, pod systems and devices from Geek Bar, Lost Mary, RAZ, Foger, Fifty Bar and more.",
-    },
-    {
-        name: "E-Juices",
-        description: "Freebase and nicotine salt e-liquids from Naked and more.",
-    },
-    {
-        name: "Glass",
-        description: "Water pipes, bubblers, hand pipes and rigs, plus bowls and cleaners.",
-    },
-    {
-        name: "Vaporizer",
-        description: "Dry herb and concentrate vaporizers and Puffco devices, plus 510\u00a0batteries like the Cartbox and cart\u00a0pens.",
-    },
-    {
-        name: "Hookah",
-        description: "Hookahs, bowls, hoses, coals and shisha, plus spare parts.",
-    },
-    {
-        name: "Flower & pre-rolls",
-        description: "Hemp flower and pre-rolls in a range of strains, plus rolling trays.",
-    },
-    {
-        name: "Kratom",
-        description: "Kratom capsules, powders, tablets and shots from established brands.",
-    },
-    {
-        name: "CBD",
-        description: "Tinctures, gummies, capsules and topicals in a range of strengths.",
-    },
-];
-
-const moreCategories: ProductCategory[] = [
-    {
-        name: "Edibles",
-        description: "Hemp-derived gummies, chocolates and treats.",
-    },
-    {
-        name: "Mushroom",
-        description: "Mushroom gummies and chocolates in a variety of flavors.",
-    },
-    {
-        name: "Detox",
-        description: "Detox drinks in popular flavors, plus other cleanse products.",
-    },
-    {
-        name: "CBD for pets",
-        description: "CBD treats and tinctures made just for pets.",
-    },
-    {
-        name: "Coils / Pods",
-        description: "Replacement coils and pods for SMOK, GeekVape and more.",
-    },
-    {
-        name: "Lighters & torches",
-        description: "Pocket and torch lighters, plus butane and Zippo fluid for refills.",
-    },
-    {
-        name: "Candles & incense",
-        description: "Scented candles and incense, plus air fresheners and odor eliminators.",
-    },
-    {
-        name: "And more",
-        description: "New products arrive all the time. Stop by or call either store to ask.",
-    },
-];
+import { CATEGORIES, MORE_CATEGORIES } from "@/lib/catalog";
 
 // Keep hyphenated words like "pre-rolls" and "e-liquids" on one line
 function keepHyphenated(text: string) {
@@ -89,36 +14,56 @@ function keepHyphenated(text: string) {
     );
 }
 
+interface ProductHighlightsProps {
+    // "section" = a part of the home page with its own heading.
+    // "page" = the body of /products, where the page already has the H1, so headings move up a level.
+    variant?: "section" | "page";
+}
+
 // What's on the shelves in our stores. Display only; nothing here is sold online.
-export default function ProductHighlights() {
+export default function ProductHighlights({ variant = "section" }: ProductHighlightsProps) {
+    const isPage = variant === "page";
+    const ItemHeading = isPage ? "h2" : "h3";
+    const MoreHeading = isPage ? "h2" : "h3";
+    const MoreItemHeading = isPage ? "h3" : "h4";
+
     return (
-        <section id="products" className={styles.section} aria-labelledby="product-hints-title">
+        <section
+            id={isPage ? undefined : "products"}
+            className={`${styles.section} ${isPage ? styles.sectionPage : ""}`}
+            aria-labelledby={isPage ? undefined : "product-hints-title"}
+            aria-label={isPage ? "Product categories" : undefined}
+        >
             <div className={styles.container}>
-                <div className={styles.header}>
-                    <h2 id="product-hints-title" className={styles.title}>
-                        What we carry
-                    </h2>
-                    <p className={styles.subtitle}>
-                        What you&apos;ll find in our Sachse and Irving stores. Not sure what fits you? Ask our staff,
-                        and call ahead if you&apos;re after something specific.
-                    </p>
-                </div>
+                {!isPage && (
+                    <div className={styles.header}>
+                        <h2 id="product-hints-title" className={styles.title}>
+                            What we carry
+                        </h2>
+                        <p className={styles.subtitle}>
+                            What you&apos;ll find in our Sachse and Irving stores. Not sure what fits you? Ask our
+                            staff, and call ahead if you&apos;re after something specific.
+                        </p>
+                    </div>
+                )}
 
                 <ul className={styles.list}>
-                    {categories.map((category) => (
-                        <li key={category.name} className={styles.item}>
-                            <h3 className={styles.itemTitle}>{keepHyphenated(category.name)}</h3>
+                    {CATEGORIES.map((category) => (
+                        <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
+                            <ItemHeading className={styles.itemTitle}>{keepHyphenated(category.name)}</ItemHeading>
                             <p className={styles.itemText}>{keepHyphenated(category.description)}</p>
                         </li>
                     ))}
                 </ul>
 
                 <div className={styles.more}>
-                    <h3 className={styles.moreTitle}>Also on the shelves</h3>
+                    <MoreHeading className={styles.moreTitle}>Also on the shelves</MoreHeading>
                     <ul className={`${styles.list} ${styles.listCompact}`}>
-                        {moreCategories.map((category) => (
-                            <li key={category.name} className={styles.item}>
-                                <h4 className={styles.itemTitle}>{keepHyphenated(category.name)}</h4>
+                        {MORE_CATEGORIES.map((category) => (
+                            <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
+                                <MoreItemHeading className={styles.itemTitle}>
+                                    {keepHyphenated(category.name)}
+                                </MoreItemHeading>
                                 <p className={styles.itemText}>{keepHyphenated(category.description)}</p>
                             </li>
                         ))}

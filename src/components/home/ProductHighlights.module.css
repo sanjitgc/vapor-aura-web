@@ -154,3 +154,19 @@
         padding-bottom: 10rem;
     }
 }
+
+/* On /products the page header sits above, so the shelves start right under it */
+.sectionPage {
+    padding: 0;
+    background: transparent;
+    overflow: visible;
+}
+
+.sectionPage::after {
+    content: none;
+}
+
+/* Category anchors (/products#hookah) land below the fixed header */
+.sectionPage .item {
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}

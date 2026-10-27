@@ -4,6 +4,9 @@ import { STORES } from "@/lib/stores";
 
 const CONTACT_EMAIL = "vaporaurasmokeshop@gmail.com";
 
+// The analytics paragraphs show only when Google Analytics is switched on (NEXT_PUBLIC_GA_ID in Vercel)
+const USES_ANALYTICS = Boolean(process.env.NEXT_PUBLIC_GA_ID);
+
 export const metadata: Metadata = {
     title: "Privacy Policy | Vapor Aura",
     description: "How Vapor Aura handles the information you share through vaporauratx.com.",
@@ -15,7 +18,7 @@ export default function PrivacyPage() {
         <main className={styles.main}>
             <article className={styles.article}>
                 <h1 className={styles.title}>Privacy policy</h1>
-                <p className={styles.updated}>Last updated October 20, 2026</p>
+                <p className={styles.updated}>Last updated October 27, 2026</p>
 
                 <p>
                     This policy explains what information Vapor Aura (&quot;we&quot;, &quot;us&quot;) collects through
@@ -35,6 +38,16 @@ export default function PrivacyPage() {
                         are 21 or older and keeps your cart in your browser&apos;s local storage. This stays on your
                         device; we don&apos;t receive it.
                     </li>
+                    {USES_ANALYTICS && (
+                        <li>
+                            <strong>How the site is used.</strong> We use Google Analytics to understand which pages
+                            people visit and when they tap to call a store, get directions or order on DoorDash. Google
+                            Analytics uses cookies and collects information such as your approximate location, device
+                            and browser. It doesn&apos;t give us your name or contact details. You can block it with your
+                            browser&apos;s cookie settings or Google&apos;s opt-out add-on at
+                            tools.google.com/dlpage/gaoptout.
+                        </li>
+                    )}
                     <li>
                         <strong>Basic technical data.</strong> Like most websites, our hosting provider records standard
                         server logs (such as IP address, browser type and pages requested) to keep the site running and
@@ -60,7 +73,8 @@ export default function PrivacyPage() {
                     <li>MongoDB, which stores contact form messages.</li>
                     <li>Resend, which delivers contact form messages to our inbox by email.</li>
                     <li>Upstash, which helps limit repeated or automated form submissions.</li>
-                    <li>Google Maps, whose maps are embedded on our locations section.</li>
+                    <li>Google Maps, whose maps are embedded on our store and location pages.</li>
+                    {USES_ANALYTICS && <li>Google Analytics, which measures how the site is used.</li>}
                 </ul>
                 <p>
                     Links to DoorDash, Instagram, Facebook and Google take you to those companies&apos; own sites, where

@@ -8,13 +8,20 @@ import { useEffect, useState } from "react";
 import { SiDoordash } from "react-icons/si";
 import { DOORDASH_URL } from "@/lib/stores";
 
-const links = [
-    { href: "/#home", label: "Home", hash: "#home" },
+// Products, Locations and Contact are real pages (so search engines can rank them). On the home page
+// the menu still lights up as you scroll past the matching section ("hash" = that section's id).
+const links: { href: string; label: string; hash?: string; paths?: string[] }[] = [
+    { href: "/", label: "Home", hash: "#home" },
     { href: "/#why-choose", label: "About us", hash: "#why-choose" },
-    { href: "/#products", label: "Products", hash: "#products" },
-    { href: "/#contact", label: "Contact", hash: "#contact" },
-    { href: "/#locations", label: "Locations", hash: "#locations" },
+    { href: "/products", label: "Products", hash: "#products", paths: ["/products"] },
+    { href: "/locations", label: "Locations", hash: "#locations", paths: ["/locations", "/sachse", "/irving"] },
+    { href: "/contact", label: "Contact", hash: "#contact", paths: ["/contact"] },
 ];
+
+function isActive(link: (typeof links)[number], pathname: string, activeHash: string) {
+    if (pathname === "/") return link.hash === activeHash;
+    return Boolean(link.paths?.some((p) => pathname === p || pathname.startsWith(`${p}/`)));
+}
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -26,7 +33,7 @@ export default function Navbar() {
             return;
         }
 
-        const sectionHashes = links.map((link) => link.hash);
+        const sectionHashes = links.flatMap((link) => (link.hash ? [link.hash] : []));
         const headerHeightRaw = getComputedStyle(document.documentElement).getPropertyValue("--header-height");
         const headerOffset = Number.parseInt(headerHeightRaw, 10) || 92;
         const sectionElements = sectionHashes
@@ -112,7 +119,8 @@ export default function Navbar() {
                         <li key={link.href}>
                             <Link
                                 href={link.href}
-                                className={`${styles.link} ${pathname === "/" && activeHash === link.hash ? styles.active : ""}`}
+                                className={`${styles.link} ${isActive(link, pathname, activeHash) ? styles.active : ""}`}
+                                aria-current={isActive(link, pathname, activeHash) && pathname !== "/" ? "page" : undefined}
                             >
                                 {link.label}
                             </Link>
@@ -155,7 +163,7 @@ export default function Navbar() {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={`${styles.mobileLink} ${pathname === "/" && activeHash === link.hash ? styles.active : ""}`}
+                            className={`${styles.mobileLink} ${isActive(link, pathname, activeHash) ? styles.active : ""}`}
                             onClick={() => setIsOpen(false)}
                         >
                             {link.label}

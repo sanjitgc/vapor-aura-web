@@ -16,8 +16,10 @@ export default function Footer() {
 
                 <div className={styles.stores}>
                     {STORES.map((store) => (
-                        <div key={store.slug} className={styles.store}>
-                            <p className={styles.storeName}>{store.name}</p>
+                        <div key={store.slug} className={styles.store} data-store={store.slug}>
+                            <p className={styles.storeName}>
+                                <Link href={store.path}>{store.name}</Link>
+                            </p>
                             <p>{store.street}<br />{store.city}, TX {store.zip}</p>
                             <p><a href={store.tel}>{store.phone}</a></p>
                             <p>{store.hoursSummary}</p>
@@ -39,10 +41,13 @@ export default function Footer() {
             </div>
             <div className={styles.legal}>
                 <p>Sales to adults 21 and over only. Valid photo ID required.</p>
-                <p className={styles.legalLinks}>
+                <nav className={styles.legalLinks} aria-label="Site pages">
+                    <Link href="/products">Products</Link>
+                    <Link href="/locations">Locations</Link>
+                    <Link href="/contact">Contact</Link>
                     <Link href="/privacy">Privacy policy</Link>
                     <Link href="/terms">Terms of use</Link>
-                </p>
+                </nav>
                 <p>&copy; {new Date().getFullYear()} Vapor Aura. All rights reserved.</p>
             </div>
         </footer>

@@ -51,6 +51,14 @@
     font-weight: 700;
 }
 
+.storeName a {
+    text-decoration: none;
+}
+
+.storeName a:hover {
+    text-decoration: underline;
+}
+
 .store a {
     color: #ededed;
     text-decoration: underline;
@@ -107,7 +115,8 @@
 
 .legalLinks {
     display: flex;
-    gap: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
 }
 
 .legalLinks a {
