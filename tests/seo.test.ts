@@ -81,3 +81,11 @@ test("store pages only list shelves that exist, without brand names", () => {
     }
     assert.ok(!shelves.some((s) => ["flower", "edibles", "mushroom"].includes(s.id)));
 });
+
+test("store schema lists the store's own photos when it has them", () => {
+    const photos = [`${SITE_URL}/_next/static/media/storefront-night.webp`, `${SITE_URL}/_next/static/media/sales-floor.webp`];
+    assert.deepEqual(storeSchema(getStore("irving"), photos).image, photos);
+    // No photos yet: the brand image stands in
+    assert.equal(storeSchema(getStore("sachse")).image, `${SITE_URL}/og-image.jpg`);
+    assert.equal(storeSchema(getStore("sachse"), []).image, `${SITE_URL}/og-image.jpg`);
+});

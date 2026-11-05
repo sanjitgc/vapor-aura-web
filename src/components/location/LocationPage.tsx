@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaLocationDot, FaPhone, FaDiamondTurnRight, FaArrowRight } from "react-icons/fa6";
 import { SiDoordash } from "react-icons/si";
@@ -5,8 +6,10 @@ import NicotineWarning from "@/components/common/NicotineWarning";
 import LiveStatus from "@/components/common/LiveStatus";
 import JsonLd from "@/components/common/JsonLd";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import StoreGallery from "@/components/common/StoreGallery";
 import {
     DOORDASH_URL,
+    SITE_URL,
     STORES,
     directionsUrl,
     getStore,
@@ -18,6 +21,7 @@ import {
 } from "@/lib/stores";
 import { STORE_PAGES, storeShelves } from "@/lib/storePages";
 import { reviewsFor } from "@/lib/reviews";
+import { STORE_PHOTOS, allStorePhotos } from "@/lib/storePhotos";
 import { storeSchema } from "@/lib/schema";
 import styles from "./LocationPage.module.css";
 
@@ -29,6 +33,9 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
     const copy = STORE_PAGES[slug];
     const other = STORES.find((s) => s.slug !== slug)!;
     const reviews = reviewsFor(slug);
+    const photos = STORE_PHOTOS[slug];
+    // Real photos of the store go in its structured data too, storefront first
+    const schemaImages = photos ? allStorePhotos(photos).map((photo) => `${SITE_URL}${photo.src.src}`) : undefined;
     const crumbs = [
         { name: "Home", path: "/" },
         { name: "Locations", path: "/locations" },
@@ -37,15 +44,34 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
 
     return (
         <main className={styles.main} data-store={store.slug}>
-            <JsonLd data={storeSchema(store)} />
+            <JsonLd data={storeSchema(store, schemaImages)} />
             <NicotineWarning />
 
             <div className={styles.page}>
                 <Breadcrumbs crumbs={crumbs} />
 
-                <header className={styles.hero}>
+                <header className={photos ? `${styles.hero} ${styles.heroWithPhoto}` : styles.hero}>
                     <p className={styles.kicker}>{copy.kicker}</p>
                     <h1 className={styles.title}>{copy.h1}</h1>
+                    {photos && (
+                        <figure className={styles.heroPhoto}>
+                            <div className={styles.heroFrame}>
+                                <Image
+                                    src={photos.storefront.src}
+                                    alt={photos.storefront.alt}
+                                    fill
+                                    preload
+                                    placeholder="blur"
+                                    sizes="(max-width: 899px) calc(100vw - 2rem), 440px"
+                                    className={styles.heroImage}
+                                />
+                            </div>
+                            <figcaption className={styles.heroCaption}>
+                                <FaLocationDot aria-hidden="true" />
+                                <span>{photos.storefront.caption}</span>
+                            </figcaption>
+                        </figure>
+                    )}
                     <p className={styles.lead}>{copy.intro}</p>
                     <div className={styles.heroActions}>
                         <a
@@ -120,6 +146,19 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                         </a>
                     </div>
                 </section>
+
+                {photos && (
+                    <section className={styles.section} aria-labelledby="inside-title">
+                        <h2 id="inside-title" className={styles.sectionTitle}>
+                            Inside the {store.city} store
+                        </h2>
+                        <StoreGallery
+                            photos={photos.inside}
+                            layout="brick"
+                            viewerLabel={`Photos inside Vapor Aura ${store.city}`}
+                        />
+                    </section>
+                )}
 
                 <section className={styles.section} aria-labelledby="shelves-title">
                     <h2 id="shelves-title" className={styles.sectionTitle}>
