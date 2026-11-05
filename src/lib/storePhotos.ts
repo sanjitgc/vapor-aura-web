@@ -8,6 +8,7 @@ import irvingStorefront from "@/assets/stores/irving/storefront-night.webp";
 import irvingSalesFloor from "@/assets/stores/irving/sales-floor.webp";
 import irvingEliquid from "@/assets/stores/irving/e-liquid-wall.webp";
 import irvingDisposables from "@/assets/stores/irving/disposables-case.webp";
+import irvingGrinders from "@/assets/stores/irving/grinders-case.webp";
 import irvingAccessories from "@/assets/stores/irving/accessories-shelves.webp";
 
 export interface StorePhoto {
@@ -64,6 +65,14 @@ export const STORE_PHOTOS: Partial<Record<Store["slug"], StorePhotoSet>> = {
                 caption: "Geek Bar disposables in the case, with RAZ on the shelf above.",
                 alt: "A lit glass case filled with rows of Geek Bar disposable vapes, with RAZ disposables on the shelf above",
                 focus: "50% 45%",
+            },
+            {
+                id: "irving-grinders",
+                src: irvingGrinders,
+                label: "Grinders",
+                caption: "A full case of metal and printed grinders.",
+                alt: "A glass display case at Vapor Aura Irving filled with rows of colorful metal and printed herb grinders",
+                focus: "40% 50%",
             },
             {
                 id: "irving-accessories",
