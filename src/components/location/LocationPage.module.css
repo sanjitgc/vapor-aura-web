@@ -50,6 +50,8 @@
     line-height: 0.92;
     text-transform: uppercase;
     margin-bottom: 1.1rem;
+    /* Even line lengths, so "TX" never sits alone on the last line */
+    text-wrap: balance;
 }
 
 .lead {
@@ -64,6 +66,108 @@
     flex-wrap: wrap;
     gap: 0.65rem;
     margin-top: 1.6rem;
+}
+
+/* With a storefront photo: words on the left, the photo on the right, the words centred beside it.
+   The empty first and last rows do the centring. */
+.heroWithPhoto {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    grid-template-rows: 1fr auto auto auto auto 1fr;
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.heroWithPhoto > .kicker {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.heroWithPhoto > .title {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+}
+
+.heroWithPhoto > .lead {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+.heroWithPhoto > .heroActions {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+.heroPhoto {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+    margin: 0;
+}
+
+.heroFrame {
+    position: relative;
+    aspect-ratio: 5 / 6;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    overflow: hidden;
+    background: #070907;
+}
+
+.heroImage {
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+
+.heroCaption {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.heroCaption svg {
+    flex: none;
+    color: var(--secondary);
+    transform: translateY(1px);
+}
+
+/* Tablets and phones: one column, the photo between the heading and the intro */
+@media (max-width: 899px) {
+    .heroWithPhoto {
+        display: block;
+    }
+
+    .heroWithPhoto > .title {
+        font-size: clamp(2.7rem, 7vw, 4.8rem);
+    }
+
+    .heroPhoto {
+        margin: 1.4rem 0 1.5rem;
+    }
+
+    .heroFrame {
+        aspect-ratio: 16 / 10;
+    }
+
+    /* The sign and the neon in the windows */
+    .heroImage {
+        object-position: 50% 34%;
+    }
+}
+
+@media (max-width: 640px) {
+    .heroFrame {
+        aspect-ratio: 5 / 4;
+    }
+
+    .heroImage {
+        object-position: 50% 46%;
+    }
 }
 
 .button {

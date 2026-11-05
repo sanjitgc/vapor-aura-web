@@ -48,7 +48,8 @@ export function websiteSchema() {
     };
 }
 
-export function storeSchema(store: Store) {
+// `images` are absolute URLs of real photos of the store; without them the brand image is used
+export function storeSchema(store: Store, images?: string[]) {
     return {
         "@context": "https://schema.org",
         "@type": "Store",
@@ -56,7 +57,7 @@ export function storeSchema(store: Store) {
         name: SITE_NAME,
         alternateName: store.name,
         url: `${SITE_URL}${store.path}`,
-        image: `${SITE_URL}/og-image.jpg`,
+        image: images && images.length > 0 ? images : `${SITE_URL}/og-image.jpg`,
         logo: LOGO_URL,
         telephone: schemaPhone(store),
         priceRange: "$$",

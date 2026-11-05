@@ -6,6 +6,7 @@ import WhyChoose from "@/components/common/WhyChoose";
 import Faq from "@/components/home/Faq";
 import Reviews from "@/components/home/Reviews";
 import ProductHighlights from "@/components/home/ProductHighlights";
+import InsideStore from "@/components/home/InsideStore";
 import NicotineWarning from "@/components/common/NicotineWarning";
 import JsonLd from "@/components/common/JsonLd";
 import { pageMetadata } from "@/lib/seo";
@@ -28,6 +29,10 @@ export default function Home() {
                 <Hero />
                 <Marquee />
                 <ProductHighlights />
+            </section>
+
+            <section id="inside" className={styles.scrollSection}>
+                <InsideStore />
             </section>
 
             <section id="why-choose" className={styles.scrollSection}>

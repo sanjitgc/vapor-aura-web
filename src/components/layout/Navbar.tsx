@@ -57,11 +57,17 @@ export default function Navbar() {
 
             if (bestRatio > 0) return bestHash;
 
+            // Between tracked sections (photos, reviews, FAQ), light up the last one scrolled past.
+            // Measure from the top of the page: offsetTop only counts from the nearest positioned
+            // parent, which made the map inside the contact section look like it was near the top.
             const scrollMarker = window.scrollY + headerOffset + 24;
             let fallbackHash = sectionHashes[0] ?? "#home";
+            let fallbackTop = -Infinity;
             for (const entry of sectionElements) {
-                if (entry.element.offsetTop <= scrollMarker) {
+                const top = entry.element.getBoundingClientRect().top + window.scrollY;
+                if (top <= scrollMarker && top > fallbackTop) {
                     fallbackHash = entry.hash;
+                    fallbackTop = top;
                 }
             }
             return fallbackHash;
