@@ -20,6 +20,15 @@
     grid-row: 1 / span 2;
 }
 
+/* Four photos: the first two run tall side by side, the last two stack in the third column */
+.featureFour {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.featureFour > .cell:nth-child(2) {
+    grid-row: 1 / span 2;
+}
+
 /* Brick: rows of two (wide and narrow, swapping sides) and rows of three. Each photo's width
    and each row's height are set on the elements from StoreGallery.tsx. */
 .brick {
@@ -89,15 +98,24 @@
     color: #4ade80;
 }
 
-/* Opens the viewer when the feature grid has more photos than it shows. It sits under the grid,
-   lined up with its right edge, so it never covers a photo or its label. */
+/* Under the grid: the footer on the left, "See all photos" lined up with the right edge,
+   so neither covers a photo or its label */
+.below {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+    margin-top: 0.9rem;
+}
+
 .showAll {
     display: flex;
     align-items: center;
     gap: 0.55rem;
     width: fit-content;
     min-height: 44px;
-    margin: 0.9rem 0 0 auto;
+    margin-left: auto;
     padding: 0 1.1rem;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -135,6 +153,11 @@
     .feature {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-template-rows: repeat(3, clamp(200px, 30vw, 260px));
+    }
+
+    /* Four photos: the two tall ones side by side, the other two in a row under them */
+    .featureFour {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 

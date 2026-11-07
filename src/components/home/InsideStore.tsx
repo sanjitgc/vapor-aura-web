@@ -1,39 +1,26 @@
-import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
-import StoreGallery from "@/components/common/StoreGallery";
 import { STORE_PHOTOS, allStorePhotos } from "@/lib/storePhotos";
-import { getStore } from "@/lib/stores";
+import { STORES, type Store } from "@/lib/stores";
+import InsideStoreView, { type StoreWithPhotos } from "./InsideStoreView";
 import styles from "./InsideStore.module.css";
 
-// Real photos of the Irving store on the home page: the storefront at night, then the inside.
-// When the Sachse photos are in src/lib/storePhotos.ts, this section can show both stores.
+// The store whose photos show when the page opens. It sits first in the switch, so the open
+// tab is always the first one; the other stores follow in the site's usual order.
+const OPENS_ON: Store["slug"] = "irving";
+
+// Real photos of our stores on the home page. A store shows up here as soon as it has photos
+// in src/lib/storePhotos.ts.
 export default function InsideStore() {
-    const store = getStore("irving");
-    const photos = STORE_PHOTOS.irving;
-    if (!photos) return null;
+    const stores: StoreWithPhotos[] = STORES.flatMap((store) => {
+        const set = STORE_PHOTOS[store.slug];
+        if (!set) return [];
+        return [{ slug: store.slug, city: store.city, path: store.path, roadName: store.roadName, photos: allStorePhotos(set) }];
+    }).sort((a, b) => Number(b.slug === OPENS_ON) - Number(a.slug === OPENS_ON));
+    if (stores.length === 0) return null;
 
     return (
         <section className={styles.section} aria-labelledby="inside-title">
             <div className={styles.container}>
-                <div className={styles.header}>
-                    <h2 id="inside-title" className={styles.title}>
-                        Inside our {store.city} store
-                    </h2>
-                    <div className={styles.aside}>
-                        <p className={styles.subtitle}>
-                            Real photos from our store on {store.roadName}, open 24 hours a day.
-                        </p>
-                        <Link href={store.path} className={styles.link}>
-                            See the {store.city} store <FaArrowRight aria-hidden="true" />
-                        </Link>
-                    </div>
-                </div>
-
-                <StoreGallery
-                    photos={allStorePhotos(photos)}
-                    layout="feature"
-                    viewerLabel={`Photos of Vapor Aura ${store.city}`}
-                />
+                <InsideStoreView stores={stores} />
             </div>
         </section>
     );

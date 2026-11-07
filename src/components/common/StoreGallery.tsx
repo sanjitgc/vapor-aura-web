@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { FaChevronLeft, FaChevronRight, FaExpand, FaTableCellsLarge, FaXmark } from "react-icons/fa6";
 import type { StorePhoto } from "@/lib/storePhotos";
 import styles from "./StoreGallery.module.css";
@@ -11,12 +11,15 @@ type Layout = "feature" | "brick";
 interface StoreGalleryProps {
     photos: StorePhoto[];
     // "feature": the first photo runs tall down the left, the next four sit two by two beside it.
+    //   With four photos, the first two run tall side by side and the last two stack beside them.
     //   Any more open from a "See all photos" button (on phones every photo is in the swipe row).
     // "brick": rows of two, a wide photo and a narrow one swapping sides each row, with a row
     //   of three where the count needs it.
     layout: Layout;
     // Names the large photo viewer for screen readers, e.g. "Photos of Vapor Aura Irving"
     viewerLabel: string;
+    // Shown under the grid on the left, e.g. a link to the store's page
+    footer?: ReactNode;
 }
 
 // The feature grid shows this many photos on tablets and up
@@ -52,33 +55,37 @@ function brickCells(count: number): { span: number; rowSize: number }[] {
     return cells;
 }
 
-// Row heights (CSS variables in the module): rows of three are a little shorter
+// Row heights (CSS variables in the module): rows of three are a little shorter, unless
+// they're the only row
 function brickRowHeights(count: number): string {
-    return brickRows(count)
-        .map((size) => (size === 3 ? "var(--row-three)" : "var(--row-two)"))
-        .join(" ");
+    const rows = brickRows(count);
+    if (rows.length === 1) return "var(--row-two)";
+    return rows.map((size) => (size === 3 ? "var(--row-three)" : "var(--row-two)")).join(" ");
 }
 
 // How wide each photo is drawn, so phones don't download desktop-sized photos. A tile crops
 // its photo to fill it, so a photo wider than its tile is drawn wider than the tile.
-function tileSizes(layout: Layout, i: number, photo: StorePhoto, span = 12, rowSize = 2): string {
+function tileSizes(layout: Layout, i: number, photo: StorePhoto, count: number, span = 12, rowSize = 2): string {
     const ratio = photo.src.width / photo.src.height;
     const wider = (tileRatio: number) => Math.max(1, ratio / tileRatio);
     // Phones: tiles are 86% of the screen and 4:3
     const phone = `${Math.round(86 * wider(4 / 3))}vw`;
     if (layout === "feature") {
-        const first = i === 0;
-        const desktop = first ? Math.round(440 * wider(0.8)) : Math.round(370 * wider(1.36));
+        const tall = i === 0 || (count === 4 && i === 1);
+        const desktop = tall
+            ? Math.round((count === 4 ? 384 : 440) * wider(count === 4 ? 0.7 : 0.8))
+            : Math.round(370 * wider(1.36));
         return `(max-width: 640px) ${phone}, (max-width: 900px) 50vw, ${desktop}px`;
     }
     const width = (span / 12) * 1176;
-    const factor = wider(width / (rowSize === 3 ? 300 : 370));
+    const height = rowSize === 3 && count > 3 ? 300 : 370;
+    const factor = wider(width / height);
     return `(max-width: 640px) ${phone}, (max-width: 1248px) ${Math.round((span / 12) * 100 * factor)}vw, ${Math.round(width * factor)}px`;
 }
 
 // A grid of store photos. Each photo opens a full-screen viewer: swipe, use the arrow buttons
 // or the arrow keys to move between photos, and Esc or the close button to leave.
-export default function StoreGallery({ photos, layout, viewerLabel }: StoreGalleryProps) {
+export default function StoreGallery({ photos, layout, viewerLabel, footer }: StoreGalleryProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -89,6 +96,9 @@ export default function StoreGallery({ photos, layout, viewerLabel }: StoreGalle
     const [index, setIndex] = useState(0);
     const last = photos.length - 1;
     const cells = layout === "brick" ? brickCells(photos.length) : [];
+    const fourUp = layout === "feature" && photos.length === 4;
+    // The feature grid has more photos than tiles: the rest open from "See all photos"
+    const hasMore = layout === "feature" && photos.length > FEATURE_TILES;
 
     function openAt(i: number, trigger: HTMLButtonElement) {
         triggerRef.current = trigger;
@@ -164,7 +174,7 @@ export default function StoreGallery({ photos, layout, viewerLabel }: StoreGalle
         <>
             <div>
                 <ul
-                    className={`${styles.grid} ${styles[layout]}`}
+                    className={`${styles.grid} ${styles[layout]} ${fourUp ? styles.featureFour : ""}`}
                     style={layout === "brick" ? { gridTemplateRows: brickRowHeights(photos.length) } : undefined}
                 >
                     {photos.map((photo, i) => {
@@ -186,7 +196,7 @@ export default function StoreGallery({ photos, layout, viewerLabel }: StoreGalle
                                         src={photo.src}
                                         alt={photo.alt}
                                         fill
-                                        sizes={tileSizes(layout, i, photo, cell?.span, cell?.rowSize)}
+                                        sizes={tileSizes(layout, i, photo, photos.length, cell?.span, cell?.rowSize)}
                                         placeholder="blur"
                                         className={styles.tileImage}
                                         style={photo.focus ? { objectPosition: photo.focus } : undefined}
@@ -201,16 +211,21 @@ export default function StoreGallery({ photos, layout, viewerLabel }: StoreGalle
                     })}
                 </ul>
 
-                {layout === "feature" && photos.length > FEATURE_TILES && (
-                    <button
-                        type="button"
-                        className={styles.showAll}
-                        onClick={(event) => openAt(0, event.currentTarget)}
-                        aria-haspopup="dialog"
-                    >
-                        <FaTableCellsLarge aria-hidden="true" />
-                        See all {photos.length} photos
-                    </button>
+                {(footer || hasMore) && (
+                    <div className={styles.below}>
+                        {footer}
+                        {hasMore && (
+                            <button
+                                type="button"
+                                className={styles.showAll}
+                                onClick={(event) => openAt(0, event.currentTarget)}
+                                aria-haspopup="dialog"
+                            >
+                                <FaTableCellsLarge aria-hidden="true" />
+                                See all {photos.length} photos
+                            </button>
+                        )}
+                    </div>
                 )}
             </div>
 

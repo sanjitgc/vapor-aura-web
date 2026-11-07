@@ -115,9 +115,10 @@
     background: #070907;
 }
 
+/* Each storefront photo sets its own --focus-* values on the frame (src/lib/storePhotos.ts) */
 .heroImage {
     object-fit: cover;
-    object-position: 50% 50%;
+    object-position: var(--focus-wide, 50% 50%);
 }
 
 .heroCaption {
@@ -154,9 +155,8 @@
         aspect-ratio: 16 / 10;
     }
 
-    /* The sign and the neon in the windows */
     .heroImage {
-        object-position: 50% 34%;
+        object-position: var(--focus-tablet, 50% 34%);
     }
 }
 
@@ -166,7 +166,7 @@
     }
 
     .heroImage {
-        object-position: 50% 46%;
+        object-position: var(--focus-phone, 50% 46%);
     }
 }
 
