@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { FaLocationDot, FaPhone, FaDiamondTurnRight, FaArrowRight } from "react-icons/fa6";
 import { SiDoordash } from "react-icons/si";
@@ -36,6 +37,15 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
     const photos = STORE_PHOTOS[slug];
     // Real photos of the store go in its structured data too, storefront first
     const schemaImages = photos ? allStorePhotos(photos).map((photo) => `${SITE_URL}${photo.src.src}`) : undefined;
+    // Which part of the storefront photo to keep at each screen size (read by the CSS)
+    const heroFocus = photos?.storefront.hero;
+    const heroFrameStyle = heroFocus
+        ? ({
+              "--focus-wide": heroFocus.wide,
+              "--focus-tablet": heroFocus.tablet,
+              "--focus-phone": heroFocus.phone,
+          } as CSSProperties)
+        : undefined;
     const crumbs = [
         { name: "Home", path: "/" },
         { name: "Locations", path: "/locations" },
@@ -55,7 +65,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     <h1 className={styles.title}>{copy.h1}</h1>
                     {photos && (
                         <figure className={styles.heroPhoto}>
-                            <div className={styles.heroFrame}>
+                            <div className={styles.heroFrame} style={heroFrameStyle}>
                                 <Image
                                     src={photos.storefront.src}
                                     alt={photos.storefront.alt}
