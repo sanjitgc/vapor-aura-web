@@ -16,9 +16,9 @@ export interface ProductCategory {
     short?: string;
     // The category's own page under /products/<page>, if it has one (see categoryPages.ts)
     page?: string;
-    // Hemp-derived THC products. The federal rules for these change on December 11, 2026, so
-    // they are listed here but get no page of their own and stay off the store pages.
-    // To take them off the site, set SHOW_HEMP_THC to false.
+    // Hemp-derived THC products. The federal rules for these change on December 11, 2026.
+    // They have their own pages at the owner's request but stay off the store pages.
+    // To take them and their pages off the site in one step, set SHOW_HEMP_THC to false.
     hempThc?: boolean;
 }
 
@@ -104,19 +104,22 @@ const MAIN: ProductCategory[] = [
         name: "Gummies",
         description: "Hemp-derived gummies from Urb, Sherpa, Camino, Sivan, Mood, Snoozy, Jelly, Half Bak'd and Xite.",
         hempThc: true,
+        page: "hemp-gummies",
     },
     {
         id: "drinks",
         name: "Drinks",
         description: "THC seltzers from Torch, Zour Pop, Uncle Skunks, Sherpa, Mood and Amigos, and Club13 kratom seltzers, kept cold.",
         hempThc: true,
+        page: "thc-drinks",
     },
-    { id: "mushroom", name: "Mushroom gummies & chocolate", description: "Mushroom gummies and mushroom chocolate bars from Road Trip and more." },
+    { id: "mushroom", name: "Mushroom gummies & chocolate", description: "Mushroom gummies and mushroom chocolate bars from Road Trip and more.", page: "mushroom-gummies-chocolate" },
     {
         id: "flower",
         name: "Flower & pre-rolls",
         description: "Hemp flower and pre-rolls from Mood, Urb and more, plus pure CBD pre-rolls.",
         hempThc: true,
+        page: "flower-pre-rolls",
     },
     {
         id: "cigars-wraps",
@@ -129,6 +132,7 @@ const MAIN: ProductCategory[] = [
         id: "cream-chargers",
         name: "Whipped cream chargers",
         description: "Galaxy Gas, Infuzd, Space Gas and GoldWhip nitrous oxide whipped cream chargers and tanks, sold for culinary use only. 21+ with ID.",
+        page: "whipped-cream-chargers",
     },
 ];
 

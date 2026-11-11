@@ -99,8 +99,6 @@ test("category pages fit in search results and match the product list", () => {
     }
     for (const category of [...CATEGORIES, ...MORE_CATEGORIES]) {
         if (category.page) assert.ok(slugs.includes(category.page), `${category.id} points to a missing page`);
-        // Hemp THC products get no page of their own
-        if (category.hempThc) assert.equal(category.page, undefined);
     }
 });
 

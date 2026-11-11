@@ -84,7 +84,11 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                         <div className={styles.photos} aria-label="Photos from our stores">
                             {photos.map((photo, i) => (
                                 <figure key={photo.id} className={styles.photo}>
-                                    <div className={styles.frame}>
+                                    {/* The frame follows the photo's own shape, between square and 5:2 */}
+                                    <div
+                                        className={styles.frame}
+                                        style={{ aspectRatio: Math.min(2.5, Math.max(1, photo.src.width / photo.src.height)) }}
+                                    >
                                         <Image
                                             src={photo.src}
                                             alt={photo.alt}

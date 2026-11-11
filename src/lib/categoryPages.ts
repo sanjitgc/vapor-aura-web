@@ -1,6 +1,7 @@
 // Words for the category pages (/products/<slug>). Facts only: brands come from the owner's own
 // list (Nov 2026) and from photos taken in the stores. Nothing here promises a price or that a
 // particular flavor is in stock today; the pages tell people to call and check.
+import { categoryById } from "./catalog";
 import { STORES } from "./stores";
 
 export interface CategoryPageCopy {
@@ -30,7 +31,7 @@ const CALL = `Call Sachse at ${sachse.phone} or Irving at ${irving.phone} and we
 const ID = "We sell only to adults 21 and over and check a valid photo ID on every purchase.";
 const BOTH = "Yes. Both the Sachse store and the Irving store carry them, and Irving is open 24 hours.";
 
-export const CATEGORY_PAGES: CategoryPageCopy[] = [
+const ALL_PAGES: CategoryPageCopy[] = [
     {
         slug: "disposable-vapes",
         categoryId: "vapes",
@@ -307,7 +308,127 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         ],
         related: ["grinders-trays", "torches-butane", "nicotine-pouches"],
     },
+    {
+        slug: "hemp-gummies",
+        categoryId: "edibles",
+        name: "Gummies",
+        h1: "Hemp gummies in Sachse & Irving, TX",
+        metaTitle: "Hemp THC & CBD Gummies in Sachse & Irving | Vapor Aura",
+        metaDescription:
+            "Hemp-derived gummies from Urb, Sherpa, Camino, Sivan, Mood, Snoozy, Jelly, Half Bak'd and Xite at Vapor Aura in Sachse and Irving, TX. 21+ with ID.",
+        intro:
+            "A full wall of hemp-derived gummies from the brands people ask for by name, along with CBD gummies. Every one is sold to adults 21 and over only, and our staff can show you what each package says about what's inside.",
+        shelf: [
+            { name: "Jelly & Snoozy", text: "Jelly gummies across the top rows, and Snoozy for the evening." },
+            { name: "Mood & Xite", text: "Mood gummies, and Xite gummies and treats." },
+            { name: "Camino & Sivan", text: "Camino gummies, and Sivan CBD gummies for sleep and relief." },
+            { name: "Urb, Sherpa & Half Bak'd", text: "More of the names on your list." },
+        ],
+        brands: ["Urb", "Sherpa", "Camino", "Sivan", "Mood", "Snoozy", "Jelly", "Half Bak'd", "Xite"],
+        faq: [
+            { q: "Which gummy brands do you carry?", a: "Urb, Sherpa, Camino, Sivan, Mood, Snoozy, Jelly, Half Bak'd and Xite." },
+            { q: "Do I need ID to buy gummies?", a: `Yes. ${ID}` },
+            { q: "Can I check if a product is in stock?", a: `Yes. ${CALL}` },
+        ],
+        related: ["thc-drinks", "cbd", "mushroom-gummies-chocolate"],
+    },
+    {
+        slug: "thc-drinks",
+        categoryId: "drinks",
+        name: "THC drinks",
+        h1: "THC drinks & kratom seltzers in Sachse & Irving, TX",
+        metaTitle: "THC Drinks & Kratom Seltzers in Sachse & Irving, TX",
+        metaDescription:
+            "Hemp THC seltzers from Torch, Zour Pop, Uncle Skunks, Sherpa, Mood and Amigos, plus Club13 kratom seltzers, kept cold at Vapor Aura in Sachse and Irving. 21+.",
+        intro:
+            "Our coolers are full of hemp-derived THC seltzers, sold cold by the can and by the pack off the shelf. Kratom seltzers have coolers of their own. All of it is for adults 21 and over, with ID.",
+        shelf: [
+            { name: "Torch", text: "Torch THC seltzers, with two coolers to themselves at Irving." },
+            { name: "Zour Pop & Uncle Skunks", text: "Zour Pop and Uncle Skunks cans, cold." },
+            { name: "Sherpa, Mood & Amigos", text: "By the can from the cooler, or by the pack from the shelf." },
+            { name: "Kratom seltzers", text: "Club13 and other kratom seltzers in their own coolers." },
+        ],
+        brands: ["Torch", "Zour Pop", "Uncle Skunks", "Sherpa", "Mood", "Amigos", "Club13"],
+        faq: [
+            { q: "Which THC drinks do you carry?", a: "Torch, Zour Pop, Uncle Skunks, Sherpa, Mood and Amigos, cold from the cooler or by the pack." },
+            { q: "Do you sell kratom drinks?", a: "Yes. We carry Club13 and other kratom seltzers, kept cold." },
+            { q: "Do I need ID to buy THC drinks?", a: `Yes. ${ID}` },
+        ],
+        related: ["hemp-gummies", "kratom", "flower-pre-rolls"],
+    },
+    {
+        slug: "mushroom-gummies-chocolate",
+        categoryId: "mushroom",
+        name: "Mushroom gummies & chocolate",
+        h1: "Mushroom gummies & chocolate in Sachse & Irving, TX",
+        metaTitle: "Mushroom Gummies & Chocolate in Sachse & Irving, TX",
+        metaDescription:
+            "Mushroom gummies and mushroom chocolate bars from Road Trip and more at Vapor Aura in Sachse and Irving, TX. The Irving store is open 24 hours. 21+ with ID.",
+        intro:
+            "We keep a full case of mushroom chocolate bars and another of mushroom gummies. They're sold to adults 21 and over only. Ask our staff to show you the label on anything you're considering.",
+        shelf: [
+            { name: "Chocolate bars", text: "Road Trip and other mushroom chocolate bars, in a case of their own." },
+            { name: "Gummies", text: "Road Trip and other mushroom gummies." },
+        ],
+        brands: ["Road Trip"],
+        faq: [
+            { q: "Do you sell mushroom chocolate bars?", a: "Yes. We carry Road Trip and other mushroom chocolate bars." },
+            { q: "Do you sell mushroom gummies?", a: "Yes. We carry Road Trip and other mushroom gummies." },
+            { q: "Do I need ID?", a: `Yes. ${ID}` },
+        ],
+        related: ["hemp-gummies", "thc-drinks", "cbd"],
+    },
+    {
+        slug: "flower-pre-rolls",
+        categoryId: "flower",
+        name: "Flower & pre-rolls",
+        h1: "Hemp flower & pre-rolls in Sachse & Irving, TX",
+        metaTitle: "Hemp Flower & Pre-Rolls in Sachse & Irving | Vapor Aura",
+        metaDescription:
+            "Hemp flower and pre-rolls from Mood, Urb and more, plus pure CBD pre-rolls, at Vapor Aura in Sachse and Irving, TX. The Irving store is open 24 hours. 21+.",
+        intro:
+            "A wall of hemp flower and pre-rolls from popular brands, by the jar, the bag and the single pre-roll, along with pure CBD pre-rolls. Sold to adults 21 and over only.",
+        shelf: [
+            { name: "Pre-rolls", text: "Singles and multi-packs from Mood, Urb and more." },
+            { name: "CBD pre-rolls", text: "Pure CBD pre-rolls by the jar." },
+            { name: "Flower", text: "Hemp flower from Mood and others, in jars and bags." },
+            { name: "To go with it", text: "Papers, cones, grinders and trays are a few steps away." },
+        ],
+        brands: ["Mood", "Urb"],
+        faq: [
+            { q: "Which pre-roll brands do you carry?", a: `Mood, Urb and other popular brands, plus pure CBD pre-rolls. For one brand: ${CALL}` },
+            { q: "Do I need ID to buy flower or pre-rolls?", a: `Yes. ${ID}` },
+        ],
+        related: ["grinders-trays", "hemp-gummies", "cigars-wraps"],
+    },
+    {
+        slug: "whipped-cream-chargers",
+        categoryId: "cream-chargers",
+        name: "Whipped cream chargers",
+        h1: "Whipped cream chargers in Sachse & Irving, TX",
+        metaTitle: "Whipped Cream Chargers in Sachse & Irving | Vapor Aura",
+        metaDescription:
+            "Galaxy Gas, Infuzd, Space Gas and GoldWhip nitrous oxide whipped cream chargers and tanks at Vapor Aura in Sachse and Irving, TX. Culinary use only. 21+.",
+        intro:
+            "We carry nitrous oxide whipped cream chargers and tanks for food preparation, in several brands and sizes. Texas law limits these sales to adults 21 and over, so we check a valid photo ID every time. They are sold for culinary use only.",
+        shelf: [
+            { name: "Infuzd", text: "Infuzd tanks in a range of flavors." },
+            { name: "Galaxy Gas", text: "Galaxy Gas tanks." },
+            { name: "Space Gas", text: "Space Gas tanks in a range of flavors." },
+            { name: "GoldWhip", text: "GoldWhip tanks and chargers." },
+        ],
+        brands: ["Galaxy Gas", "Infuzd", "Space Gas", "GoldWhip"],
+        faq: [
+            { q: "Which whipped cream charger brands do you carry?", a: "Galaxy Gas, Infuzd, Space Gas and GoldWhip." },
+            { q: "Do I need ID to buy whipped cream chargers?", a: "Yes. Texas law bars the sale of nitrous oxide to anyone under 21, so we check a valid photo ID on every purchase." },
+            { q: "What are they sold for?", a: "For culinary use only, such as making whipped cream. Inhaling nitrous oxide is dangerous and is against Texas law." },
+        ],
+        related: ["torches-butane", "grinders-trays"],
+    },
 ];
+
+// Only pages whose category is on the site (see SHOW_HEMP_THC in catalog.ts)
+export const CATEGORY_PAGES: CategoryPageCopy[] = ALL_PAGES.filter((page) => categoryById(page.categoryId));
 
 export function categoryPage(slug: string): CategoryPageCopy | undefined {
     return CATEGORY_PAGES.find((page) => page.slug === slug);

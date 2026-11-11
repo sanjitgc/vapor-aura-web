@@ -18,6 +18,12 @@ import irvingVaporizers from "@/assets/stores/irving/vaporizer-case.webp";
 import irvingKratomCooler from "@/assets/stores/irving/kratom-cooler.webp";
 import irvingCigars from "@/assets/stores/irving/cigars-wraps-wall.webp";
 import irvingBangers from "@/assets/stores/irving/bangers-case.webp";
+import irvingGummies from "@/assets/stores/irving/gummies-wall.webp";
+import irvingMushroom from "@/assets/stores/irving/mushroom-chocolate-case.webp";
+import irvingFlower from "@/assets/stores/irving/flower-pre-rolls-wall.webp";
+import irvingThcCooler from "@/assets/stores/irving/thc-drinks-cooler.webp";
+import irvingDrinkShelves from "@/assets/stores/irving/drinks-shelves.webp";
+import irvingChargers from "@/assets/stores/irving/cream-chargers.webp";
 import sachseStorefront from "@/assets/stores/sachse/storefront-night.webp";
 import sachseWaterPipes from "@/assets/stores/sachse/water-pipes.webp";
 import sachseSalesFloor from "@/assets/stores/sachse/sales-floor.webp";
@@ -237,6 +243,54 @@ export const MORE_PHOTOS: Partial<Record<Store["slug"], StorePhoto[]>> = {
             caption: "Quartz bangers across the bottom shelf, nectar collectors in the middle and one-hitters up top.",
             alt: "A glass case at Vapor Aura Irving with rows of glass one-hitters, boxed nectar collectors and dozens of quartz bangers",
             focus: "50% 55%",
+        },
+        {
+            id: "irving-gummies",
+            src: irvingGummies,
+            label: "Gummies",
+            caption: "Jelly, Snoozy, Mood, Xite, Camino and Sivan gummies, wall to wall.",
+            alt: "A wall of gummy packages at Vapor Aura Irving: rows of colorful bags on hooks above shelves of boxes and jars",
+            focus: "50% 45%",
+        },
+        {
+            id: "irving-mushroom",
+            src: irvingMushroom,
+            label: "Mushroom chocolate",
+            caption: "Road Trip and other mushroom chocolate bars in the case.",
+            alt: "A lit glass case at Vapor Aura Irving with rows of boxed mushroom chocolate bars",
+            focus: "50% 50%",
+        },
+        {
+            id: "irving-flower",
+            src: irvingFlower,
+            label: "Flower & pre-rolls",
+            caption: "Jars of flower and boxes of pre-rolls, with glass on the top shelf.",
+            alt: "Shelves at Vapor Aura Irving with jars of hemp flower and boxes of pre-rolls under a row of boxed glass water pipes",
+            focus: "50% 60%",
+        },
+        {
+            id: "irving-thc-cooler",
+            src: irvingThcCooler,
+            label: "THC drinks",
+            caption: "Zour Pop, Uncle Skunks, Sherpa and more, cold.",
+            alt: "A two-door drinks cooler at Vapor Aura Irving full of THC seltzer cans",
+            focus: "50% 40%",
+        },
+        {
+            id: "irving-drink-shelves",
+            src: irvingDrinkShelves,
+            label: "Drinks by the pack",
+            caption: "Torch, Zour Pop and Sherpa by the pack.",
+            alt: "Shelves at Vapor Aura Irving stacked with boxed packs of Torch, Zour Pop and Sherpa drinks",
+            focus: "50% 45%",
+        },
+        {
+            id: "irving-chargers",
+            src: irvingChargers,
+            label: "Whipped cream chargers",
+            caption: "Space Gas, Infuzd, Galaxy Gas and GoldWhip tanks.",
+            alt: "A long shelf at Vapor Aura Irving lined with boxed Space Gas, Infuzd, Galaxy Gas and GoldWhip whipped cream charger tanks",
+            focus: "50% 40%",
         },
     ],
 };
