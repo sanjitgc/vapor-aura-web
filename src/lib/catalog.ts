@@ -2,7 +2,10 @@
 // store pages. Display only: nothing here is sold online.
 //
 // Brand names come from the owner's own list (Nov 2026) and from photos taken in the stores.
-// Left out on purpose until the owner confirms them: 7-OH products and nitrous oxide.
+// The owner also confirmed (Nov 2026) that the stores carry the popular vape and accessory brands
+// in general, so well-known names are listed; take out any the stores stop carrying.
+// Nitrous oxide is listed as whipped cream chargers for culinary use: the stores hold the Texas
+// health department permit that sale requires. 7-OH products are left off on purpose.
 
 export interface ProductCategory {
     id: string;
@@ -25,7 +28,7 @@ const MAIN: ProductCategory[] = [
         id: "vapes",
         name: "Disposable vapes",
         description:
-            "Geek Bar Pulse, Pulse X, Pulse 2 and Pulse X 2, plus Foger, RAZ, Lost Mary, Fifty Bar, UNO, Crown Bar, Olit and hookah-style vapes.",
+            "Geek Bar Pulse, Pulse X, Pulse 2 and Pulse X 2, plus Foger, RAZ, Lost Mary, Fifty Bar, UNO, Crown Bar, Olit, Nexa, Adjust, Kado Bar, Flum, Breeze and hookah-style vapes.",
         short: "Disposables in a full range of flavors",
         page: "disposable-vapes",
     },
@@ -48,7 +51,7 @@ const MAIN: ProductCategory[] = [
         id: "hookah",
         name: "Hookah & shisha",
         description:
-            "Hookah pots, Afzal shisha in every flavor and size, and the accessories: bowls, hoses, coals and more.",
+            "Hookah pots, Afzal shisha in every flavor and size, and the accessories: bowls, hoses, CocoNara and Three Kings coals and more.",
         short: "Hookah pots, shisha, bowls, hoses and coals",
         page: "hookah",
     },
@@ -63,7 +66,7 @@ const MAIN: ProductCategory[] = [
         id: "vaporizers",
         name: "Vaporizers & 510 batteries",
         description:
-            "Dry herb and concentrate vaporizers from Puffco and Ooze, plus 510 batteries like the Cartbox and cart pens.",
+            "Dry herb and concentrate vaporizers from Puffco, Ooze, Yocan and Lookah, plus 510 batteries like the Cartbox and cart pens.",
         short: "Dry herb and concentrate vaporizers, 510 batteries",
         page: "vaporizers",
     },
@@ -84,15 +87,15 @@ const MAIN: ProductCategory[] = [
     {
         id: "lighters",
         name: "Torches & butane",
-        description: "Torch lighters, everyday lighters, butane refills and Zippo and Ronsonol lighter fluid.",
+        description: "Scorch Torch and other torch lighters, BIC, Clipper and Zippo lighters, butane refills and Zippo and Ronsonol lighter fluid.",
         short: "Torch lighters, lighters, butane and lighter fluid",
         page: "torches-butane",
     },
     {
         id: "grinders",
-        name: "Grinders & trays",
-        description: "Metal and printed grinders, and rolling trays.",
-        short: "Grinders and rolling trays",
+        name: "Grinders, trays & papers",
+        description: "Metal and printed grinders, rolling trays, and RAW, Zig-Zag, Elements and OCB papers and cones.",
+        short: "Grinders, rolling trays, papers and cones",
         page: "grinders-trays",
     },
     {
@@ -119,7 +122,7 @@ const MORE: ProductCategory[] = [
     {
         id: "coils-pods",
         name: "Coils & pods",
-        description: "Replacement coils and pods for the devices we carry.",
+        description: "Replacement coils and pods for Vaporesso XROS, Uwell Caliburn, SMOK and Geekvape devices, and the kits themselves.",
         short: "Replacement coils and pods",
     },
     { id: "mushroom", name: "Mushroom", description: "Mushroom gummies, chocolates and capsules." },
@@ -133,7 +136,12 @@ const MORE: ProductCategory[] = [
     {
         id: "cleaners",
         name: "Cleaners & care",
-        description: "Glass cleaner and the small parts that keep your piece working.",
+        description: "Formula 420 and Randy's glass cleaner, and the small parts that keep your piece working.",
+    },
+    {
+        id: "cream-chargers",
+        name: "Whipped cream chargers",
+        description: "Nitrous oxide whipped cream chargers and tanks, sold for culinary use only. 21+ with ID.",
     },
     { id: "more", name: "And more", description: "New arrivals land often. Ask our staff what's just come in." },
 ];

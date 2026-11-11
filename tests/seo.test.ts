@@ -103,9 +103,12 @@ test("category pages fit in search results and match the product list", () => {
     }
 });
 
-test("the site does not advertise 7-OH or nitrous oxide", () => {
+test("the site does not advertise 7-OH, and nitrous oxide only as culinary chargers", () => {
     const words = JSON.stringify([CATEGORIES, MORE_CATEGORIES, CATEGORY_PAGES, STORE_PAGES]);
-    assert.doesNotMatch(words, /7-?oh|hydroxymitragynine|nitrous|whippet/i);
+    assert.doesNotMatch(words, /7-?oh|hydroxymitragynine|whippet/i);
+    for (const category of [...CATEGORIES, ...MORE_CATEGORIES]) {
+        if (/nitrous/i.test(category.description)) assert.match(category.description, /culinary use only/);
+    }
 });
 
 test("store schema lists the store's own photos when it has them", () => {

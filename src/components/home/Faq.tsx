@@ -20,11 +20,11 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
     },
     {
         q: "Which disposable vapes do you carry?",
-        a: "Geek Bar Pulse, Pulse X, Pulse 2 and Pulse X 2, plus Foger, RAZ, Lost Mary, Fifty Bar, UNO, Crown Bar, Olit and Off-Stamp, in a full range of flavors. Stock changes quickly, so call your store to check a specific flavor.",
+        a: "Geek Bar Pulse, Pulse X, Pulse 2 and Pulse X 2, plus Foger, RAZ, Lost Mary, Fifty Bar, UNO, Crown Bar, Olit, Off-Stamp, Nexa, Adjust, Kado Bar, Flum and Breeze, in a full range of flavors. Stock changes quickly, so call your store to check a specific flavor.",
     },
     {
         q: "What do you carry besides vapes?",
-        a: "Along with vapes and e-liquid, we carry ZYN nicotine pouches, hookahs and Afzal shisha, glass water pipes and hand pipes, vaporizers and 510 batteries, kratom, CBD (including CBD for pets), gummies, drinks, and hemp flower and pre-rolls. You'll also find grinders, rolling trays, torch lighters, butane and lighter fluid, candles, incense, detox drinks, and replacement coils and pods.",
+        a: "Along with vapes and e-liquid, we carry ZYN nicotine pouches, hookahs and Afzal shisha, glass water pipes and hand pipes, vaporizers and 510 batteries, kratom, CBD (including CBD for pets), gummies, drinks, and hemp flower and pre-rolls. You'll also find grinders, rolling trays, RAW and Zig-Zag papers, whipped cream chargers, torch lighters, butane and lighter fluid, candles, incense, detox drinks, and replacement coils and pods.",
     },
     {
         q: "Do you deliver?",

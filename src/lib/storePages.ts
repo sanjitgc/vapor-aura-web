@@ -133,7 +133,7 @@ const SHELVES: { id: string; label: string }[] = [
     { id: "kratom", label: "Kratom" },
     { id: "cbd", label: "CBD" },
     { id: "lighters", label: "Torches & butane" },
-    { id: "grinders", label: "Grinders & trays" },
+    { id: "grinders", label: "Grinders, trays & papers" },
     { id: "candles-incense", label: "Candles & incense" },
 ];
 
