@@ -83,7 +83,9 @@ function copyFor(slug: Store["slug"]): StorePageCopy {
             "Vapor Aura Irving on West Royal Lane never closes. We're open 24 hours a day, 7 days a week, with disposable vapes, e-liquid, ZYN, glass, hookah, vaporizers, kratom and CBD, and staff who know the products whatever time you stop by.",
         highlights: [
             { name: "A full e-liquid wall", text: "Coastal Clouds, Pacha, Juice Head, Candy King, Jam Monster, Sad Boy and more." },
-            { name: "Vaporizers in the center case", text: "Puffco and Ooze devices, side by side so you can compare them." },
+            { name: "A case of vaporizers", text: "Puffco Peak and Proxy, Ooze, Yocan and Lookah, side by side so you can compare them." },
+            { name: "Walls of hookahs and glass", text: "A wall of hookah pots and a long wall of water pipes, plus a case of quartz bangers." },
+            { name: "Cigars and wraps", text: "Backwoods, Swisher Sweets, Game and hemp wraps fill a whole wall." },
             { name: "A whole case of grinders", text: "Metal and printed grinders." },
             { name: "Geek Bar and RAZ", text: "Geek Bar disposables fill the case, with RAZ on the shelf above." },
         ],
@@ -134,7 +136,7 @@ const SHELVES: { id: string; label: string }[] = [
     { id: "cbd", label: "CBD" },
     { id: "lighters", label: "Torches & butane" },
     { id: "grinders", label: "Grinders, trays & papers" },
-    { id: "candles-incense", label: "Candles & incense" },
+    { id: "cigars-wraps", label: "Cigars & wraps" },
 ];
 
 export function storeShelves() {

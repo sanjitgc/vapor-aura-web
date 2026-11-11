@@ -4,6 +4,7 @@
 // search engines learn to ignore dates that change on every deploy.
 import { STORES } from "./stores";
 import { CATEGORY_PAGES } from "./categoryPages";
+import { AREA_PAGES } from "./areaPages";
 
 export interface SiteRoute {
     path: string;
@@ -24,6 +25,7 @@ const PAGES: SiteRoute[] = [
 
 const STORE_PAGES_UPDATED = "2026-11-11";
 const CATEGORY_PAGES_UPDATED = "2026-11-11";
+const AREA_PAGES_UPDATED = "2026-11-11";
 
 export function siteRoutes(): SiteRoute[] {
     const storeRoutes: SiteRoute[] = STORES.map((store) => ({
@@ -38,8 +40,14 @@ export function siteRoutes(): SiteRoute[] {
         changeFrequency: "weekly",
         priority: 0.7,
     }));
+    const areaRoutes: SiteRoute[] = AREA_PAGES.map((page) => ({
+        path: page.path,
+        updated: AREA_PAGES_UPDATED,
+        changeFrequency: "monthly",
+        priority: 0.6,
+    }));
     // Home first, then the store pages, the products page with its categories, then the rest
-    return [PAGES[0], ...storeRoutes, PAGES[1], ...categoryRoutes, ...PAGES.slice(2)];
+    return [PAGES[0], ...storeRoutes, PAGES[1], ...categoryRoutes, PAGES[2], ...areaRoutes, ...PAGES.slice(3)];
 }
 
 // Never in the sitemap and kept out of search: shopping cart, admin tools and the API

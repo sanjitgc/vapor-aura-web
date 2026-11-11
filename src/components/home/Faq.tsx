@@ -24,7 +24,7 @@ const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] =
     },
     {
         q: "What do you carry besides vapes?",
-        a: "Along with vapes and e-liquid, we carry ZYN nicotine pouches, hookahs and Afzal shisha, glass water pipes and hand pipes, vaporizers and 510 batteries, kratom, CBD (including CBD for pets), gummies, drinks, and hemp flower and pre-rolls. You'll also find grinders, rolling trays, RAW and Zig-Zag papers, whipped cream chargers, torch lighters, butane and lighter fluid, candles, incense, detox drinks, and replacement coils and pods.",
+        a: "Along with vapes and e-liquid, we carry ZYN nicotine pouches, hookahs and Afzal shisha, glass water pipes and hand pipes, vaporizers and 510 batteries, kratom, CBD (including CBD for pets), gummies, mushroom gummies and chocolate, THC and kratom seltzers, hemp flower and pre-rolls, and Backwoods, Swisher Sweets and other cigars and wraps. You'll also find grinders, rolling trays, RAW and Zig-Zag papers, whipped cream chargers, torch lighters, butane and lighter fluid, candles, incense, detox drinks, and replacement coils and pods.",
     },
     {
         q: "Do you deliver?",

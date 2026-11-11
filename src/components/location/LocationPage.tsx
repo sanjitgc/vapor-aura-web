@@ -21,6 +21,7 @@ import {
     type Store,
 } from "@/lib/stores";
 import { STORE_PAGES, storeShelves } from "@/lib/storePages";
+import { areasNear } from "@/lib/areaPages";
 import { reviewsFor } from "@/lib/reviews";
 import { STORE_PHOTOS, allStorePhotos } from "@/lib/storePhotos";
 import { storeSchema } from "@/lib/schema";
@@ -213,6 +214,13 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                             <p key={line}>{line}</p>
                         ))}
                     </div>
+                    <ul className={styles.areas} aria-label={`Coming to the ${store.city} store from nearby`}>
+                        {areasNear(store.slug).map((area) => (
+                            <li key={area.slug}>
+                                <Link href={area.path}>From {area.place}</Link>
+                            </li>
+                        ))}
+                    </ul>
                 </section>
 
                 {reviews.length > 0 && (

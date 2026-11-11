@@ -3,7 +3,8 @@
 //
 // Brand names come from the owner's own list (Nov 2026) and from photos taken in the stores.
 // The owner also confirmed (Nov 2026) that the stores carry the popular vape and accessory brands
-// in general, so well-known names are listed; take out any the stores stop carrying.
+// in general, so well-known names are listed; take out any the stores stop carrying. Most
+// names were then checked against photos of the Irving shelves the owner sent.
 // Nitrous oxide is listed as whipped cream chargers for culinary use: the stores hold the Texas
 // health department permit that sale requires. 7-OH products are left off on purpose.
 
@@ -36,7 +37,7 @@ const MAIN: ProductCategory[] = [
         id: "e-liquid",
         name: "E-liquid",
         description:
-            "Freebase and nicotine salt e-liquid from Naked, Coastal Clouds, Pacha, Juice Head, Jam Monster and more.",
+            "Freebase and nicotine salt e-liquid from Naked, Coastal Clouds, Pacha, Juice Head, Jam Monster and more, plus SMOK, Uwell, Vaporesso, Geekvape and Voopoo pod kits.",
         short: "Freebase and nicotine salt e-liquid",
         page: "e-liquid",
     },
@@ -51,14 +52,14 @@ const MAIN: ProductCategory[] = [
         id: "hookah",
         name: "Hookah & shisha",
         description:
-            "Hookah pots, Afzal shisha in every flavor and size, and the accessories: bowls, hoses, CocoNara and Three Kings coals and more.",
+            "Hookah pots, Afzal shisha in every flavor and size, and the accessories: bowls, hoses, CocoNara coals and more.",
         short: "Hookah pots, shisha, bowls, hoses and coals",
         page: "hookah",
     },
     {
         id: "glass",
         name: "Glass",
-        description: "Water pipes, hand pipes, bubblers and rigs, plus bangers, bowls and dugouts.",
+        description: "Water pipes, hand pipes, bubblers and rigs, plus quartz bangers, nectar collectors, one-hitters, bowls and dugouts.",
         short: "Water pipes, hand pipes, rigs, bangers and bowls",
         page: "glass",
     },
@@ -66,14 +67,14 @@ const MAIN: ProductCategory[] = [
         id: "vaporizers",
         name: "Vaporizers & 510 batteries",
         description:
-            "Dry herb and concentrate vaporizers from Puffco, Ooze, Yocan and Lookah, plus 510 batteries like the Cartbox and cart pens.",
+            "Puffco Peak and Proxy, Ooze, Yocan and Lookah vaporizers, plus 510 batteries like the Cartbox and cart pens.",
         short: "Dry herb and concentrate vaporizers, 510 batteries",
         page: "vaporizers",
     },
     {
         id: "kratom",
         name: "Kratom",
-        description: "Kratom capsules, powders, tablets, shots and ready-to-drink cans from established brands.",
+        description: "Kratom capsules, powders and shots from OPMS and Remarkable Herbs, Club13 kratom seltzers and Feel Free.",
         short: "Capsules, powders, tablets, shots and drinks",
         page: "kratom",
     },
@@ -87,14 +88,14 @@ const MAIN: ProductCategory[] = [
     {
         id: "lighters",
         name: "Torches & butane",
-        description: "Scorch Torch and other torch lighters, BIC, Clipper and Zippo lighters, butane refills and Zippo and Ronsonol lighter fluid.",
+        description: "Maven and Eagle torches, BIC, Clipper and Zippo lighters, Neon butane refills and Zippo and Ronsonol lighter fluid.",
         short: "Torch lighters, lighters, butane and lighter fluid",
         page: "torches-butane",
     },
     {
         id: "grinders",
         name: "Grinders, trays & papers",
-        description: "Metal and printed grinders, rolling trays, and RAW, Zig-Zag, Elements and OCB papers and cones.",
+        description: "Metal and printed grinders, rolling trays, and RAW, Zig-Zag, Elements and Blazy Susan papers and cones.",
         short: "Grinders, rolling trays, papers and cones",
         page: "grinders-trays",
     },
@@ -107,42 +108,55 @@ const MAIN: ProductCategory[] = [
     {
         id: "drinks",
         name: "Drinks",
-        description: "THC drinks and kratom drinks from Sherpa, Torch, Zour Pop, Uncle Skunks and more, kept cold.",
+        description: "THC seltzers from Torch, Zour Pop, Uncle Skunks, Sherpa, Mood and Amigos, and Club13 kratom seltzers, kept cold.",
         hempThc: true,
+    },
+    { id: "mushroom", name: "Mushroom gummies & chocolate", description: "Mushroom gummies and mushroom chocolate bars from Road Trip and more." },
+    {
+        id: "flower",
+        name: "Flower & pre-rolls",
+        description: "Hemp flower and pre-rolls from Mood, Urb and more, plus pure CBD pre-rolls.",
+        hempThc: true,
+    },
+    {
+        id: "cigars-wraps",
+        name: "Cigars & wraps",
+        description: "Backwoods, Swisher Sweets, Game, White Owl and Black & Mild cigars, and Camo, Twisted Hemp and King Palm wraps.",
+        short: "Cigars, cigarillos and wraps",
+        page: "cigars-wraps",
+    },
+    {
+        id: "cream-chargers",
+        name: "Whipped cream chargers",
+        description: "Galaxy Gas, Infuzd, Space Gas and GoldWhip nitrous oxide whipped cream chargers and tanks, sold for culinary use only. 21+ with ID.",
     },
 ];
 
 const MORE: ProductCategory[] = [
-    {
-        id: "flower",
-        name: "Flower & pre-rolls",
-        description: "Hemp flower and pre-rolls from popular brands.",
-        hempThc: true,
-    },
     {
         id: "coils-pods",
         name: "Coils & pods",
         description: "Replacement coils and pods for Vaporesso XROS, Uwell Caliburn, SMOK and Geekvape devices, and the kits themselves.",
         short: "Replacement coils and pods",
     },
-    { id: "mushroom", name: "Mushroom", description: "Mushroom gummies, chocolates and capsules." },
-    { id: "detox", name: "Detox", description: "Detox drinks and cleansing kits." },
+    { id: "detox", name: "Detox", description: "QCarbo and other detox drinks and cleansing kits." },
     {
         id: "candles-incense",
         name: "Candles & incense",
-        description: "Candles, incense, air fresheners and odor eliminators.",
+        description: "Candles, incense, Blunt Effects air fresheners and odor eliminator sprays.",
         short: "Candles, incense, air fresheners and odor eliminators",
     },
     {
         id: "cleaners",
         name: "Cleaners & care",
-        description: "Formula 420 and Randy's glass cleaner, and the small parts that keep your piece working.",
+        description: "Formula 420, Formula 710 and Ooze Resolution cleaners, and the small parts that keep your piece working.",
     },
     {
-        id: "cream-chargers",
-        name: "Whipped cream chargers",
-        description: "Nitrous oxide whipped cream chargers and tanks, sold for culinary use only. 21+ with ID.",
+        id: "scales-storage",
+        name: "Scales, jars & ashtrays",
+        description: "Digital pocket scales, stash jars, silicone containers and ashtrays.",
     },
+    { id: "snacks", name: "Snacks", description: "Candy bars, gum, mints, chips and playing cards for the road." },
     { id: "more", name: "And more", description: "New arrivals land often. Ask our staff what's just come in." },
 ];
 

@@ -6,6 +6,7 @@ import { siteRoutes, PRIVATE_PATHS } from "../src/lib/routes";
 import { storeStatus } from "../src/lib/hours";
 import { STORE_PAGES, storeShelves } from "../src/lib/storePages";
 import { CATEGORY_PAGES } from "../src/lib/categoryPages";
+import { AREA_PAGES } from "../src/lib/areaPages";
 import { CATEGORIES, MORE_CATEGORIES, categoryById } from "../src/lib/catalog";
 
 test("site URL is the www host Vercel serves", () => {
@@ -100,6 +101,21 @@ test("category pages fit in search results and match the product list", () => {
         if (category.page) assert.ok(slugs.includes(category.page), `${category.id} points to a missing page`);
         // Hemp THC products get no page of their own
         if (category.hempThc) assert.equal(category.page, undefined);
+    }
+});
+
+test("city pages fit in search results, are honest about where the store is, and are in the sitemap", () => {
+    const paths = siteRoutes().map((r) => r.path);
+    for (const page of AREA_PAGES) {
+        assert.ok(page.metaTitle.length <= 60, `${page.metaTitle} (${page.metaTitle.length})`);
+        assert.ok(page.metaDescription.length <= 160, `${page.slug} description (${page.metaDescription.length})`);
+        assert.ok(paths.includes(page.path), `${page.path} missing from sitemap`);
+        const store = getStore(page.store);
+        // "near", never "in": we have no store in these cities
+        assert.match(page.h1, /near /);
+        assert.match(page.intro, new RegExp(`We don't have a store in ${page.place} itself`));
+        assert.ok(page.faq[0].a.startsWith("No."));
+        assert.ok(page.directionsUrl.includes(store.placeId));
     }
 });
 

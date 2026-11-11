@@ -75,7 +75,7 @@ export const STORES: Store[] = [
         mapsCid: "11686837571539708010",
         geo: { latitude: 32.9755557, longitude: -96.5956142 },
         roadName: "State Highway 78",
-        nearbyAreas: ["Wylie", "Murphy", "Rowlett", "Garland's Firewheel area", "Lavon"],
+        nearbyAreas: ["Wylie", "Murphy", "Rowlett", "Garland", "Lavon"],
         servedPlaces: ["Sachse", "Wylie", "Murphy", "Rowlett", "Garland", "Lavon"],
     },
     {
@@ -99,7 +99,7 @@ export const STORES: Store[] = [
         mapsCid: "3903298981477223268",
         geo: { latitude: 32.8970521, longitude: -96.9607661 },
         roadName: "West Royal Lane",
-        nearbyAreas: ["Las Colinas", "Valley Ranch", "Coppell", "Farmers Branch", "the DFW Airport area"],
+        nearbyAreas: ["Las Colinas", "Valley Ranch", "Coppell", "Carrollton", "Farmers Branch", "Grapevine", "the DFW Airport area"],
         servedPlaces: ["Irving", "Las Colinas", "Valley Ranch", "Coppell", "Farmers Branch"],
     },
 ];

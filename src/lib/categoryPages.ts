@@ -80,9 +80,9 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
             { name: "Freebase e-liquid", text: "For sub-ohm tanks and other higher-power devices." },
             { name: "Nicotine salt", text: "Salt nicotine e-liquid for pod systems and low-power devices." },
             { name: "Coils & pods", text: "Replacement coils and pods for Vaporesso XROS, Uwell Caliburn, SMOK and Geekvape devices, so you can pick up both in one stop." },
-            { name: "Pod kits", text: "Refillable pod kits from Vaporesso, Uwell, SMOK and Geekvape." },
+            { name: "Pod kits", text: "SMOK Nord and Novo, Uwell Caliburn, Vaporesso, Geekvape Aegis and Voopoo Drag and Argus kits, in the case at Irving." },
         ],
-        brands: ["Naked", "Coastal Clouds", "Pacha", "Juice Head", "Candy King", "Jam Monster", "Sad Boy", "Vaporesso", "Uwell", "SMOK", "Geekvape"],
+        brands: ["Naked", "Coastal Clouds", "Pacha", "Juice Head", "Candy King", "Jam Monster", "Sad Boy", "SMOK", "Uwell", "Vaporesso", "Geekvape", "Voopoo"],
         faq: [
             {
                 q: "What's the difference between freebase and nicotine salt e-liquid?",
@@ -128,11 +128,11 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         shelf: [
             { name: "Hookah pots", text: "Complete hookahs, ready to set up." },
             { name: "Afzal shisha", text: "Every Afzal flavor, in every size." },
-            { name: "Coals", text: "CocoNara and Three Kings hookah coals." },
+            { name: "Coals", text: "CocoNara and other hookah coals, plus charcoal burners." },
             { name: "Accessories", text: "Bowls, hoses and the spare parts that keep a hookah going." },
             { name: "Hookah-style vapes", text: "Geek Bar's hookah-style vapes, if you want the flavor without the setup." },
         ],
-        brands: ["Afzal", "CocoNara", "Three Kings"],
+        brands: ["Afzal", "CocoNara"],
         faq: [
             { q: "Which shisha do you carry?", a: "Afzal shisha in every flavor and every size." },
             { q: "Do you sell hookah coals and replacement parts?", a: "Yes. We carry coals, bowls, hoses and other hookah accessories at both stores." },
@@ -149,19 +149,20 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         metaDescription:
             "Water pipes, hand pipes, bubblers, rigs, bangers, bowls and dugouts at Vapor Aura in Sachse and Irving, TX. See photos of the glass wall. 21+.",
         intro:
-            "Glass is best picked in person, so we keep a lot of it out where you can see it. The Sachse store has a full wall of water pipes and a case of hand pipes, and Irving keeps its glass along the back wall.",
+            "Glass is best picked in person, so we keep a lot of it out where you can see it. Both stores have a full wall of water pipes. Sachse has a case of hand pipes, and Irving has a case of quartz bangers and nectar collectors.",
         shelf: [
             { name: "Water pipes", text: "From small rigs to tall beakers, in glass and silicone." },
             { name: "Hand pipes & bubblers", text: "Rows of hand pipes, from clear striped glass to solid colors." },
-            { name: "Bangers & bowls", text: "Replacement bangers and bowls when yours breaks or you want an upgrade." },
+            { name: "Bangers & bowls", text: "A full case of quartz bangers, and replacement bowls, when yours breaks or you want an upgrade." },
+            { name: "Nectar collectors", text: "Glass and silicone nectar collectors, and one-hitters." },
             { name: "Dugouts", text: "Pocket-size dugouts." },
-            { name: "Cleaner", text: "Formula 420 and Randy's glass cleaner to keep a piece looking new." },
+            { name: "Cleaner", text: "Formula 420, Formula 710 and Ooze Resolution cleaners to keep a piece looking new." },
         ],
-        brands: ["GRAV", "Cheech", "Formula 420", "Randy's"],
+        brands: ["GRAV", "Cheech", "Formula 420", "Ooze Resolution"],
         faq: [
             { q: "What kinds of glass do you carry?", a: "Water pipes, hand pipes, bubblers and rigs, plus bangers, bowls and dugouts." },
             { q: "Do you sell replacement bowls and bangers?", a: "Yes. Bring your piece or know its joint size, and we'll help you find one that fits." },
-            { q: "Which store has more glass?", a: "Both stores carry glass. The photos on this page show the water pipe wall and the hand pipe case at the Sachse store." },
+            { q: "Which store has more glass?", a: "Both stores have a full wall of water pipes. The photos on this page show the walls at Irving and Sachse and the banger case at Irving." },
         ],
         related: ["grinders-trays", "torches-butane", "vaporizers"],
     },
@@ -174,16 +175,17 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         metaDescription:
             "Puffco and Ooze vaporizers, dry herb and concentrate devices, and 510 batteries like the Cartbox at Vapor Aura in Sachse and Irving, TX. 21+.",
         intro:
-            "Vaporizers sit in the center case at the Irving store, where you can compare them side by side. We carry dry herb and concentrate devices, and 510 batteries in pen and compact styles.",
+            "Vaporizers have their own case at the Irving store, where you can compare them side by side. We carry dry herb and concentrate devices, and 510 batteries in pen and compact styles.",
         shelf: [
-            { name: "Concentrate vaporizers", text: "Puffco devices, plus Yocan and Lookah." },
+            { name: "Concentrate vaporizers", text: "Puffco Peak and Proxy, Ooze, Yocan and Lookah." },
             { name: "Dry herb vaporizers", text: "Dry herb vaporizers." },
-            { name: "510 batteries", text: "Cart pens and compact batteries like the Cartbox." },
+            { name: "510 batteries", text: "Cart pens, twist batteries and compact batteries like the Cartbox." },
+            { name: "Scales", text: "Digital pocket scales." },
         ],
         brands: ["Puffco", "Ooze", "Yocan", "Lookah", "Cartbox"],
         faq: [
             { q: "Do you sell 510 batteries?", a: "Yes. We carry 510 batteries in pen and compact styles, including the Cartbox." },
-            { q: "Do you carry Puffco?", a: `Yes. Puffco devices are in the center case at the Irving store. For a specific model at either store: ${CALL}` },
+            { q: "Do you carry Puffco?", a: `Yes. Puffco Peak and Proxy devices are in the vaporizer case at the Irving store. For a specific model at either store: ${CALL}` },
             { q: "Can someone help me choose a vaporizer?", a: "Yes. Tell our staff whether you use dry herb or concentrates and we'll compare the options with you." },
         ],
         related: ["glass", "grinders-trays", "torches-butane"],
@@ -195,17 +197,17 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         h1: "Kratom in Sachse & Irving, TX",
         metaTitle: "Kratom in Sachse & Irving, TX | Vapor Aura",
         metaDescription:
-            "Kratom capsules, powders, tablets, shots and drinks from established brands at Vapor Aura in Sachse and Irving, TX. The Irving store is open 24 hours. 21+.",
+            "OPMS and Remarkable Herbs kratom capsules and powders, extract shots and Club13 kratom seltzers at Vapor Aura in Sachse and Irving, TX. Irving is open 24 hours.",
         intro:
-            "Both stores carry kratom from established brands, in whichever form you prefer. The Sachse store also keeps kratom drinks cold in the cooler.",
+            "Both stores carry kratom from established brands, in whichever form you prefer, and keep kratom seltzers cold in the cooler.",
         shelf: [
-            { name: "Capsules & tablets", text: "Pre-measured capsules and tablets." },
-            { name: "Powders", text: "Kratom powder." },
-            { name: "Shots & drinks", text: "Kratom shots and ready-to-drink cans, kept cold." },
+            { name: "Capsules", text: "OPMS and other pre-measured capsules." },
+            { name: "Powders", text: "Remarkable Herbs powder in Maeng Da, Bali, Thai, Indo, Malaysian and Vietnam, in several bag sizes." },
+            { name: "Shots & drinks", text: "Kratom extract shots, Club13 kratom seltzers kept cold, and Feel Free." },
         ],
-        brands: [],
+        brands: ["OPMS", "Remarkable Herbs", "Club13", "Feel Free"],
         faq: [
-            { q: "What forms of kratom do you carry?", a: "Capsules, powders, tablets, shots and ready-to-drink cans." },
+            { q: "What forms of kratom do you carry?", a: "Capsules, powders, extract shots and ready-to-drink seltzers, from OPMS, Remarkable Herbs and Club13." },
             { q: "Do I need ID to buy kratom?", a: `Yes. ${ID}` },
             { q: "Can I check if you have a brand before I come in?", a: `Yes. ${CALL}` },
         ],
@@ -246,12 +248,12 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         intro:
             "Out of butane at midnight? Both stores keep torch lighters and butane refills on the shelf, along with lighter fluid, and the Irving store never closes.",
         shelf: [
-            { name: "Torch lighters", text: "Scorch Torch and other torch lighters in a range of styles." },
-            { name: "Butane", text: "Butane refill cans." },
+            { name: "Torch lighters", text: "Maven, Eagle and other torch lighters in a range of styles." },
+            { name: "Butane", text: "Neon and other butane refill cans." },
             { name: "Lighter fluid", text: "Zippo and Ronsonol lighter fluid." },
             { name: "Everyday lighters", text: "BIC, Clipper and Zippo lighters." },
         ],
-        brands: ["Scorch Torch", "Zippo", "BIC", "Clipper", "Ronsonol"],
+        brands: ["Maven", "Eagle Torch", "Zippo", "BIC", "Clipper", "Neon", "Ronsonol"],
         faq: [
             { q: "Do you sell butane?", a: "Yes. Both stores carry butane refill cans, along with Zippo and Ronsonol lighter fluid." },
             { q: "Where can I buy a torch lighter late at night?", a: `The Irving store at ${irving.street} is open 24 hours. The Sachse store is open ${sachse.hoursSummary}.` },
@@ -265,21 +267,45 @@ export const CATEGORY_PAGES: CategoryPageCopy[] = [
         h1: "Grinders, rolling trays & papers in Sachse & Irving, TX",
         metaTitle: "Grinders, Trays & Rolling Papers in Sachse & Irving, TX",
         metaDescription:
-            "Grinders, rolling trays, and RAW, Zig-Zag, Elements and OCB papers and cones at Vapor Aura in Sachse and Irving, TX. See the Irving grinder case. 21+.",
+            "Grinders, rolling trays, and RAW, Zig-Zag, Elements and Blazy Susan papers and cones at Vapor Aura in Sachse and Irving, TX. See the Irving grinder case. 21+.",
         intro:
             "The Irving store has a whole case of grinders, from plain metal to printed designs, and both stores carry rolling trays to go with them.",
         shelf: [
             { name: "Grinders", text: "Metal and printed grinders." },
             { name: "Rolling trays", text: "Rolling trays to go with them." },
-            { name: "Papers & cones", text: "RAW, Zig-Zag, Elements and OCB rolling papers and pre-rolled cones." },
+            { name: "Papers & cones", text: "RAW, Zig-Zag, Elements, Blazy Susan and Bob Marley papers, and RAW, Blazy Susan and Tyson cones." },
         ],
-        brands: ["RAW", "Zig-Zag", "Elements", "OCB"],
+        brands: ["RAW", "Zig-Zag", "Elements", "Blazy Susan", "Bob Marley", "Tyson"],
         faq: [
             { q: "Do you sell grinders?", a: "Yes. Both stores carry grinders, and the Irving store has a full case of metal and printed designs." },
             { q: "Do you sell rolling trays?", a: "Yes. Both stores carry rolling trays." },
-            { q: "Which rolling papers do you carry?", a: "RAW, Zig-Zag, Elements and OCB papers and cones." },
+            { q: "Which rolling papers do you carry?", a: "RAW, Zig-Zag, Elements, Blazy Susan and Bob Marley papers, plus RAW, Blazy Susan and Tyson pre-rolled cones." },
         ],
-        related: ["glass", "torches-butane", "vaporizers"],
+        related: ["glass", "torches-butane", "cigars-wraps"],
+    },
+    {
+        slug: "cigars-wraps",
+        categoryId: "cigars-wraps",
+        name: "Cigars & wraps",
+        h1: "Cigars, cigarillos & wraps in Sachse & Irving, TX",
+        metaTitle: "Backwoods, Swisher & Wraps in Sachse & Irving | Vapor Aura",
+        metaDescription:
+            "Backwoods, Swisher Sweets, Game, White Owl and Black & Mild cigars, and Camo, Twisted Hemp and King Palm wraps, at Vapor Aura in Sachse and Irving, TX. 21+.",
+        intro:
+            "A full wall of cigars, cigarillos and wraps, from Backwoods and Swisher Sweets to hemp wraps with no tobacco. The Irving store is open 24 hours, so you can pick them up at any time.",
+        shelf: [
+            { name: "Backwoods", text: "Backwoods in a long row of flavors." },
+            { name: "Cigarillos", text: "Swisher Sweets, Game, White Owl and Black & Mild." },
+            { name: "Hemp wraps", text: "Camo, Twisted Hemp and other tobacco-free wraps." },
+            { name: "Palm leaf", text: "King Palm leaf rolls." },
+        ],
+        brands: ["Backwoods", "Swisher Sweets", "Game", "White Owl", "Black & Mild", "Camo", "Twisted Hemp", "King Palm"],
+        faq: [
+            { q: "Do you sell Backwoods?", a: `Yes. We carry Backwoods in a range of flavors. For one flavor: ${CALL}` },
+            { q: "Do you carry tobacco-free wraps?", a: "Yes. We carry hemp wraps from Camo and Twisted Hemp, and King Palm leaf rolls." },
+            { q: "Do I need ID to buy cigars or wraps?", a: `Yes. ${ID}` },
+        ],
+        related: ["grinders-trays", "torches-butane", "nicotine-pouches"],
     },
 ];
 

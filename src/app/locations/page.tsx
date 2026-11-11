@@ -5,12 +5,14 @@ import StoreStatus from "@/components/home/StoreStatus";
 import NicotineWarning from "@/components/common/NicotineWarning";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { STORES, mapEmbedUrl } from "@/lib/stores";
+import { areasNear } from "@/lib/areaPages";
+import loc from "@/components/location/LocationPage.module.css";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
     title: "Vape & Smoke Shops in Sachse & Irving, TX | Vapor Aura",
     description:
-        "Vapor Aura's two stores: Sachse at 5848 S State Hwy 78, open until 1–2 AM, and Irving at 825 W Royal Ln, open 24 hours. Hours, phones and directions.",
+        "Vapor Aura's two stores: Sachse on Hwy 78 and Irving on Royal Ln, open 24 hours. Serving Coppell, Carrollton, Grapevine, Wylie, Garland, Rowlett and Murphy.",
     path: "/locations",
 });
 
@@ -57,6 +59,26 @@ export default function Locations() {
                         </div>
                     ))}
                 </div>
+
+                <section className={loc.section} aria-labelledby="areas-title">
+                    <h2 id="areas-title" className={loc.sectionTitle}>
+                        Areas we serve
+                    </h2>
+                    {STORES.map((store) => (
+                        <div key={store.slug} className={styles.areaGroup}>
+                            <h3>
+                                Near the <Link href={store.path}>{store.city} store</Link>
+                            </h3>
+                            <ul className={loc.areas}>
+                                {areasNear(store.slug).map((area) => (
+                                    <li key={area.slug}>
+                                        <Link href={area.path}>{area.place}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </section>
             </div>
         </main>
     );
