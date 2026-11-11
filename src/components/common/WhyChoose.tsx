@@ -16,7 +16,7 @@ const reasons = [
     },
     {
         title: "Everything in one stop",
-        description: "Vapes, e-liquid, glass, hookah, vaporizers, hemp flower, kratom, CBD, edibles, detox and more.",
+        description: "Vapes, e-liquid, ZYN, glass, hookah, vaporizers, kratom, CBD, grinders, torches, butane and more.",
     },
     {
         title: "Clean stores, fair prices",

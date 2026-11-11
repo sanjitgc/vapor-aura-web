@@ -7,9 +7,9 @@ import { STORES } from "@/lib/stores";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-    title: "What We Carry: Vapes, Glass, Hookah & More | Vapor Aura",
+    title: "Vapes, Glass, Hookah & Kratom in Sachse & Irving, TX",
     description:
-        "Vapes, e-liquid, coils, glass, hookah, vaporizers, kratom, CBD and more at Vapor Aura in Sachse and Irving, TX. Call either store to check an item. 21+.",
+        "Geek Bar, Foger, RAZ and Lost Mary vapes, ZYN, e-liquid, glass, Afzal hookah, vaporizers, kratom and CBD at Vapor Aura in Sachse and Irving, TX. 21+.",
     path: "/products",
 });
 
@@ -26,10 +26,10 @@ export default function ProductsPage() {
                 <Breadcrumbs crumbs={crumbs} className={styles.crumbs} />
 
                 <header className={styles.header}>
-                    <h1 className={styles.title}>What we carry</h1>
+                    <h1 className={styles.title}>Vapes, glass, hookah &amp; more</h1>
                     <p className={styles.subtitle}>
-                        Everything here is on the shelves in our Sachse and Irving stores. Stock changes quickly, so
-                        call ahead if you&apos;re after something specific. Not sure what fits you? Ask our staff.
+                        Everything we carry in our Sachse and Irving smoke shops. Pick a category for brands and
+                        photos. Stock changes quickly, so call ahead if you&apos;re after something specific.
                     </p>
                 </header>
 

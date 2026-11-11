@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
 import styles from "./ProductHighlights.module.css";
 import { CATEGORIES, MORE_CATEGORIES } from "@/lib/catalog";
 
@@ -41,8 +43,8 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                             What we carry
                         </h2>
                         <p className={styles.subtitle}>
-                            What you&apos;ll find in our Sachse and Irving stores. Not sure what fits you? Ask our
-                            staff, and call ahead if you&apos;re after something specific.
+                            What you&apos;ll find in our Sachse and Irving stores. Pick a category to see the brands
+                            and photos, and call ahead if you&apos;re after something specific.
                         </p>
                     </div>
                 )}
@@ -50,7 +52,15 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                 <ul className={styles.list}>
                     {CATEGORIES.map((category) => (
                         <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
-                            <ItemHeading className={styles.itemTitle}>{keepHyphenated(category.name)}</ItemHeading>
+                            <ItemHeading className={styles.itemTitle}>
+                                {category.page ? (
+                                    <Link href={`/products/${category.page}`} className={styles.itemLink}>
+                                        {keepHyphenated(category.name)} <FaArrowRight aria-hidden="true" />
+                                    </Link>
+                                ) : (
+                                    keepHyphenated(category.name)
+                                )}
+                            </ItemHeading>
                             <p className={styles.itemText}>{keepHyphenated(category.description)}</p>
                         </li>
                     ))}

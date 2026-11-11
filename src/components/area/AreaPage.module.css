@@ -1,0 +1,92 @@
+/* City pages share the store pages' frame, hero, hours table, reviews and FAQ
+   (LocationPage.module.css). Only what's new for these pages lives here. */
+
+.store {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+    gap: 1.5rem clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    padding: 1.5rem;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.storeTop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-bottom: 0.9rem;
+}
+
+.storeName {
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.storeName a:hover {
+    color: #4ade80;
+}
+
+.address {
+    font-style: normal;
+    color: #c4c8c4;
+    line-height: 1.6;
+}
+
+.phone {
+    margin-top: 0.5rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: #4ade80;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.more svg {
+    font-size: 0.8em;
+}
+
+.pills {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.pills a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #e4e6e4;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.pills a:hover {
+    border-color: rgba(74, 222, 128, 0.5);
+    background: rgba(34, 197, 94, 0.06);
+}
+
+@media (max-width: 760px) {
+    .store {
+        grid-template-columns: 1fr;
+        padding: 1.2rem;
+    }
+}

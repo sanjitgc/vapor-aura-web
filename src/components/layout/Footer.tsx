@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { SiDoordash } from "react-icons/si";
 import { DOORDASH_URL, STORES, SOCIAL } from "@/lib/stores";
+import { CATEGORY_PAGES } from "@/lib/categoryPages";
 
 export default function Footer() {
     return (
@@ -27,6 +28,17 @@ export default function Footer() {
                     ))}
                 </div>
 
+                <nav className={styles.shop} aria-label="Product categories">
+                    <p className={styles.storeName}>What we carry</p>
+                    <ul>
+                        {CATEGORY_PAGES.map((page) => (
+                            <li key={page.slug}>
+                                <Link href={`/products/${page.slug}`}>{page.name}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+
                 <div className={styles.links} aria-label="Social media links">
                     <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" aria-label="Vapor Aura on Instagram">
                         <FaInstagram aria-hidden="true" />
@@ -42,6 +54,7 @@ export default function Footer() {
             <div className={styles.legal}>
                 <p>Sales to adults 21 and over only. Valid photo ID required.</p>
                 <nav className={styles.legalLinks} aria-label="Site pages">
+                    <Link href="/about">About us</Link>
                     <Link href="/products">Products</Link>
                     <Link href="/locations">Locations</Link>
                     <Link href="/contact">Contact</Link>

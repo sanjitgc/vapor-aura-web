@@ -46,6 +46,36 @@
     color: rgba(237, 237, 237, 0.75);
 }
 
+/* Category links: one row across the footer, under the brand and store details */
+.shop {
+    flex: 1 1 100%;
+    order: 5;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(237, 237, 237, 0.75);
+}
+
+.shop ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 1.5rem;
+    margin-top: 0.35rem;
+}
+
+.shop a {
+    display: inline-block;
+    padding: 0.25rem 0;
+}
+
+.shop a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .storeName {
     color: #ededed;
     font-weight: 700;

@@ -21,6 +21,7 @@ import {
     type Store,
 } from "@/lib/stores";
 import { STORE_PAGES, storeShelves } from "@/lib/storePages";
+import { areasNear } from "@/lib/areaPages";
 import { reviewsFor } from "@/lib/reviews";
 import { STORE_PHOTOS, allStorePhotos } from "@/lib/storePhotos";
 import { storeSchema } from "@/lib/schema";
@@ -170,6 +171,20 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </section>
                 )}
 
+                <section className={styles.section} aria-labelledby="highlights-title">
+                    <h2 id="highlights-title" className={styles.sectionTitle}>
+                        Worth the trip to {store.city}
+                    </h2>
+                    <dl className={styles.highlights}>
+                        {copy.highlights.map((item) => (
+                            <div key={item.name}>
+                                <dt>{item.name}</dt>
+                                <dd>{item.text}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </section>
+
                 <section className={styles.section} aria-labelledby="shelves-title">
                     <h2 id="shelves-title" className={styles.sectionTitle}>
                         What you&apos;ll find in {store.city}
@@ -177,7 +192,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     <ul className={styles.shelves}>
                         {storeShelves().map((shelf) => (
                             <li key={shelf.id}>
-                                <Link href={`/products#${shelf.id}`} className={styles.shelf}>
+                                <Link href={shelf.href} className={styles.shelf}>
                                     <span className={styles.shelfName}>{shelf.label}</span>
                                     <span className={styles.shelfText}>{shelf.text}</span>
                                 </Link>
@@ -199,6 +214,13 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                             <p key={line}>{line}</p>
                         ))}
                     </div>
+                    <ul className={styles.areas} aria-label={`Coming to the ${store.city} store from nearby`}>
+                        {areasNear(store.slug).map((area) => (
+                            <li key={area.slug}>
+                                <Link href={area.path}>From {area.place}</Link>
+                            </li>
+                        ))}
+                    </ul>
                 </section>
 
                 {reviews.length > 0 && (

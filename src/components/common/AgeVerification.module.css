@@ -3,13 +3,18 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    display: grid;
+    /* Hidden until the page is marked as needing the gate (see the script in layout.tsx) */
+    display: none;
     place-items: center;
     padding: 1.25rem;
     background: rgba(3, 4, 3, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     overflow-y: auto;
+}
+
+:global(html[data-age-gate="open"]) .overlay {
+    display: grid;
 }
 
 .card {
@@ -78,13 +83,12 @@
 }
 
 @keyframes rise {
+    /* Movement only: the card is readable from its first frame */
     from {
-        opacity: 0;
         transform: translateY(12px) scale(0.98);
     }
 
     to {
-        opacity: 1;
         transform: none;
     }
 }
