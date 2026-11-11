@@ -17,11 +17,14 @@ interface PageSeo {
     path: string;
     // Shorter or friendlier title for link previews, if different
     socialTitle?: string;
+    // The picture for link previews (1200×630, in /public). Defaults to the brand image.
+    image?: { url: string; alt: string };
 }
 
 // Every page gets its own title, description and self-referencing canonical from here, so no page
 // inherits another page's canonical by accident.
-export function pageMetadata({ title, description, path, socialTitle }: PageSeo): Metadata {
+export function pageMetadata({ title, description, path, socialTitle, image }: PageSeo): Metadata {
+    const ogImage = image ? { ...OG_IMAGE, ...image } : OG_IMAGE;
     return {
         title: { absolute: title },
         description,
@@ -32,13 +35,13 @@ export function pageMetadata({ title, description, path, socialTitle }: PageSeo)
             siteName: SITE_NAME,
             title: socialTitle ?? title,
             description,
-            images: [OG_IMAGE],
+            images: [ogImage],
         },
         twitter: {
             card: "summary_large_image",
             title: socialTitle ?? title,
             description,
-            images: [OG_IMAGE.url],
+            images: [ogImage.url],
         },
     };
 }

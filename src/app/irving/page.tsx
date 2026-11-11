@@ -8,6 +8,7 @@ export const metadata = pageMetadata({
     title: copy.metaTitle,
     description: copy.metaDescription,
     path: "/irving",
+    image: { url: "/og/irving.jpg", alt: "The Vapor Aura Irving storefront at night, on West Royal Lane" },
     socialTitle: "Vapor Aura Irving: open 24 hours on Royal Lane",
 });
 

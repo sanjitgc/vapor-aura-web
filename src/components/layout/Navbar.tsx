@@ -12,7 +12,7 @@ import { DOORDASH_URL } from "@/lib/stores";
 // the menu still lights up as you scroll past the matching section ("hash" = that section's id).
 const links: { href: string; label: string; hash?: string; paths?: string[] }[] = [
     { href: "/", label: "Home", hash: "#home" },
-    { href: "/#why-choose", label: "About us", hash: "#why-choose" },
+    { href: "/about", label: "About us", hash: "#why-choose", paths: ["/about"] },
     { href: "/products", label: "Products", hash: "#products", paths: ["/products"] },
     { href: "/locations", label: "Locations", hash: "#locations", paths: ["/locations", "/sachse", "/irving"] },
     { href: "/contact", label: "Contact", hash: "#contact", paths: ["/contact"] },

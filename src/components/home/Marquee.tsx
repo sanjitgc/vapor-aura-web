@@ -2,20 +2,20 @@ import styles from "./Marquee.module.css";
 
 const ITEMS = [
     "Disposables",
-    "Pod systems",
     "E-liquid",
+    "ZYN",
     "Glass",
     "Hookah",
-    "Hemp flower",
-    "Pre-rolls",
+    "Shisha",
     "Kratom",
     "CBD",
-    "Pet CBD",
     "Vaporizers",
-    "Edibles",
-    "Detox",
-    "Lighters & torches",
-    "Candles & incense",
+    "510 batteries",
+    "Grinders",
+    "Torches & butane",
+    "Gummies",
+    "Drinks",
+    "Pre-rolls",
     "Coils & pods",
 ];
 

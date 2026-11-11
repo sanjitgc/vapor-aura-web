@@ -3,6 +3,7 @@
 // `updated` = the date the page's content last really changed. Bump it when you edit a page;
 // search engines learn to ignore dates that change on every deploy.
 import { STORES } from "./stores";
+import { CATEGORY_PAGES } from "./categoryPages";
 
 export interface SiteRoute {
     path: string;
@@ -12,15 +13,17 @@ export interface SiteRoute {
 }
 
 const PAGES: SiteRoute[] = [
-    { path: "/", updated: "2026-10-27", changeFrequency: "weekly", priority: 1 },
-    { path: "/products", updated: "2026-10-27", changeFrequency: "weekly", priority: 0.8 },
-    { path: "/locations", updated: "2026-10-27", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/", updated: "2026-11-11", changeFrequency: "weekly", priority: 1 },
+    { path: "/products", updated: "2026-11-11", changeFrequency: "weekly", priority: 0.8 },
+    { path: "/locations", updated: "2026-11-11", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/about", updated: "2026-11-11", changeFrequency: "monthly", priority: 0.6 },
     { path: "/contact", updated: "2026-10-27", changeFrequency: "yearly", priority: 0.5 },
     { path: "/privacy", updated: "2026-10-27", changeFrequency: "yearly", priority: 0.2 },
     { path: "/terms", updated: "2026-10-20", changeFrequency: "yearly", priority: 0.2 },
 ];
 
-const STORE_PAGES_UPDATED = "2026-10-27";
+const STORE_PAGES_UPDATED = "2026-11-11";
+const CATEGORY_PAGES_UPDATED = "2026-11-11";
 
 export function siteRoutes(): SiteRoute[] {
     const storeRoutes: SiteRoute[] = STORES.map((store) => ({
@@ -29,8 +32,14 @@ export function siteRoutes(): SiteRoute[] {
         changeFrequency: "weekly",
         priority: 0.9,
     }));
-    // Home first, then the store pages, then everything else
-    return [PAGES[0], ...storeRoutes, ...PAGES.slice(1)];
+    const categoryRoutes: SiteRoute[] = CATEGORY_PAGES.map((page) => ({
+        path: `/products/${page.slug}`,
+        updated: CATEGORY_PAGES_UPDATED,
+        changeFrequency: "weekly",
+        priority: 0.7,
+    }));
+    // Home first, then the store pages, the products page with its categories, then the rest
+    return [PAGES[0], ...storeRoutes, PAGES[1], ...categoryRoutes, ...PAGES.slice(2)];
 }
 
 // Never in the sitemap and kept out of search: shopping cart, admin tools and the API

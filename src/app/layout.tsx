@@ -20,9 +20,11 @@ const display = localFont({
   display: "swap",
 });
 
-// Runs before first paint: while the 21+ gate is up, the hero figure's light-up sequence waits
-// so first-time visitors actually see it. If the gate never mounts (scripts failed), release it.
-const ageGateScript = `try{if(!localStorage.getItem("vapor-aura-age-verified")){var d=document.documentElement;d.setAttribute("data-age-gate","open");setTimeout(function(){if(!document.getElementById("age-verification-title"))d.removeAttribute("data-age-gate")},6000)}}catch(e){}`;
+// Runs before first paint. If the visitor hasn't passed the 21+ gate, it marks the page so the
+// gate (already in the HTML, see AgeVerification.tsx) shows straight away, without waiting for
+// the rest of the JavaScript. It also handles the gate's two buttons. The policy pages linked
+// from the gate stay open. With scripts off, the gate never shows.
+const ageGateScript = `(function(){var d=document.documentElement,k="vapor-aura-age-verified",p=location.pathname,v=false;try{v=!!localStorage.getItem(k)}catch(e){}if(!v&&p!=="/privacy"&&p!=="/terms")d.setAttribute("data-age-gate","open");document.addEventListener("click",function(e){var t=e.target&&e.target.closest?e.target.closest("[data-age-answer]"):null;if(!t)return;if(t.getAttribute("data-age-answer")==="yes"){try{localStorage.setItem(k,"true")}catch(x){}d.removeAttribute("data-age-gate")}else{location.href="https://www.google.com"}})})()`;
 
 // Site-wide defaults. Each page sets its own title, description and canonical (src/lib/seo.ts),
 // so nothing here may set a canonical: a layout canonical would be inherited by every page.

@@ -8,6 +8,7 @@ export const metadata = pageMetadata({
     title: copy.metaTitle,
     description: copy.metaDescription,
     path: "/sachse",
+    image: { url: "/og/sachse.jpg", alt: "The Vapor Aura Sachse storefront at night, on State Highway 78" },
     socialTitle: "Vapor Aura Sachse: vape & smoke shop on Hwy 78",
 });
 

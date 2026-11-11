@@ -5,6 +5,8 @@ import { storeSchema, organizationSchema, breadcrumbSchema } from "../src/lib/sc
 import { siteRoutes, PRIVATE_PATHS } from "../src/lib/routes";
 import { storeStatus } from "../src/lib/hours";
 import { STORE_PAGES, storeShelves } from "../src/lib/storePages";
+import { CATEGORY_PAGES } from "../src/lib/categoryPages";
+import { CATEGORIES, MORE_CATEGORIES, categoryById } from "../src/lib/catalog";
 
 test("site URL is the www host Vercel serves", () => {
     assert.equal(SITE_URL, "https://www.vaporauratx.com");
@@ -58,7 +60,8 @@ test("breadcrumbs use absolute URLs in order", () => {
 test("sitemap lists every store page and no private page", () => {
     const paths = siteRoutes().map((r) => r.path);
     for (const store of STORES) assert.ok(paths.includes(store.path), `${store.path} missing`);
-    for (const p of ["/", "/products", "/locations", "/contact"]) assert.ok(paths.includes(p), `${p} missing`);
+    for (const page of CATEGORY_PAGES) assert.ok(paths.includes(`/products/${page.slug}`), `${page.slug} missing`);
+    for (const p of ["/", "/products", "/locations", "/contact", "/about"]) assert.ok(paths.includes(p), `${p} missing`);
     for (const p of paths) assert.ok(!PRIVATE_PATHS.some((priv) => p.startsWith(priv.replace(/\/$/, ""))), `${p} is private`);
     assert.equal(new Set(paths).size, paths.length, "duplicate path");
     for (const r of siteRoutes()) assert.match(r.updated, /^\d{4}-\d{2}-\d{2}$/);
@@ -79,7 +82,30 @@ test("store pages only list shelves that exist, without brand names", () => {
         assert.ok(shelf.text.length > 0);
         assert.doesNotMatch(shelf.text, /Geek Bar|Lost Mary|RAZ|Foger|Fifty Bar/);
     }
-    assert.ok(!shelves.some((s) => ["flower", "edibles", "mushroom"].includes(s.id)));
+    assert.ok(!shelves.some((s) => ["flower", "edibles", "drinks", "mushroom"].includes(s.id)));
+    for (const shelf of shelves) assert.match(shelf.href, /^\/products(\/[a-z0-9-]+|#[a-z0-9-]+)$/);
+});
+
+test("category pages fit in search results and match the product list", () => {
+    const slugs = CATEGORY_PAGES.map((page) => page.slug);
+    assert.equal(new Set(slugs).size, slugs.length, "duplicate slug");
+    for (const page of CATEGORY_PAGES) {
+        assert.ok(page.metaTitle.length <= 60, `${page.metaTitle} (${page.metaTitle.length})`);
+        assert.ok(page.metaDescription.length <= 160, `${page.slug} description (${page.metaDescription.length})`);
+        assert.ok(page.faq.length >= 2 && page.shelf.length >= 2, page.slug);
+        assert.equal(categoryById(page.categoryId)?.page, page.slug, `${page.slug} is not linked from the product list`);
+        for (const related of page.related) assert.ok(slugs.includes(related), `${page.slug} links to missing ${related}`);
+    }
+    for (const category of [...CATEGORIES, ...MORE_CATEGORIES]) {
+        if (category.page) assert.ok(slugs.includes(category.page), `${category.id} points to a missing page`);
+        // Hemp THC products get no page of their own
+        if (category.hempThc) assert.equal(category.page, undefined);
+    }
+});
+
+test("the site does not advertise 7-OH or nitrous oxide", () => {
+    const words = JSON.stringify([CATEGORIES, MORE_CATEGORIES, CATEGORY_PAGES, STORE_PAGES]);
+    assert.doesNotMatch(words, /7-?oh|hydroxymitragynine|nitrous|whippet/i);
 });
 
 test("store schema lists the store's own photos when it has them", () => {

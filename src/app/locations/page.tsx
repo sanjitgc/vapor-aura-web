@@ -8,7 +8,7 @@ import { STORES, mapEmbedUrl } from "@/lib/stores";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-    title: "Store Locations in Sachse & Irving, TX | Vapor Aura",
+    title: "Vape & Smoke Shops in Sachse & Irving, TX | Vapor Aura",
     description:
         "Vapor Aura's two stores: Sachse at 5848 S State Hwy 78, open until 1–2 AM, and Irving at 825 W Royal Ln, open 24 hours. Hours, phones and directions.",
     path: "/locations",
@@ -27,7 +27,7 @@ export default function Locations() {
                 <Breadcrumbs crumbs={crumbs} className={styles.crumbs} />
 
                 <header className={styles.header}>
-                    <h1 className={styles.title}>Our stores</h1>
+                    <h1 className={styles.title}>Our smoke shops in Sachse &amp; Irving</h1>
                     <p className={styles.subtitle}>
                         Two stores in the Dallas area. Irving is open 24 hours, and Sachse is open until 1 AM most
                         nights and 2 AM Thursday through Saturday.

@@ -170,6 +170,20 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </section>
                 )}
 
+                <section className={styles.section} aria-labelledby="highlights-title">
+                    <h2 id="highlights-title" className={styles.sectionTitle}>
+                        Worth the trip to {store.city}
+                    </h2>
+                    <dl className={styles.highlights}>
+                        {copy.highlights.map((item) => (
+                            <div key={item.name}>
+                                <dt>{item.name}</dt>
+                                <dd>{item.text}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </section>
+
                 <section className={styles.section} aria-labelledby="shelves-title">
                     <h2 id="shelves-title" className={styles.sectionTitle}>
                         What you&apos;ll find in {store.city}
@@ -177,7 +191,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     <ul className={styles.shelves}>
                         {storeShelves().map((shelf) => (
                             <li key={shelf.id}>
-                                <Link href={`/products#${shelf.id}`} className={styles.shelf}>
+                                <Link href={shelf.href} className={styles.shelf}>
                                     <span className={styles.shelfName}>{shelf.label}</span>
                                     <span className={styles.shelfText}>{shelf.text}</span>
                                 </Link>

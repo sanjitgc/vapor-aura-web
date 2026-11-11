@@ -1,111 +1,153 @@
-// What's on the shelves at both stores. Display only; nothing here is sold online.
-// Each category has a stable id so other pages can link straight to it (/products#hookah).
+// What's on the shelves in both stores. This one list feeds the home page, /products and the
+// store pages. Display only: nothing here is sold online.
+//
+// Brand names come from the owner's own list (Nov 2026) and from photos taken in the stores.
+// Left out on purpose until the owner confirms them: 7-OH products and nitrous oxide.
+
 export interface ProductCategory {
     id: string;
     name: string;
     description: string;
-    // One line for store pages (no brand names)
+    // One line for the store pages: what's on the shelf, without brand names
     short?: string;
+    // The category's own page under /products/<page>, if it has one (see categoryPages.ts)
+    page?: string;
+    // Hemp-derived THC products. The federal rules for these change on December 11, 2026, so
+    // they are listed here but get no page of their own and stay off the store pages.
+    // To take them off the site, set SHOW_HEMP_THC to false.
+    hempThc?: boolean;
 }
 
-// The main shelves: two rows of four on desktop.
-export const CATEGORIES: ProductCategory[] = [
+export const SHOW_HEMP_THC = true;
+
+const MAIN: ProductCategory[] = [
     {
         id: "vapes",
-        name: "Vape",
-        description: "Disposables, pod systems and devices from Geek Bar, Lost Mary, RAZ, Foger, Fifty Bar and more.",
-        short: "Disposables, pod kits and devices",
+        name: "Disposable vapes",
+        description:
+            "Geek Bar Pulse, Pulse X, Pulse 2 and Pulse X 2, plus Foger, RAZ, Lost Mary, Fifty Bar, UNO, Crown Bar, Olit and hookah-style vapes.",
+        short: "Disposables in a full range of flavors",
+        page: "disposable-vapes",
     },
     {
         id: "e-liquid",
-        name: "E-Juices",
-        description: "Freebase and nicotine salt e-liquids from Naked and more.",
+        name: "E-liquid",
+        description:
+            "Freebase and nicotine salt e-liquid from Naked, Coastal Clouds, Pacha, Juice Head, Jam Monster and more.",
         short: "Freebase and nicotine salt e-liquid",
+        page: "e-liquid",
+    },
+    {
+        id: "nicotine-pouches",
+        name: "ZYN & pouches",
+        description: "ZYN nicotine pouches in the full flavor range.",
+        short: "Nicotine pouches in the full flavor range",
+        page: "nicotine-pouches",
+    },
+    {
+        id: "hookah",
+        name: "Hookah & shisha",
+        description:
+            "Hookah pots, Afzal shisha in every flavor and size, and the accessories: bowls, hoses, coals and more.",
+        short: "Hookah pots, shisha, bowls, hoses and coals",
+        page: "hookah",
     },
     {
         id: "glass",
         name: "Glass",
-        description: "Water pipes, bubblers, hand pipes and rigs, plus bowls and cleaners.",
-        short: "Water pipes, bubblers, hand pipes and rigs",
+        description: "Water pipes, hand pipes, bubblers and rigs, plus bangers, bowls and dugouts.",
+        short: "Water pipes, hand pipes, rigs, bangers and bowls",
+        page: "glass",
     },
     {
         id: "vaporizers",
-        name: "Vaporizer",
+        name: "Vaporizers & 510 batteries",
         description:
-            "Dry herb and concentrate vaporizers and Puffco devices, plus 510 batteries like the Cartbox and cart pens.",
+            "Dry herb and concentrate vaporizers from Puffco and Ooze, plus 510 batteries like the Cartbox and cart pens.",
         short: "Dry herb and concentrate vaporizers, 510 batteries",
-    },
-    {
-        id: "hookah",
-        name: "Hookah",
-        description: "Hookahs, bowls, hoses, coals and shisha, plus spare parts.",
-        short: "Hookahs, bowls, hoses, coals and shisha",
-    },
-    {
-        id: "flower",
-        name: "Flower & pre-rolls",
-        description: "Hemp flower and pre-rolls in a range of strains, plus rolling trays.",
+        page: "vaporizers",
     },
     {
         id: "kratom",
         name: "Kratom",
-        description: "Kratom capsules, powders, tablets and shots from established brands.",
-        short: "Capsules, powders, tablets and shots",
+        description: "Kratom capsules, powders, tablets, shots and ready-to-drink cans from established brands.",
+        short: "Capsules, powders, tablets, shots and drinks",
+        page: "kratom",
     },
     {
         id: "cbd",
         name: "CBD",
-        description: "Tinctures, gummies, capsules and topicals in a range of strengths.",
+        description: "Tinctures, gummies, capsules and topicals in a range of strengths, plus CBD for pets.",
         short: "Tinctures, gummies, capsules and topicals",
-    },
-];
-
-export const MORE_CATEGORIES: ProductCategory[] = [
-    {
-        id: "edibles",
-        name: "Edibles",
-        description: "Hemp-derived gummies, chocolates and treats.",
-    },
-    {
-        id: "mushroom",
-        name: "Mushroom",
-        description: "Mushroom gummies and chocolates in a variety of flavors.",
-    },
-    {
-        id: "detox",
-        name: "Detox",
-        description: "Detox drinks in popular flavors, plus other cleanse products.",
-    },
-    {
-        id: "pet-cbd",
-        name: "CBD for pets",
-        description: "CBD treats and tinctures made just for pets.",
-    },
-    {
-        id: "coils-pods",
-        name: "Coils / Pods",
-        description: "Replacement coils and pods for SMOK, GeekVape and more.",
-        short: "Replacement coils and pods",
+        page: "cbd",
     },
     {
         id: "lighters",
-        name: "Lighters & torches",
-        description: "Pocket and torch lighters, plus butane and Zippo fluid for refills.",
-        short: "Pocket and torch lighters, butane, lighter fluid",
+        name: "Torches & butane",
+        description: "Torch lighters, everyday lighters, butane refills and Zippo and Ronsonol lighter fluid.",
+        short: "Torch lighters, lighters, butane and lighter fluid",
+        page: "torches-butane",
     },
     {
-        id: "candles-incense",
-        name: "Candles & incense",
-        description: "Scented candles and incense, plus air fresheners and odor eliminators.",
-        short: "Candles, incense and odor eliminators",
+        id: "grinders",
+        name: "Grinders & trays",
+        description: "Metal and printed grinders, and rolling trays.",
+        short: "Grinders and rolling trays",
+        page: "grinders-trays",
     },
     {
-        id: "more",
-        name: "And more",
-        description: "New products arrive all the time. Stop by or call either store to ask.",
+        id: "edibles",
+        name: "Gummies",
+        description: "Hemp-derived gummies from Urb, Sherpa, Camino, Sivan, Mood, Snoozy, Jelly, Half Bak'd and Xite.",
+        hempThc: true,
+    },
+    {
+        id: "drinks",
+        name: "Drinks",
+        description: "THC drinks and kratom drinks from Sherpa, Torch, Zour Pop, Uncle Skunks and more, kept cold.",
+        hempThc: true,
     },
 ];
 
+const MORE: ProductCategory[] = [
+    {
+        id: "flower",
+        name: "Flower & pre-rolls",
+        description: "Hemp flower and pre-rolls from popular brands.",
+        hempThc: true,
+    },
+    {
+        id: "coils-pods",
+        name: "Coils & pods",
+        description: "Replacement coils and pods for the devices we carry.",
+        short: "Replacement coils and pods",
+    },
+    { id: "mushroom", name: "Mushroom", description: "Mushroom gummies, chocolates and capsules." },
+    { id: "detox", name: "Detox", description: "Detox drinks and cleansing kits." },
+    {
+        id: "candles-incense",
+        name: "Candles & incense",
+        description: "Candles, incense, air fresheners and odor eliminators.",
+        short: "Candles, incense, air fresheners and odor eliminators",
+    },
+    {
+        id: "cleaners",
+        name: "Cleaners & care",
+        description: "Glass cleaner and the small parts that keep your piece working.",
+    },
+    { id: "more", name: "And more", description: "New arrivals land often. Ask our staff what's just come in." },
+];
+
+const shown = (list: ProductCategory[]) => list.filter((category) => SHOW_HEMP_THC || !category.hempThc);
+
+export const CATEGORIES: ProductCategory[] = shown(MAIN);
+export const MORE_CATEGORIES: ProductCategory[] = shown(MORE);
+
 export function categoryById(id: string): ProductCategory | undefined {
-    return [...CATEGORIES, ...MORE_CATEGORIES].find((c) => c.id === id);
+    return [...CATEGORIES, ...MORE_CATEGORIES].find((category) => category.id === id);
+}
+
+// Where a category's link goes: its own page if it has one, otherwise its spot on /products
+export function categoryHref(category: ProductCategory): string {
+    return category.page ? `/products/${category.page}` : `/products#${category.id}`;
 }
