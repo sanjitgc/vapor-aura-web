@@ -15,7 +15,7 @@
     z-index: -1;
     width: clamp(150px, 19vw, 260px);
     aspect-ratio: 0.757;
-    background: url("/leaf-accent.webp") no-repeat center / contain;
+    background: url("/leaf-accent-sm.webp") no-repeat center / contain;
     transform: rotate(4deg);
     opacity: 0.85;
     pointer-events: none;

@@ -31,7 +31,7 @@ export default function Hero() {
                         </span>
                     </h1>
                     <p className={styles.subtitle}>
-                        Vapes, e-liquid, glass, hookah, kratom and CBD, with staff who know their stuff.
+                        Geek Bar, RAZ and Foger vapes, ZYN, glass, hookah, kratom and CBD, with staff who know their stuff.
                         Irving is open 24 hours. 21+ with valid ID.
                     </p>
                     <div className={styles.actions}>

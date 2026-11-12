@@ -15,7 +15,7 @@ import { organizationSchema, websiteSchema } from "@/lib/schema";
 export const metadata = pageMetadata({
     title: "Vapor Aura | Vape & Smoke Shop in Sachse and Irving, TX",
     description:
-        "Vapor Aura is a 21+ vape and smoke shop with stores in Sachse and Irving, TX. Vapes, e-liquid, glass, hookah, kratom and CBD. Irving is open 24 hours.",
+        "Vapor Aura is a 21+ vape and smoke shop in Sachse and Irving, TX. Geek Bar, RAZ and Foger vapes, ZYN, glass, hookah and kratom. Irving is open 24 hours.",
     path: "/",
     socialTitle: "Vapor Aura | Vape & smoke shop in Sachse and Irving, TX",
 });
