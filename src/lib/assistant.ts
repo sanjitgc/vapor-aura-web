@@ -9,8 +9,10 @@ import { FAQS } from "./faqs";
 import { chicagoNow, storeStatus } from "./hours";
 import { DOORDASH_URL, SOCIAL, STORES, fullAddress, getStore, weeklyHours } from "./stores";
 
-// A small, fast model is plenty for short answers about the stores
-export const ASSISTANT_MODEL = "claude-haiku-5-5";
+// Google's Gemini 3.5 Flash-Lite: small, fast, and on the Gemini API's free tier. On the free tier
+// Google may use chats to improve its products and people at Google may read them, so the facts
+// below are public information only, and the chat asks visitors not to share personal details.
+export const ASSISTANT_MODEL = "gemini-3.5-flash-lite";
 
 const RULES = `You are the chat assistant on vaporauratx.com, the website of Vapor Aura: a vape and smoke shop for adults 21 and over, with two stores in Texas, one in Sachse and one in Irving. You help visitors with store hours, addresses and directions, phone numbers, what the stores carry, and store policies.
 
@@ -77,7 +79,7 @@ function pageFacts(): string {
     ].join("\n");
 }
 
-// The rules and facts: the same on every request, so the model provider can cache them
+// The rules and facts: the same on every request
 export function assistantFacts(): string {
     const faq = FAQS.map((item) => `Q: ${item.q}\nA: ${item.a}`).join("\n\n");
     return [

@@ -52,8 +52,8 @@ import AgeVerification from "@/components/common/AgeVerification";
 import Analytics from "@/components/common/Analytics";
 import ChatLauncher from "@/components/assistant/ChatLauncher";
 
-// The chat assistant shows only once an Anthropic API key is set for the deployment
-const CHAT_ON = Boolean(process.env.ANTHROPIC_API_KEY);
+// The chat assistant shows only once a Gemini API key is set for the deployment
+const CHAT_ON = Boolean(process.env.GEMINI_API_KEY);
 
 export default function RootLayout({
   children,

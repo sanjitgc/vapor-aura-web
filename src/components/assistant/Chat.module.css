@@ -349,6 +349,11 @@
     text-align: center;
 }
 
+.fine a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 /* Phones: the panel takes the whole screen */
 @media (max-width: 640px) {
     /* A small round button on phones, so it doesn't cover the words on full-width buttons */

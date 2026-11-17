@@ -244,7 +244,10 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                         </a>
                     ))}
                 </div>
-                <p className={styles.fine}>AI can make mistakes. Please don&apos;t share personal details. 21+ only.</p>
+                <p className={styles.fine}>
+                    AI can make mistakes. Don&apos;t share personal details:{" "}
+                    <Link href="/privacy">Google may review chats</Link>. 21+ only.
+                </p>
             </div>
         </div>
     );
