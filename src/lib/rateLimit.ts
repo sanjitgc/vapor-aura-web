@@ -147,3 +147,52 @@ export async function checkAutoReplyRateLimit(email: string): Promise<boolean> {
 
     return autoReplyRateLimiter.check(key).allowed;
 }
+
+// Chat assistant: questions per visitor. The key is an anonymous hash of the visitor's IP address
+// (made in /api/chat), never the address itself. Two limits: a burst limit and a daily one.
+const CHAT_LIMITS = [
+    { name: "burst", max: 15, windowMs: 10 * 60 * 1000, window: "10 m" },
+    { name: "daily", max: 60, windowMs: 24 * 60 * 60 * 1000, window: "1 d" },
+] as const;
+
+const chatMemoryLimiters = CHAT_LIMITS.map(
+    (limit) => new InMemoryRateLimiter({ windowMs: limit.windowMs, maxRequests: limit.max }),
+);
+let upstashChatLimiters: Ratelimit[] | null | undefined;
+
+function getUpstashChatLimiters(): Ratelimit[] | null {
+    if (upstashChatLimiters !== undefined) {
+        return upstashChatLimiters;
+    }
+
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+        upstashChatLimiters = null;
+        return upstashChatLimiters;
+    }
+
+    upstashChatLimiters = CHAT_LIMITS.map(
+        (limit) =>
+            new Ratelimit({
+                redis: Redis.fromEnv(),
+                limiter: Ratelimit.slidingWindow(limit.max, limit.window),
+                prefix: `vapor-aura-chat-${limit.name}`,
+            }),
+    );
+    return upstashChatLimiters;
+}
+
+export async function checkChatRateLimit(visitor: string): Promise<boolean> {
+    const key = `chat:${visitor}`;
+    const upstash = getUpstashChatLimiters();
+
+    if (upstash) {
+        try {
+            const results = await Promise.all(upstash.map((limiter) => limiter.limit(key)));
+            return results.every((result) => result.success);
+        } catch {
+            // Fall back to in-memory limiting if remote rate limit is unavailable.
+        }
+    }
+
+    return chatMemoryLimiters.map((limiter) => limiter.check(key)).every((result) => result.allowed);
+}

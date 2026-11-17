@@ -7,6 +7,8 @@ const CONTACT_EMAIL = "vaporaurasmokeshop@gmail.com";
 
 // The analytics paragraphs show only when Google Analytics is switched on (src/lib/analytics.ts)
 const USES_ANALYTICS = Boolean(GA_ID);
+// The chat paragraphs show only when the chat assistant is switched on (an API key is set)
+const USES_CHAT = Boolean(process.env.ANTHROPIC_API_KEY);
 
 export const metadata: Metadata = {
     title: "Privacy Policy | Vapor Aura",
@@ -19,7 +21,7 @@ export default function PrivacyPage() {
         <main className={styles.main}>
             <article className={styles.article}>
                 <h1 className={styles.title}>Privacy policy</h1>
-                <p className={styles.updated}>Last updated October 27, 2026</p>
+                <p className={styles.updated}>Last updated November 17, 2026</p>
 
                 <p>
                     This policy explains what information Vapor Aura (&quot;we&quot;, &quot;us&quot;) collects through
@@ -39,6 +41,14 @@ export default function PrivacyPage() {
                         are 21 or older and keeps your cart in your browser&apos;s local storage. This stays on your
                         device; we don&apos;t receive it.
                     </li>
+                    {USES_CHAT && (
+                        <li>
+                            <strong>Chat messages.</strong> If you use the chat assistant, the questions you type are
+                            sent to Anthropic, the AI company whose model writes the replies. We don&apos;t save chat
+                            conversations or use them for marketing. Please don&apos;t share personal, health or
+                            payment details in the chat.
+                        </li>
+                    )}
                     {USES_ANALYTICS && (
                         <li>
                             <strong>How the site is used.</strong> We use Google Analytics to understand which pages
@@ -73,7 +83,8 @@ export default function PrivacyPage() {
                     <li>Vercel, which hosts the website.</li>
                     <li>MongoDB, which stores contact form messages.</li>
                     <li>Resend, which delivers contact form messages to our inbox by email.</li>
-                    <li>Upstash, which helps limit repeated or automated form submissions.</li>
+                    <li>Upstash, which helps limit repeated or automated form submissions{USES_CHAT ? " and chat questions" : ""}.</li>
+                    {USES_CHAT && <li>Anthropic, whose AI writes the chat assistant&apos;s replies.</li>}
                     <li>Google Maps, whose maps are embedded on our store and location pages.</li>
                     {USES_ANALYTICS && <li>Google Analytics, which measures how the site is used.</li>}
                 </ul>
