@@ -46,12 +46,18 @@
     color: rgba(237, 237, 237, 0.75);
 }
 
-/* Category links: one row across the footer, under the brand and store details */
-.shop {
+/* Product categories and areas we serve: rows of links across the footer, under the brand
+   and store details */
+.directory {
     flex: 1 1 100%;
     order: 5;
+    display: grid;
+    gap: 1rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--border);
+}
+
+.shop {
     font-size: 0.9rem;
     line-height: 1.55;
     color: rgba(237, 237, 237, 0.75);

@@ -41,7 +41,10 @@ export function websiteSchema() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "@id": WEBSITE_ID,
+        // The name Google should show for the site in results. Google reads this on the home page
+        // only, and also looks at og:site_name and the home page title, which all say "Vapor Aura".
         name: SITE_NAME,
+        alternateName: ["Vapor Aura Smoke Shop", "vaporauratx.com"],
         url: `${SITE_URL}/`,
         publisher: { "@id": ORGANIZATION_ID },
         inLanguage: "en-US",
