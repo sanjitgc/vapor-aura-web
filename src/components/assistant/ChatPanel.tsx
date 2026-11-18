@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { IconType } from "react-icons";
 import { FaArrowRight, FaArrowUp, FaClock, FaCloud, FaFire, FaLocationDot, FaPhone, FaXmark } from "react-icons/fa6";
-import LiveStatus from "@/components/common/LiveStatus";
 import avatar from "@/assets/brand/aura-avatar.webp";
 import { ASSISTANT_LIMITS, chatTokens, type ChatMessage } from "@/lib/chat";
 import { siteRoutes } from "@/lib/routes";
@@ -183,14 +182,6 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                         <FaXmark aria-hidden="true" />
                     </button>
                 </div>
-                <ul className={styles.status} aria-label="Open right now">
-                    {STORES.map((store) => (
-                        <li key={store.slug} className={styles.statusItem}>
-                            <span className={styles.statusCity}>{store.city}</span>
-                            <LiveStatus slug={store.slug} className={styles.statusPill} />
-                        </li>
-                    ))}
-                </ul>
             </div>
 
             <div ref={logRef} className={styles.log} role="log" aria-live="polite" aria-busy={busy}>
