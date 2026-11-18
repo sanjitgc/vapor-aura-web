@@ -1,8 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { FaArrowUp, FaPhone, FaXmark } from "react-icons/fa6";
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import type { IconType } from "react-icons";
+import { FaArrowRight, FaArrowUp, FaClock, FaCloud, FaFire, FaLocationDot, FaPhone, FaXmark } from "react-icons/fa6";
+import LiveStatus from "@/components/common/LiveStatus";
+import avatar from "@/assets/brand/aura-avatar.webp";
 import { ASSISTANT_LIMITS, chatTokens, type ChatMessage } from "@/lib/chat";
 import { siteRoutes } from "@/lib/routes";
 import { STORES } from "@/lib/stores";
@@ -10,11 +14,11 @@ import { GA_ID } from "@/lib/analytics";
 import { gtag } from "@/lib/gtag";
 import styles from "./Chat.module.css";
 
-const SUGGESTIONS = [
-    "Are you open right now?",
-    "Which store is closest to Coppell?",
-    "Do you carry Geek Bar Pulse X?",
-    "Do you sell hookah coals?",
+const SUGGESTIONS: { text: string; Icon: IconType }[] = [
+    { text: "Are you open right now?", Icon: FaClock },
+    { text: "Which store is closest to Coppell?", Icon: FaLocationDot },
+    { text: "Do you carry Geek Bar Pulse X?", Icon: FaCloud },
+    { text: "Do you sell hookah coals?", Icon: FaFire },
 ];
 const CALL_US = STORES.map((store) => `${store.city} at ${store.phone}`).join(" or ");
 const UNAVAILABLE = `Sorry, I can't answer right now. Please call ${CALL_US}.`;
@@ -51,6 +55,11 @@ function Reply({ text }: { text: string }) {
     );
 }
 
+// A reply from the assistant
+function BotMessage({ children }: { children: ReactNode }) {
+    return <p className={`${styles.bubble} ${styles.bot}`}>{children}</p>;
+}
+
 // The chat itself. Questions go to /api/chat; replies stream in as they're written.
 // Nothing is saved: the conversation lives in this panel until the page is closed.
 export default function ChatPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -76,9 +85,10 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
         return () => document.removeEventListener("keydown", onKey);
     }, [open, onClose]);
 
+    // Follow the conversation as it grows (but start at the top, with the greeting in view)
     useEffect(() => {
         const log = logRef.current;
-        if (log) log.scrollTop = log.scrollHeight;
+        if (log && messages.length > 0) log.scrollTop = log.scrollHeight;
     }, [messages]);
 
     // Stop a reply that's still arriving if the panel goes away
@@ -150,13 +160,18 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
             hidden={!open}
         >
             <div className={styles.head}>
-                <div>
-                    <h2 id="chat-title" className={styles.title}>
-                        Ask Vapor Aura
-                    </h2>
-                    <p id="chat-about" className={styles.sub}>
-                        AI assistant. Answers come from our store info.
-                    </p>
+                <div className={styles.identity}>
+                    <span className={styles.avatar} aria-hidden="true">
+                        <Image src={avatar} alt="" width={34} height={34} />
+                    </span>
+                    <div className={styles.identityText}>
+                        <h2 id="chat-title" className={styles.title}>
+                            Ask Vapor Aura
+                        </h2>
+                        <p id="chat-about" className={styles.sub}>
+                            AI assistant for both stores
+                        </p>
+                    </div>
                 </div>
                 <div className={styles.headActions}>
                     {messages.length > 0 && (
@@ -168,20 +183,37 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                         <FaXmark aria-hidden="true" />
                     </button>
                 </div>
+                <ul className={styles.status} aria-label="Open right now">
+                    {STORES.map((store) => (
+                        <li key={store.slug} className={styles.statusItem}>
+                            <span className={styles.statusCity}>{store.city}</span>
+                            <LiveStatus slug={store.slug} className={styles.statusPill} />
+                        </li>
+                    ))}
+                </ul>
             </div>
 
             <div ref={logRef} className={styles.log} role="log" aria-live="polite" aria-busy={busy}>
-                <p className={`${styles.bubble} ${styles.bot}`}>
-                    Hi! I&apos;m Vapor Aura&apos;s AI assistant. Ask me about our hours, how to find us or what
-                    we carry. For a specific flavor or price, it&apos;s best to call the store.
-                </p>
+                <BotMessage>
+                    Hi! Ask me about our hours, how to find us or what we carry. For a specific flavor or
+                    price, it&apos;s best to call the store.
+                </BotMessage>
                 {messages.length === 0 && (
                     <div className={styles.suggestions}>
-                        {SUGGESTIONS.map((suggestion) => (
-                            <button key={suggestion} type="button" onClick={() => void ask(suggestion)}>
-                                {suggestion}
-                            </button>
-                        ))}
+                        <p className={styles.suggestionsTitle}>Try asking</p>
+                        <ul>
+                            {SUGGESTIONS.map(({ text, Icon }) => (
+                                <li key={text}>
+                                    <button type="button" className={styles.suggestion} onClick={() => void ask(text)}>
+                                        <span className={styles.suggestionIcon} aria-hidden="true">
+                                            <Icon />
+                                        </span>
+                                        <span className={styles.suggestionText}>{text}</span>
+                                        <FaArrowRight className={styles.suggestionArrow} aria-hidden="true" />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )}
                 {messages.map((message, i) =>
@@ -190,9 +222,14 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                             {message.content}
                         </p>
                     ) : (
-                        <p key={i} className={`${styles.bubble} ${styles.bot}`}>
+                        <BotMessage key={i}>
                             {message.content ? (
-                                <Reply text={message.content} />
+                                <>
+                                    <Reply text={message.content} />
+                                    {busy && i === messages.length - 1 && (
+                                        <span className={styles.caret} aria-hidden="true" />
+                                    )}
+                                </>
                             ) : (
                                 <span className={styles.typing} role="img" aria-label="Writing a reply">
                                     <i />
@@ -200,7 +237,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                                     <i />
                                 </span>
                             )}
-                        </p>
+                        </BotMessage>
                     ),
                 )}
                 {full && !busy && (
@@ -217,23 +254,30 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                     void ask(draft);
                 }}
             >
-                <label htmlFor="chat-input" className="visually-hidden">
-                    Your question
-                </label>
-                <input
-                    id="chat-input"
-                    ref={inputRef}
-                    value={draft}
-                    onChange={(event) => setDraft(event.target.value)}
-                    maxLength={ASSISTANT_LIMITS.maxQuestionChars}
-                    placeholder={full ? "Tap Start over to ask more" : "Ask a question"}
-                    disabled={full}
-                    autoComplete="off"
-                    enterKeyHint="send"
-                />
-                <button type="submit" className={styles.send} disabled={busy || full || !draft.trim()} aria-label="Send">
-                    <FaArrowUp aria-hidden="true" />
-                </button>
+                <div className={styles.composer}>
+                    <label htmlFor="chat-input" className="visually-hidden">
+                        Your question
+                    </label>
+                    <input
+                        id="chat-input"
+                        ref={inputRef}
+                        value={draft}
+                        onChange={(event) => setDraft(event.target.value)}
+                        maxLength={ASSISTANT_LIMITS.maxQuestionChars}
+                        placeholder={full ? "Tap Start over to ask more" : "Ask a question"}
+                        disabled={full}
+                        autoComplete="off"
+                        enterKeyHint="send"
+                    />
+                    <button
+                        type="submit"
+                        className={styles.send}
+                        disabled={busy || full || !draft.trim()}
+                        aria-label="Send"
+                    >
+                        <FaArrowUp aria-hidden="true" />
+                    </button>
+                </div>
             </form>
 
             <div className={styles.foot}>

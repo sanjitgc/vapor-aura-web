@@ -1,5 +1,9 @@
-/* The chat assistant: a button bottom right, and a panel that opens above it
-   (full screen on phones). It sits under the 21+ gate and the open mobile menu. */
+/* The chat assistant: a button bottom right, and a panel that opens above it (full screen on
+   phones). It sits under the 21+ gate and the open mobile menu.
+   Look: the site's black and green, with the meditating figure from the home page hero as the
+   assistant's face. Its soft green "aura" is the one bit of glow; everything else stays quiet. */
+
+/* ---------- Button ---------- */
 
 .launcher {
     position: fixed;
@@ -8,24 +12,36 @@
     z-index: 950;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    height: 52px;
-    padding: 0 1.2rem 0 1.05rem;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    gap: 0.6rem;
+    height: 56px;
+    padding: 0 1.3rem 0 0.35rem;
+    border: 1px solid rgba(74, 222, 128, 0.45);
     border-radius: 999px;
-    background: var(--button);
-    color: var(--button-text);
+    background: #090b09;
+    color: #f4f6f4;
     font-family: var(--font-display-stack);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 800;
     line-height: 1;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s var(--ease-out);
+    transition: border-color 0.2s ease, transform 0.2s var(--ease-out);
+}
+
+/* The aura: a slow green glow that breathes with the figure on the home page */
+.launcher::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    box-shadow: 0 0 24px rgba(34, 197, 94, 0.5);
+    opacity: 0.4;
+    pointer-events: none;
+    animation: breathe var(--breath, 7s) ease-in-out infinite;
 }
 
 .launcher:hover {
-    background: var(--button-hover);
+    border-color: rgba(74, 222, 128, 0.85);
 }
 
 .launcher:active {
@@ -37,15 +53,42 @@
     outline-offset: 3px;
 }
 
-.launcher svg {
-    flex: none;
-    width: 20px;
-    height: 20px;
-}
-
 .launcher[hidden],
 :global(html[data-age-gate="open"]) .launcher {
     display: none;
+}
+
+.launcherAvatar,
+.avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 62%, rgba(34, 197, 94, 0.32), rgba(34, 197, 94, 0) 68%),
+        #040504;
+}
+
+.launcherAvatar {
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.launcherAvatar img {
+    width: 34px;
+    height: 34px;
+}
+
+@keyframes breathe {
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
 }
 
 /* ---------- Panel ---------- */
@@ -57,14 +100,18 @@
     z-index: 1100;
     display: flex;
     flex-direction: column;
-    width: min(390px, calc(100vw - 2rem));
-    height: min(620px, calc(100dvh - 2rem));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 1.25rem;
+    width: min(400px, calc(100vw - 2rem));
+    height: min(680px, calc(100dvh - 2rem));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.4rem;
     background: #0a0c0a;
     color: #ededed;
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65);
+    box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(0, 0, 0, 0.6);
     overflow: hidden;
+    transform-origin: bottom right;
+    animation: rise 0.24s var(--ease-out);
 }
 
 .panel[hidden],
@@ -72,40 +119,77 @@
     display: none;
 }
 
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Header: who you're talking to, and whether each store is open right now */
 .head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 1rem 0.85rem 0.9rem 1.15rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem 0.5rem;
+    padding: 1rem 0.85rem 0.95rem 1rem;
     border-bottom: 1px solid var(--border);
+    background:
+        radial-gradient(130% 160% at 0% 0%, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0) 55%),
+        #0a0c0a;
+}
+
+.identity {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(74, 222, 128, 0.45);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.28);
+}
+
+.avatar img {
+    width: 34px;
+    height: 34px;
+}
+
+.identityText {
+    min-width: 0;
 }
 
 .title {
     font-family: var(--font-display-stack);
-    font-size: 1.55rem;
+    font-size: 1.6rem;
     font-weight: 800;
-    line-height: 1;
+    line-height: 0.95;
     text-transform: uppercase;
 }
 
 .sub {
-    margin-top: 0.35rem;
+    margin-top: 0.3rem;
     color: var(--muted);
     font-size: 0.8rem;
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
 .headActions {
     display: flex;
-    align-items: center;
-    gap: 0.15rem;
-    flex: none;
+    align-items: flex-start;
+    gap: 0.1rem;
 }
 
 .textButton {
     min-height: 40px;
-    padding: 0 0.6rem;
+    padding: 0 0.55rem;
     border: 0;
     background: none;
     color: var(--muted);
@@ -127,18 +211,44 @@
     height: 40px;
     border: 1px solid var(--border);
     border-radius: 50%;
-    background: none;
+    background: rgba(255, 255, 255, 0.03);
     color: #e4e6e4;
     cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .close:hover {
     border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .close svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
+}
+
+.status {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    list-style: none;
+}
+
+.statusItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d6dad6;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+/* The site's live open/closed badge, a size smaller */
+.status .statusPill {
+    gap: 0.4rem;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.74rem;
 }
 
 /* ---------- Conversation ---------- */
@@ -149,14 +259,16 @@
     overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 1rem;
+    gap: 0.75rem;
+    padding: 1.1rem 1rem 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 
 .bubble {
-    max-width: 88%;
-    padding: 0.65rem 0.9rem;
-    border-radius: 1rem;
+    max-width: 86%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 1.1rem;
     font-size: 0.95rem;
     line-height: 1.5;
     white-space: pre-wrap;
@@ -165,9 +277,10 @@
 
 .bot {
     align-self: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.07);
     border-bottom-left-radius: 0.35rem;
-    background: rgba(255, 255, 255, 0.06);
-    color: #e8eae8;
+    background: #141814;
+    color: #e9ece9;
 }
 
 .bot a {
@@ -178,40 +291,92 @@
 
 .me {
     align-self: flex-end;
-    border: 1px solid rgba(74, 222, 128, 0.25);
+    border: 1px solid rgba(74, 222, 128, 0.32);
     border-bottom-right-radius: 0.35rem;
-    background: rgba(34, 197, 94, 0.14);
-    color: #effaf2;
+    background: linear-gradient(180deg, rgba(34, 197, 94, 0.24), rgba(34, 197, 94, 0.14));
+    color: #f1fbf4;
 }
 
-.suggestions {
-    display: flex;
-    flex-wrap: wrap;
+/* Questions to tap before typing anything */
+.suggestionsTitle {
+    margin-bottom: 0.45rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.suggestions ul {
+    display: grid;
     gap: 0.45rem;
+    list-style: none;
 }
 
-.suggestions button {
-    padding: 0.5rem 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
-    background: none;
-    color: #e4e6e4;
+.suggestion {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.42rem 0.8rem 0.42rem 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.025);
+    color: #e8eae8;
     font: inherit;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-align: left;
     cursor: pointer;
     transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.suggestions button:hover {
+.suggestion:hover,
+.suggestion:focus-visible {
     border-color: rgba(74, 222, 128, 0.5);
-    background: rgba(34, 197, 94, 0.06);
+    background: rgba(34, 197, 94, 0.07);
 }
 
+.suggestion:focus-visible {
+    outline: none;
+}
+
+.suggestionIcon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+}
+
+.suggestionIcon svg {
+    width: 13px;
+    height: 13px;
+}
+
+.suggestionText {
+    flex: 1;
+    min-width: 0;
+}
+
+.suggestionArrow {
+    flex: none;
+    width: 11px;
+    height: 11px;
+    color: #6f756f;
+    transition: transform 0.2s var(--ease-out), color 0.2s ease;
+}
+
+.suggestion:hover .suggestionArrow,
+.suggestion:focus-visible .suggestionArrow {
+    color: #4ade80;
+    transform: translateX(3px);
+}
+
+/* Waiting for the first words of a reply */
 .typing {
     display: inline-flex;
     gap: 4px;
-    padding: 0.35rem 0;
+    padding: 0.4rem 0.1rem;
 }
 
 .typing i {
@@ -242,6 +407,24 @@
     }
 }
 
+/* While a reply is still arriving */
+.caret {
+    display: inline-block;
+    width: 0.45em;
+    height: 1em;
+    margin-left: 2px;
+    border-radius: 1px;
+    vertical-align: -0.12em;
+    background: #4ade80;
+    animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+    50% {
+        opacity: 0;
+    }
+}
+
 .note {
     color: var(--muted);
     font-size: 0.85rem;
@@ -251,64 +434,78 @@
 /* ---------- Question box and phone buttons ---------- */
 
 .form {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem 0.55rem;
+    padding: 0.8rem 1rem 0.6rem;
     border-top: 1px solid var(--border);
 }
 
-.form input {
-    flex: 1;
-    min-width: 0;
-    height: 46px;
-    padding: 0 1rem;
+.composer {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.3rem 0.3rem 1.05rem;
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 999px;
     background: #050605;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.composer:focus-within {
+    border-color: rgba(74, 222, 128, 0.65);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.14);
+}
+
+.composer input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    border: 0;
+    outline: none;
+    background: none;
     color: #f2f2f2;
     font: inherit;
     /* 16px keeps iPhones from zooming in on the box */
     font-size: 16px;
 }
 
-.form input::placeholder {
-    color: #8b908c;
-}
-
-.form input:focus {
-    outline: none;
-    border-color: rgba(74, 222, 128, 0.6);
+.composer input::placeholder {
+    color: #858b86;
 }
 
 .send {
     display: grid;
     place-items: center;
     flex: none;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     border: 0;
     border-radius: 50%;
     background: var(--button);
     color: var(--button-text);
     cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s var(--ease-out);
 }
 
 .send:hover:not(:disabled) {
     background: var(--button-hover);
 }
 
+.send:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
 .send:disabled {
-    opacity: 0.4;
+    background: rgba(255, 255, 255, 0.07);
+    color: #6c716d;
     cursor: default;
 }
 
 .send svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
 }
 
 .foot {
-    padding: 0.2rem 1rem 0.9rem;
+    padding: 0.15rem 1rem 0.9rem;
 }
 
 .calls {
@@ -322,30 +519,32 @@
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    min-height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    min-height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 999px;
+    background: rgba(255, 255, 255, 0.02);
     color: var(--button-outline-text);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     font-weight: 700;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .call:hover {
     border-color: rgba(74, 222, 128, 0.5);
+    background: rgba(34, 197, 94, 0.06);
 }
 
 .call svg {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
     color: #4ade80;
 }
 
 .fine {
-    margin-top: 0.55rem;
-    color: #8b908c;
-    font-size: 0.75rem;
-    line-height: 1.4;
+    margin-top: 0.6rem;
+    color: #858b86;
+    font-size: 0.74rem;
+    line-height: 1.45;
     text-align: center;
 }
 
@@ -354,19 +553,25 @@
     text-underline-offset: 2px;
 }
 
-/* Phones: the panel takes the whole screen */
+/* ---------- Phones: a round button, and the panel takes the whole screen ---------- */
+
 @media (max-width: 640px) {
-    /* A small round button on phones, so it doesn't cover the words on full-width buttons */
     .launcher {
-        width: 54px;
-        height: 54px;
+        width: 60px;
+        height: 60px;
         padding: 0;
         justify-content: center;
     }
 
-    .launcher svg {
-        width: 24px;
-        height: 24px;
+    .launcherAvatar {
+        width: 50px;
+        height: 50px;
+        border: 0;
+    }
+
+    .launcherAvatar img {
+        width: 40px;
+        height: 40px;
     }
 
     .launcherLabel {
@@ -384,6 +589,7 @@
         height: 100dvh;
         border: 0;
         border-radius: 0;
+        animation-name: rise-phone;
     }
 
     .head {
@@ -395,11 +601,33 @@
     }
 }
 
+@keyframes rise-phone {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .launcher,
-    .suggestions button,
-    .call {
+    .suggestion,
+    .suggestionArrow,
+    .call,
+    .close,
+    .send,
+    .composer {
         transition: none;
+    }
+
+    .launcher::after,
+    .panel,
+    .caret {
+        animation: none;
     }
 
     .typing i {

@@ -1,10 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FaCommentDots } from "react-icons/fa6";
 import { GA_ID } from "@/lib/analytics";
 import { gtag } from "@/lib/gtag";
+import avatar from "@/assets/brand/aura-avatar.webp";
 import styles from "./Chat.module.css";
 
 // The panel's code loads the first time someone reaches for the button, so pages that never
@@ -47,7 +48,9 @@ export default function ChatLauncher() {
                 aria-controls="chat-panel"
                 hidden={open}
             >
-                <FaCommentDots aria-hidden="true" />
+                <span className={styles.launcherAvatar} aria-hidden="true">
+                    <Image src={avatar} alt="" width={34} height={34} />
+                </span>
                 <span className={styles.launcherLabel}>Ask us</span>
             </button>
             {started && <ChatPanel open={open} onClose={closeChat} />}
