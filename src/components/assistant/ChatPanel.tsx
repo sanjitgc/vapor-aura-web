@@ -168,7 +168,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                             Ask Vapor Aura
                         </h2>
                         <p id="chat-about" className={styles.sub}>
-                            AI assistant for both stores
+                            Here to help, day or night
                         </p>
                     </div>
                 </div>
