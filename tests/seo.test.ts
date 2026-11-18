@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { STORES, SITE_URL, getStore, weeklyHours, schemaPhone, mapsListingUrl } from "../src/lib/stores";
-import { storeSchema, organizationSchema, breadcrumbSchema } from "../src/lib/schema";
+import { storeSchema, organizationSchema, breadcrumbSchema, websiteSchema } from "../src/lib/schema";
 import { siteRoutes, PRIVATE_PATHS } from "../src/lib/routes";
 import { storeStatus } from "../src/lib/hours";
 import { STORE_PAGES, storeShelves } from "../src/lib/storePages";
@@ -131,4 +131,13 @@ test("store schema lists the store's own photos when it has them", () => {
     // No photos yet: the brand image stands in
     assert.equal(storeSchema(getStore("sachse")).image, `${SITE_URL}/og-image.jpg`);
     assert.equal(storeSchema(getStore("sachse"), []).image, `${SITE_URL}/og-image.jpg`);
+});
+
+test("the home page tells Google the site's name, with fallbacks", () => {
+    const site = websiteSchema();
+    assert.equal(site.name, "Vapor Aura");
+    // Must be the canonical home page, with the trailing slash
+    assert.equal(site.url, `${SITE_URL}/`);
+    assert.ok(site.alternateName.length > 0);
+    assert.ok(!site.alternateName.includes(site.name));
 });

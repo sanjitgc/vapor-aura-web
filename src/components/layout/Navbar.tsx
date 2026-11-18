@@ -14,7 +14,7 @@ const links: { href: string; label: string; hash?: string; paths?: string[] }[] 
     { href: "/", label: "Home", hash: "#home" },
     { href: "/products", label: "Products", hash: "#products", paths: ["/products"] },
     { href: "/about", label: "About us", hash: "#why-choose", paths: ["/about"] },
-    { href: "/locations", label: "Locations", hash: "#locations", paths: ["/locations", "/sachse", "/irving"] },
+    { href: "/locations", label: "Locations", hash: "#locations", paths: ["/locations", "/sachse", "/irving", "/smoke-shop"] },
     { href: "/contact", label: "Contact", hash: "#contact", paths: ["/contact"] },
 ];
 

@@ -5,6 +5,10 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { SiDoordash } from "react-icons/si";
 import { DOORDASH_URL, STORES, SOCIAL } from "@/lib/stores";
 import { CATEGORY_PAGES } from "@/lib/categoryPages";
+import { AREA_PAGES } from "@/lib/areaPages";
+
+// Every nearby-city page, A to Z, so each one is a click away from every page on the site
+const AREAS = [...AREA_PAGES].sort((a, b) => a.place.localeCompare(b.place));
 
 export default function Footer() {
     return (
@@ -28,16 +32,29 @@ export default function Footer() {
                     ))}
                 </div>
 
-                <nav className={styles.shop} aria-label="Product categories">
-                    <p className={styles.storeName}>What we carry</p>
-                    <ul>
-                        {CATEGORY_PAGES.map((page) => (
-                            <li key={page.slug}>
-                                <Link href={`/products/${page.slug}`}>{page.name}</Link>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+                <div className={styles.directory}>
+                    <nav className={styles.shop} aria-label="Product categories">
+                        <p className={styles.storeName}>What we carry</p>
+                        <ul>
+                            {CATEGORY_PAGES.map((page) => (
+                                <li key={page.slug}>
+                                    <Link href={`/products/${page.slug}`}>{page.name}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+
+                    <nav className={styles.shop} aria-label="Areas we serve">
+                        <p className={styles.storeName}>Areas we serve</p>
+                        <ul>
+                            {AREAS.map((page) => (
+                                <li key={page.slug}>
+                                    <Link href={page.path}>{page.place}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </div>
 
                 <div className={styles.links} aria-label="Social media links">
                     <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" aria-label="Vapor Aura on Instagram">
