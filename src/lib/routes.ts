@@ -19,7 +19,7 @@ const PAGES: SiteRoute[] = [
     { path: "/locations", updated: "2026-11-11", changeFrequency: "monthly", priority: 0.8 },
     { path: "/about", updated: "2026-11-11", changeFrequency: "monthly", priority: 0.6 },
     { path: "/contact", updated: "2026-10-27", changeFrequency: "yearly", priority: 0.5 },
-    { path: "/privacy", updated: "2026-10-27", changeFrequency: "yearly", priority: 0.2 },
+    { path: "/privacy", updated: "2026-11-17", changeFrequency: "yearly", priority: 0.2 },
     { path: "/terms", updated: "2026-10-20", changeFrequency: "yearly", priority: 0.2 },
 ];
 

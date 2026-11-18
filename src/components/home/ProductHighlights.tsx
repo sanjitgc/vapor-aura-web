@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
 import styles from "./ProductHighlights.module.css";
 import { CATEGORIES, MORE_CATEGORIES } from "@/lib/catalog";
 
@@ -55,7 +54,7 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                             <ItemHeading className={styles.itemTitle}>
                                 {category.page ? (
                                     <Link href={`/products/${category.page}`} className={styles.itemLink}>
-                                        {keepHyphenated(category.name)} <FaArrowRight aria-hidden="true" />
+                                        {keepHyphenated(category.name)}
                                     </Link>
                                 ) : (
                                     keepHyphenated(category.name)

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { STORES } from "@/lib/stores";
 import { GA_ID } from "@/lib/analytics";
+import { gtag } from "@/lib/gtag";
 
 // Google Analytics 4. The measurement ID comes from src/lib/analytics.ts.
 // Besides page views, it records the taps that turn into store visits:
@@ -12,21 +13,8 @@ import { GA_ID } from "@/lib/analytics";
 //   directions_click  a Google Maps "Directions" link was tapped
 //   doordash_click    an "Order on DoorDash" link was tapped
 //   location_page_view  someone opened /sachse or /irving
-// Each event carries `store` ("sachse", "irving" or "both") so the stores can be compared.
-
-declare global {
-    interface Window {
-        dataLayer?: unknown[];
-    }
-}
-
-// Google's queue: calls made before gtag.js loads wait in dataLayer and run once it arrives
-function gtag(...args: unknown[]) {
-    void args;
-    // gtag.js reads the arguments object itself, not an array copy
-    // eslint-disable-next-line prefer-rest-params
-    (window.dataLayer = window.dataLayer || []).push(arguments);
-}
+//   chat_open, chat_question  the chat assistant was opened, or a question was sent (no text)
+// The tap events carry `store` ("sachse", "irving" or "both") so the stores can be compared.
 
 function storeFor(link: HTMLAnchorElement, href: string): string {
     const tagged = link.closest("[data-store]")?.getAttribute("data-store");
