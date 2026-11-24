@@ -2,9 +2,14 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
     padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     background: var(--section-background);
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 .section::before {
@@ -18,6 +23,16 @@
     background: url("/leaf-accent-sm.webp") no-repeat center / contain;
     opacity: 0.8;
     pointer-events: none;
+}
+
+/* Wide screens: the storefront photos fill the bottom left, so the leaf moves to the empty
+   bottom right, mirrored to point inward */
+@media (min-width: 900px) {
+    .section::before {
+        left: auto;
+        right: -44px;
+        transform: scaleX(-1);
+    }
 }
 
 .container {
@@ -45,13 +60,56 @@
     line-height: 1.7;
 }
 
+/* The two storefronts at night, lit up: the "open late" promise, shown. The Irving photo
+   sits a little lower so the pair reads as a set rather than a grid. */
+.storefronts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: clamp(2rem, 4vw, 2.8rem);
+    max-width: 34rem;
+}
+
+.storefront:nth-child(2) {
+    margin-top: 2.5rem;
+}
+
+.frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.frame img {
+    object-fit: cover;
+}
+
+.storefront figcaption {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+/* On tall desktop screens the heading and photos stay in view while the reasons scroll by */
+@media (min-width: 861px) and (min-height: 860px) {
+    .intro {
+        position: sticky;
+        top: calc(var(--header-height) + 2rem);
+    }
+}
+
 .list {
     list-style: none;
 }
 
 .item {
-    position: relative;
-    padding: 1.35rem 0 1.35rem 1.6rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding: 1.5rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.09);
 }
 
@@ -59,23 +117,22 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-/* Small red dot from the logo */
-.item::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 1.85rem;
-    width: 8px;
-    height: 8px;
+.icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
     border-radius: 50%;
-    background: var(--secondary);
+    border: 1px solid rgba(74, 222, 128, 0.4);
+    background: rgba(74, 222, 128, 0.06);
+    color: #4ade80;
 }
 
 .itemTitle {
     font-size: clamp(1.1rem, 1.8vw, 1.3rem);
     font-weight: 700;
     color: #f3f3f3;
-    margin-bottom: 0.35rem;
+    margin: 0.35rem 0 0.35rem;
 }
 
 .itemText {
@@ -90,6 +147,10 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+
+    .storefronts {
+        max-width: none;
+    }
 }
 
 @media (max-width: 640px) {
@@ -98,22 +159,24 @@
     }
 
     .item {
-        padding: 1.1rem 0 1.1rem 1.4rem;
+        gap: 0.9rem;
+        padding: 1.2rem 0;
     }
 
-    .item::before {
-        top: 1.55rem;
+    .icon {
+        width: 2.3rem;
+        height: 2.3rem;
     }
 }
 
 /* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
 @media (max-width: 899px) {
     .section {
-        padding-bottom: 10rem;
+        padding-bottom: 7.5rem;
     }
 
     .section::before {
-        width: 132px;
+        width: 104px;
         left: -14px;
         bottom: -14px;
     }

@@ -9,6 +9,10 @@ const inter = localFont({
   weight: "100 900",
   variable: "--font-inter",
   display: "swap",
+  // Next's automatic fallback only knows Arial, which Android phones don't have, so they jumped
+  // when Inter arrived. globals.css defines width-matched stand-ins for Arial and Roboto.
+  adjustFontFallback: false,
+  fallback: ["Vapor Body Fallback", "Vapor Body Fallback Roboto", "Arial", "sans-serif"],
 });
 
 // Bricolage Grotesque, cut down to one static condensed ExtraBold (overlaps removed so
@@ -18,6 +22,11 @@ const display = localFont({
   weight: "800",
   variable: "--font-display",
   display: "swap",
+  // The automatic Arial fallback is far wider than this condensed face, so headings wrapped
+  // differently until the font arrived and the page jumped. A bold Arial scaled to the same
+  // width (globals.css) keeps lines in place while the font loads.
+  adjustFontFallback: false,
+  fallback: ["Vapor Display Fallback", "Arial Narrow", "sans-serif"],
 });
 
 // Runs before first paint. If the visitor hasn't passed the 21+ gate, it marks the page so the
@@ -51,6 +60,7 @@ import Footer from "@/components/layout/Footer";
 import AgeVerification from "@/components/common/AgeVerification";
 import Analytics from "@/components/common/Analytics";
 import ChatLauncher from "@/components/assistant/ChatLauncher";
+import TypingAnswers from "@/components/common/TypingAnswers";
 
 // The chat assistant shows only once a Gemini API key is set for the deployment
 const CHAT_ON = Boolean(process.env.GEMINI_API_KEY);
@@ -71,6 +81,7 @@ export default function RootLayout({
         {children}
         <Footer />
         {CHAT_ON && <ChatLauncher />}
+        <TypingAnswers />
         <Analytics />
       </body>
     </html>

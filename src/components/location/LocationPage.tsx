@@ -159,7 +159,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                 </section>
 
                 {photos && (
-                    <section className={styles.section} aria-labelledby="inside-title">
+                    <section className={styles.section} data-reveal="" aria-labelledby="inside-title">
                         <h2 id="inside-title" className={styles.sectionTitle}>
                             Inside the {store.city} store
                         </h2>
@@ -171,13 +171,13 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </section>
                 )}
 
-                <section className={styles.section} aria-labelledby="highlights-title">
+                <section className={styles.section} data-reveal="" aria-labelledby="highlights-title">
                     <h2 id="highlights-title" className={styles.sectionTitle}>
                         Worth the trip to {store.city}
                     </h2>
                     <dl className={styles.highlights}>
                         {copy.highlights.map((item) => (
-                            <div key={item.name}>
+                            <div key={item.name} data-rule="">
                                 <dt>{item.name}</dt>
                                 <dd>{item.text}</dd>
                             </div>
@@ -185,7 +185,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </dl>
                 </section>
 
-                <section className={styles.section} aria-labelledby="shelves-title">
+                <section className={styles.section} data-reveal="" aria-labelledby="shelves-title">
                     <h2 id="shelves-title" className={styles.sectionTitle}>
                         What you&apos;ll find in {store.city}
                     </h2>
@@ -205,7 +205,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </p>
                 </section>
 
-                <section className={styles.section} aria-labelledby="find-title">
+                <section className={styles.section} data-reveal="" aria-labelledby="find-title">
                     <h2 id="find-title" className={styles.sectionTitle}>
                         Finding us
                     </h2>
@@ -224,7 +224,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                 </section>
 
                 {reviews.length > 0 && (
-                    <section className={styles.section} aria-labelledby="reviews-title">
+                    <section className={styles.section} data-reveal="" aria-labelledby="reviews-title">
                         <h2 id="reviews-title" className={styles.sectionTitle}>
                             What customers say
                         </h2>
@@ -264,13 +264,13 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </section>
                 )}
 
-                <section className={styles.section} aria-labelledby="faq-title">
+                <section className={styles.section} data-reveal="" aria-labelledby="faq-title">
                     <h2 id="faq-title" className={styles.sectionTitle}>
                         {store.city} store questions
                     </h2>
                     <div className={styles.faq}>
                         {copy.faq.map((item) => (
-                            <details key={item.q} className={styles.faqItem}>
+                            <details key={item.q} className={styles.faqItem} name="page-faq" data-typing="">
                                 <summary className={styles.faqQuestion}>{item.q}</summary>
                                 <p className={styles.faqAnswer}>{item.a}</p>
                             </details>

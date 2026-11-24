@@ -1,3 +1,38 @@
+/* Stand-in for the condensed display face while it loads: bold Arial, scaled so headings take
+   the same width and wrap the same way (tuned against "Are you 21 or older?" and the page titles) */
+/* Stand-ins for Inter while it loads, scaled to Inter's width so paragraphs wrap the same before
+   and after the swap. Arial (or its metric twin Liberation Sans) on Windows, Mac and iOS, Roboto on
+   Android. Without these, Android phones showed text in plain Roboto and the page jumped when
+   Inter arrived. */
+@font-face {
+  font-family: "Vapor Body Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans");
+  size-adjust: 105.46%;
+  ascent-override: 91.86%;
+  descent-override: 22.87%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Vapor Body Fallback Roboto";
+  src: local("Roboto"), local("Roboto-Regular"), local("Roboto Regular");
+  size-adjust: 107.01%;
+  ascent-override: 90.53%;
+  descent-override: 22.54%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Vapor Display Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("LiberationSans-Bold"),
+    local("Roboto Bold"), local("Roboto-Bold"), local("Arial");
+  font-weight: 100 900;
+  size-adjust: 59.8%;
+  ascent-override: 155.5%;
+  descent-override: 45.15%;
+  line-gap-override: 0%;
+}
+
 :root {
   --background: #050505;
   --surface: #0a0a0a;
@@ -26,7 +61,7 @@
   --section-background: var(--background);
 
   /* Type: Bricolage Grotesque (condensed) for display, Inter for reading */
-  --font-display-stack: var(--font-display), "Arial Narrow", system-ui, sans-serif;
+  --font-display-stack: var(--font-display), "Vapor Display Fallback", sans-serif;
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -50,6 +85,9 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  /* clip, where supported: hides sideways overflow without making body its own scroll box,
+     so scroll-driven effects follow the page's real scroll */
+  overflow-x: clip;
 }
 
 html {
@@ -98,6 +136,88 @@ a {
   border: 0;
 }
 
+/* Scroll reveal: blocks marked data-reveal fade and rise into place as they scroll into view.
+   Driven by the scroll itself in the browser (no JavaScript), so content is never held back
+   waiting for scripts, and anything already on screen when the page opens shows as normal.
+   --reveal-i (0, 1, 2...) staggers blocks that sit side by side in a row.
+   Browsers without scroll-driven animations, and anyone who asks for reduced motion, simply
+   see the page without it. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal linear both;
+      animation-timing-function: cubic-bezier(0.22, 0.75, 0.2, 1);
+      animation-timeline: view();
+      animation-range: entry calc(var(--reveal-i, 0) * 36px) entry calc(280px + var(--reveal-i, 0) * 36px);
+    }
+  }
+}
+
+/* Hairlines: the top rule of tiles marked data-rule draws in from the left as the tile scrolls
+   into view (scroll-driven, no JavaScript). The line is a background stripe over the border so
+   the layout never moves. Without support it's just the normal border. */
+@keyframes rule-draw {
+  from {
+    background-size: 0% 1px;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-rule] {
+      border-top-color: transparent !important;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
+      background-repeat: no-repeat;
+      background-origin: border-box;
+      background-position: 0 0;
+      background-size: 100% 1px;
+      animation: rule-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0px entry 220px;
+    }
+
+    /* Tiles that also fade up: both animations, each on its own stretch of the scroll */
+    [data-reveal][data-rule] {
+      animation:
+        reveal linear both,
+        rule-draw linear both;
+      animation-timing-function: cubic-bezier(0.22, 0.75, 0.2, 1), cubic-bezier(0.3, 0, 0.2, 1);
+      animation-timeline: view(), view();
+      animation-range:
+        entry calc(var(--reveal-i, 0) * 36px) entry calc(280px + var(--reveal-i, 0) * 36px),
+        entry 0px entry 220px;
+    }
+  }
+}
+
+/* Questions and answers open and close smoothly instead of snapping */
+@supports selector(::details-content) {
+  @media (prefers-reduced-motion: no-preference) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+
+    details::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size 0.35s cubic-bezier(0.22, 0.75, 0.2, 1),
+        content-visibility 0.35s allow-discrete;
+    }
+
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -111,4 +231,73 @@ a {
     animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Answers that type themselves out when a question opens (TypingAnswers.tsx) */
+details[data-typing] {
+  position: relative;
+}
+
+details:is([data-typing="busy"], [data-typing="done"]) > p:not([data-typing-copy]),
+details:is([data-typing="busy"], [data-typing="done"]) > div > p:not([data-typing-copy]) {
+  color: transparent;
+}
+
+details[data-typing] a {
+  transition: opacity 0.3s ease;
+}
+
+details[data-typing="busy"] a {
+  opacity: 0;
+}
+
+[data-typing-copy] {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+}
+
+[data-typing-copy] > span:not([data-on]) {
+  color: transparent;
+}
+
+/* The cursor: a thin green bar just after the last typed letter, drawn as a shadow so it
+   never pushes the text around */
+[data-typing-copy] > [data-caret] {
+  box-shadow: 2px 0 0 #4ade80;
+}
+
+details[data-typing="done"] [data-caret] {
+  animation: caret-blink 0.6s steps(1) both;
+}
+
+@keyframes caret-blink {
+  50% { box-shadow: none; }
+}
+
+[data-typing-dots] {
+  position: absolute;
+  top: 0.45em;
+  left: 0;
+  display: flex;
+  gap: 5px;
+  padding: 0.45em 0.7em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+[data-typing-dots] i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: typing-dot 0.9s ease-in-out infinite;
+}
+
+[data-typing-dots] i:nth-child(2) { animation-delay: 0.15s; }
+[data-typing-dots] i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
 }

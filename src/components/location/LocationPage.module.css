@@ -4,6 +4,11 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 /* Corner leaf, bottom right, below the last block so it never sits under words */
@@ -662,4 +667,32 @@
         right: -14px;
         bottom: -14px;
     }
+}
+
+/* The top of the page eases in, one piece after another */
+@keyframes enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+}
+
+.hero > * {
+    animation: enter 0.8s var(--ease-out) both;
+}
+
+.hero > *:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.hero > *:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.hero > *:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.hero > *:nth-child(n + 5) {
+    animation-delay: 0.32s;
 }

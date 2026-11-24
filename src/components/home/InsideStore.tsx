@@ -18,7 +18,7 @@ export default function InsideStore() {
     if (stores.length === 0) return null;
 
     return (
-        <section className={styles.section} aria-labelledby="inside-title">
+        <section className={styles.section} aria-labelledby="inside-title" data-reveal="">
             <div className={styles.container}>
                 <InsideStoreView stores={stores} />
             </div>

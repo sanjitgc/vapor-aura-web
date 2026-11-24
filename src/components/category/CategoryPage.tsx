@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaDiamondTurnRight, FaPhone } from "react-icons/fa6";
@@ -56,8 +57,8 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                             On the shelf
                         </h2>
                         <dl className={styles.shelf}>
-                            {copy.shelf.map((item) => (
-                                <div key={item.name} className={styles.shelfItem}>
+                            {copy.shelf.map((item, i) => (
+                                <div key={item.name} className={styles.shelfItem} data-rule="" data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
                                     <dt>{item.name}</dt>
                                     <dd>{item.text}</dd>
                                 </div>
@@ -83,7 +84,7 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                     {photos.length > 0 && (
                         <div className={styles.photos} aria-label="Photos from our stores">
                             {photos.map((photo, i) => (
-                                <figure key={photo.id} className={styles.photo}>
+                                <figure key={photo.id} className={styles.photo} data-reveal="">
                                     {/* The frame follows the photo's own shape, between square and 5:2 */}
                                     <div
                                         className={styles.frame}
@@ -108,7 +109,7 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                     )}
                 </div>
 
-                <section className={loc.section} aria-labelledby="stores-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="stores-title">
                     <h2 id="stores-title" className={loc.sectionTitle}>
                         Where to buy
                     </h2>
@@ -140,13 +141,13 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                     </ul>
                 </section>
 
-                <section className={loc.section} aria-labelledby="faq-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="faq-title">
                     <h2 id="faq-title" className={loc.sectionTitle}>
                         {copy.name}: common questions
                     </h2>
                     <div className={loc.faq}>
                         {copy.faq.map((item) => (
-                            <details key={item.q} className={loc.faqItem}>
+                            <details key={item.q} className={loc.faqItem} name="page-faq" data-typing="">
                                 <summary className={loc.faqQuestion}>{item.q}</summary>
                                 <p className={loc.faqAnswer}>{item.a}</p>
                             </details>
@@ -154,7 +155,7 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                     </div>
                 </section>
 
-                <nav className={loc.section} aria-labelledby="related-title">
+                <nav className={loc.section} data-reveal="" aria-labelledby="related-title">
                     <h2 id="related-title" className={loc.sectionTitle}>
                         More from our stores
                     </h2>

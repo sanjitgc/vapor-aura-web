@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./ContactSection.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { emailProblem, normalizePhone, PHONE_PROBLEM, type InquiryField } from "@/lib/inquiryValidation";
 import { FaFacebookF, FaInstagram, FaLocationDot } from "react-icons/fa6";
 import { SOCIAL, STORES, mapEmbedUrl, mapsListingUrl, weeklyHours } from "@/lib/stores";
@@ -111,7 +111,7 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
     return (
         <div className={`${styles.main} ${titleAs === "h1" ? styles.asPage : ""}`}>
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={styles.header} data-reveal="">
                     <Title className={styles.title}>{title}</Title>
                     <p className={styles.subtitle}>
                         Questions? Feedback? We want to hear from you.
@@ -119,11 +119,35 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                 </div>
 
                 <div className={styles.content}>
-                    <div className={styles.formColumn}>
+                    <div className={styles.formColumn} data-reveal="">
                         <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="name" className={styles.label}>Name</label>
-                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required maxLength={100} />
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="name" className={styles.label}>Name</label>
+                                <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required maxLength={100} />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="phone" className={styles.label}>Phone (optional)</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    className={styles.input}
+                                    placeholder="(214) 501-3222"
+                                    maxLength={25}
+                                    autoComplete="tel"
+                                    inputMode="tel"
+                                    aria-invalid={fieldErrors.phone ? true : undefined}
+                                    aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+                                    onBlur={(e) => checkField("phone", e.currentTarget)}
+                                    onChange={(e) => recheck("phone", e.currentTarget)}
+                                />
+                                {fieldErrors.phone && (
+                                    <p id="phone-error" className={styles.fieldError}>
+                                        {fieldErrors.phone}
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
                         <div className={styles.formGroup}>
@@ -149,51 +173,29 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                             )}
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="phone" className={styles.label}>Phone (optional)</label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                className={styles.input}
-                                placeholder="(214) 501-3222"
-                                maxLength={25}
-                                autoComplete="tel"
-                                inputMode="tel"
-                                aria-invalid={fieldErrors.phone ? true : undefined}
-                                aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
-                                onBlur={(e) => checkField("phone", e.currentTarget)}
-                                onChange={(e) => recheck("phone", e.currentTarget)}
-                            />
-                            {fieldErrors.phone && (
-                                <p id="phone-error" className={styles.fieldError}>
-                                    {fieldErrors.phone}
-                                </p>
-                            )}
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="store" className={styles.label}>Which store?</label>
+                                <select id="store" name="store" className={styles.select} defaultValue="Either">
+                                    <option value="Either">Either store</option>
+                                    <option value="Sachse">Sachse</option>
+                                    <option value="Irving">Irving</option>
+                                </select>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="subject" className={styles.label}>Subject</label>
+                                <select id="subject" name="subject" className={styles.select} required>
+                                    <option value="General Inquiry">General inquiry</option>
+                                    <option value="Store Experience">Store experience</option>
+                                    <option value="Product Request">Product request</option>
+                                    <option value="Careers">Careers</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="store" className={styles.label}>Which store?</label>
-                            <select id="store" name="store" className={styles.select} defaultValue="Either">
-                                <option value="Either">Either store</option>
-                                <option value="Sachse">Sachse</option>
-                                <option value="Irving">Irving</option>
-                            </select>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <label htmlFor="subject" className={styles.label}>Subject</label>
-                            <select id="subject" name="subject" className={styles.select} required>
-                                <option value="General Inquiry">General inquiry</option>
-                                <option value="Store Experience">Store experience</option>
-                                <option value="Product Request">Product request</option>
-                                <option value="Careers">Careers</option>
-                            </select>
-                        </div>
-
-                        <div className={styles.formGroup}>
+                        <div className={`${styles.formGroup} ${styles.messageGroup}`}>
                             <label htmlFor="message" className={styles.label}>Message</label>
-                            <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required maxLength={5000}></textarea>
+                            <textarea id="message" name="message" className={styles.textarea} rows={3} placeholder="How can we help?" required maxLength={5000}></textarea>
                         </div>
 
                         {/* Spam trap: hidden from people, filled in by bots */}
@@ -215,8 +217,13 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                     </div>
 
                     <div className={styles.locationsColumn}>
-                        {storeLocations.map((location) => (
-                            <article key={location.slug} className={styles.locationCard} data-store={location.slug}>
+                        {storeLocations.map((location, i) => (
+                            <article
+                                key={location.slug}
+                                className={styles.locationCard}
+                                data-store={location.slug}
+                                data-reveal="" style={{ "--reveal-i": i + 1 } as CSSProperties}
+                            >
                                 <div className={styles.locationCardHeader}>
                                     <FaLocationDot className={styles.locationIcon} aria-hidden="true" />
                                     <h3 className={styles.locationCardTitle}>

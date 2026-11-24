@@ -1,10 +1,14 @@
 .section {
-    /* Extra room at the bottom so the corner leaf shows in full, below the review cards */
-    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem 12.5rem;
+    padding: clamp(4rem, 8vw, 6.5rem) 1.5rem clamp(4rem, 7vw, 6rem);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 /* Corner leaf, bottom right, with room kept clear so it never sits under words */
@@ -14,7 +18,8 @@
     right: -40px;
     bottom: -36px;
     z-index: -1;
-    width: clamp(150px, 19vw, 260px);
+    /* Kept small so it fits in the bottom padding beside the review buttons */
+    width: clamp(120px, 12vw, 180px);
     aspect-ratio: 0.757;
     background: url("/leaf-accent-sm.webp") no-repeat center / contain;
     transform: scaleX(-1) rotate(-6deg);
@@ -199,11 +204,11 @@
 /* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
 @media (max-width: 899px) {
     .section {
-        padding-bottom: 10rem;
+        padding-bottom: 7.5rem;
     }
 
     .section::after {
-        width: 132px;
+        width: 104px;
         right: -14px;
         bottom: -14px;
     }

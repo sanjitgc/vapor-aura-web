@@ -1,4 +1,5 @@
 import { FAQS } from "@/lib/faqs";
+import { STORES } from "@/lib/stores";
 import styles from "./Faq.module.css";
 
 const faqSchema = {
@@ -16,7 +17,7 @@ export default function Faq() {
         <section className={styles.section} aria-labelledby="faq-title">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className={styles.container}>
-                <div className={styles.intro}>
+                <div className={styles.intro} data-reveal="">
                     <h2 id="faq-title" className={styles.title}>
                         Questions, answered
                     </h2>
@@ -25,9 +26,10 @@ export default function Faq() {
                         Sachse on Highway 78 and one in Irving on Royal Lane, open around the clock.
                     </p>
                 </div>
+
                 <div className={styles.list}>
                     {FAQS.map((f) => (
-                        <details key={f.q} className={styles.item}>
+                        <details key={f.q} className={styles.item} name="faq" data-typing="" data-reveal="">
                             <summary className={styles.question}>{f.q}</summary>
                             <div className={styles.answer}>
                                 <p>{f.a}</p>
@@ -39,6 +41,19 @@ export default function Faq() {
                             </div>
                         </details>
                     ))}
+                </div>
+
+                <div className={styles.help} data-reveal="">
+                    <h3 className={styles.helpTitle}>Still have a question?</h3>
+                    <p className={styles.helpText}>Call either store and we&apos;ll answer it, or check stock before you drive over.</p>
+                    <div className={styles.helpCalls}>
+                        {STORES.map((store) => (
+                            <a key={store.slug} href={store.tel} className={styles.helpCall}>
+                                <span>Call {store.city}</span>
+                                {store.phone}
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

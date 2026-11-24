@@ -59,7 +59,7 @@ export default function AboutPage() {
                     </p>
                 </header>
 
-                <section className={loc.section} aria-labelledby="stores-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="stores-title">
                     <h2 id="stores-title" className={loc.sectionTitle}>
                         Two stores
                     </h2>
@@ -98,13 +98,13 @@ export default function AboutPage() {
                     </ul>
                 </section>
 
-                <section className={loc.section} aria-labelledby="how-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="how-title">
                     <h2 id="how-title" className={loc.sectionTitle}>
                         How we run them
                     </h2>
                     <dl className={loc.highlights}>
                         {PROMISES.map((item) => (
-                            <div key={item.name}>
+                            <div key={item.name} data-rule="">
                                 <dt>{item.name}</dt>
                                 <dd>{item.text}</dd>
                             </div>
@@ -112,7 +112,7 @@ export default function AboutPage() {
                     </dl>
                 </section>
 
-                <section className={loc.section} aria-labelledby="carry-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="carry-title">
                     <h2 id="carry-title" className={loc.sectionTitle}>
                         What we carry
                     </h2>
