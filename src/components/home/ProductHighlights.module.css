@@ -76,15 +76,14 @@
     text-transform: uppercase;
 }
 
-/* A category with its own page: the name is green and the link covers the whole tile, which
-   grows slightly when pointed at. "Also on the shelves" entries have no page, so they stay white
-   and still. */
-.item:has(.itemLink) {
+/* Every category name is green, and a tile grows slightly when pointed at. A category with its
+   own page has the link stretched over the whole tile, so clicking anywhere on it opens the page. */
+.item {
     position: relative;
     transition: scale 0.35s var(--ease-out);
 }
 
-.itemLink {
+.itemTitle {
     color: #4ade80;
     transition: color 0.2s ease;
 }
@@ -105,13 +104,13 @@
 }
 
 @media (hover: hover) {
-    .item:has(.itemLink):hover .itemLink {
+    .item:hover .itemTitle {
         color: #86efac;
     }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .item:has(.itemLink):hover {
+    .item:hover {
         scale: 1.035;
     }
 }
