@@ -84,7 +84,8 @@
 }
 
 .itemTitle {
-    color: #4ade80;
+    /* The same green family as the site's buttons, a step lighter so it reads well on black */
+    color: #16a34a;
     transition: color 0.2s ease;
 }
 
@@ -99,13 +100,13 @@
 }
 
 .item:has(.itemLink:focus-visible) {
-    outline: 2px solid #4ade80;
+    outline: 2px solid #22c55e;
     outline-offset: 6px;
 }
 
 @media (hover: hover) {
     .item:hover .itemTitle {
-        color: #86efac;
+        color: #22c55e;
     }
 }
 
