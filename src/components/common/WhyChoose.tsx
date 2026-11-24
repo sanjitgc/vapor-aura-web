@@ -45,7 +45,7 @@ export default function WhyChoose() {
 
                 <ul className={styles.list}>
                     {reasons.map((reason, i) => (
-                        <li key={reason.title} className={styles.item} data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}>
+                        <li key={reason.title} className={styles.item} data-rule="" data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}>
                             <h3 className={styles.itemTitle}>{reason.title}</h3>
                             <p className={styles.itemText}>{reason.description}</p>
                         </li>

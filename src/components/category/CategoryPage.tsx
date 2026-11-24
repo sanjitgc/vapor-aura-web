@@ -58,7 +58,7 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                         </h2>
                         <dl className={styles.shelf}>
                             {copy.shelf.map((item, i) => (
-                                <div key={item.name} className={styles.shelfItem} data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
+                                <div key={item.name} className={styles.shelfItem} data-rule="" data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
                                     <dt>{item.name}</dt>
                                     <dd>{item.text}</dd>
                                 </div>

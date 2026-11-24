@@ -2,9 +2,14 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
     padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     background: var(--section-background);
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 .section::before {

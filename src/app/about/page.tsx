@@ -104,7 +104,7 @@ export default function AboutPage() {
                     </h2>
                     <dl className={loc.highlights}>
                         {PROMISES.map((item) => (
-                            <div key={item.name}>
+                            <div key={item.name} data-rule="">
                                 <dt>{item.name}</dt>
                                 <dd>{item.text}</dd>
                             </div>

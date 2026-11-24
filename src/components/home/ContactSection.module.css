@@ -5,6 +5,11 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 /* On /contact the breadcrumb sits above, so the section starts right under it

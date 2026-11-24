@@ -177,7 +177,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </h2>
                     <dl className={styles.highlights}>
                         {copy.highlights.map((item) => (
-                            <div key={item.name}>
+                            <div key={item.name} data-rule="">
                                 <dt>{item.name}</dt>
                                 <dd>{item.text}</dd>
                             </div>

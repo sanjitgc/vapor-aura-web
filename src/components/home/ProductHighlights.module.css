@@ -2,9 +2,14 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
     /* Extra room at the bottom so the corner leaf shows in full below the last row */
     padding: clamp(4rem, 8vw, 6.5rem) 1.5rem 12.5rem;
     background: var(--section-background);
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 /* One leaf, bottom right, in the room kept below the last row so it never sits under words */

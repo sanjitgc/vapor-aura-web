@@ -4,6 +4,11 @@
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    /* clip, not hidden, where supported: hidden would make this a scroll box, and the
+       scroll-driven reveals inside would stop following the page's scroll */
+    overflow: clip;
+    /* Keep children's margins inside, as overflow: hidden did */
+    display: flow-root;
 }
 
 /* Corner leaf, bottom left, with room kept clear so it never sits under words */

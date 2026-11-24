@@ -55,6 +55,7 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                             key={category.id}
                             id={isPage ? category.id : undefined}
                             className={styles.item}
+                            data-rule=""
                             data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}
                         >
                             <ItemHeading className={styles.itemTitle}>
@@ -79,6 +80,7 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                                 key={category.id}
                                 id={isPage ? category.id : undefined}
                                 className={styles.item}
+                                data-rule=""
                                 data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}
                             >
                                 <MoreItemHeading className={styles.itemTitle}>
