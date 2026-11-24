@@ -179,7 +179,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                     </h2>
                     <div className={loc.faq}>
                         {copy.faq.map((item) => (
-                            <details key={item.q} className={loc.faqItem}>
+                            <details key={item.q} className={loc.faqItem} data-typing="">
                                 <summary className={loc.faqQuestion}>{item.q}</summary>
                                 <p className={loc.faqAnswer}>{item.a}</p>
                             </details>

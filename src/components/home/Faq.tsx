@@ -27,7 +27,7 @@ export default function Faq() {
                 </div>
                 <div className={styles.list}>
                     {FAQS.map((f) => (
-                        <details key={f.q} className={styles.item} data-reveal="">
+                        <details key={f.q} className={styles.item} data-typing="" data-reveal="">
                             <summary className={styles.question}>{f.q}</summary>
                             <div className={styles.answer}>
                                 <p>{f.a}</p>

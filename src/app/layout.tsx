@@ -60,6 +60,7 @@ import Footer from "@/components/layout/Footer";
 import AgeVerification from "@/components/common/AgeVerification";
 import Analytics from "@/components/common/Analytics";
 import ChatLauncher from "@/components/assistant/ChatLauncher";
+import TypingAnswers from "@/components/common/TypingAnswers";
 
 // The chat assistant shows only once a Gemini API key is set for the deployment
 const CHAT_ON = Boolean(process.env.GEMINI_API_KEY);
@@ -80,6 +81,7 @@ export default function RootLayout({
         {children}
         <Footer />
         {CHAT_ON && <ChatLauncher />}
+        <TypingAnswers />
         <Analytics />
       </body>
     </html>

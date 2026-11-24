@@ -232,3 +232,72 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Answers that type themselves out when a question opens (TypingAnswers.tsx) */
+details[data-typing] {
+  position: relative;
+}
+
+details:is([data-typing="busy"], [data-typing="done"]) > p:not([data-typing-copy]),
+details:is([data-typing="busy"], [data-typing="done"]) > div > p:not([data-typing-copy]) {
+  color: transparent;
+}
+
+details[data-typing] a {
+  transition: opacity 0.3s ease;
+}
+
+details[data-typing="busy"] a {
+  opacity: 0;
+}
+
+[data-typing-copy] {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+}
+
+[data-typing-copy] > span:not([data-on]) {
+  color: transparent;
+}
+
+/* The cursor: a thin green bar just after the last typed letter, drawn as a shadow so it
+   never pushes the text around */
+[data-typing-copy] > [data-caret] {
+  box-shadow: 2px 0 0 #4ade80;
+}
+
+details[data-typing="done"] [data-caret] {
+  animation: caret-blink 0.6s steps(1) both;
+}
+
+@keyframes caret-blink {
+  50% { box-shadow: none; }
+}
+
+[data-typing-dots] {
+  position: absolute;
+  top: 0.45em;
+  left: 0;
+  display: flex;
+  gap: 5px;
+  padding: 0.45em 0.7em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+[data-typing-dots] i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: typing-dot 0.9s ease-in-out infinite;
+}
+
+[data-typing-dots] i:nth-child(2) { animation-delay: 0.15s; }
+[data-typing-dots] i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
