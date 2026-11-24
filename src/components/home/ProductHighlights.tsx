@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import styles from "./ProductHighlights.module.css";
 import { CATEGORIES, MORE_CATEGORIES } from "@/lib/catalog";
@@ -37,7 +38,7 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
         >
             <div className={styles.container}>
                 {!isPage && (
-                    <div className={styles.header}>
+                    <div className={styles.header} data-reveal="">
                         <h2 id="product-hints-title" className={styles.title}>
                             What we carry
                         </h2>
@@ -49,8 +50,13 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                 )}
 
                 <ul className={styles.list}>
-                    {CATEGORIES.map((category) => (
-                        <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
+                    {CATEGORIES.map((category, i) => (
+                        <li
+                            key={category.id}
+                            id={isPage ? category.id : undefined}
+                            className={styles.item}
+                            data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}
+                        >
                             <ItemHeading className={styles.itemTitle}>
                                 {category.page ? (
                                     <Link href={`/products/${category.page}`} className={styles.itemLink}>
@@ -68,8 +74,13 @@ export default function ProductHighlights({ variant = "section" }: ProductHighli
                 <div className={styles.more}>
                     <MoreHeading className={styles.moreTitle}>Also on the shelves</MoreHeading>
                     <ul className={`${styles.list} ${styles.listCompact}`}>
-                        {MORE_CATEGORIES.map((category) => (
-                            <li key={category.id} id={isPage ? category.id : undefined} className={styles.item}>
+                        {MORE_CATEGORIES.map((category, i) => (
+                            <li
+                                key={category.id}
+                                id={isPage ? category.id : undefined}
+                                className={styles.item}
+                                data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}
+                            >
                                 <MoreItemHeading className={styles.itemTitle}>
                                     {keepHyphenated(category.name)}
                                 </MoreItemHeading>

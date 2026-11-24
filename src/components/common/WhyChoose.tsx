@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import styles from "./WhyChoose.module.css";
 import { STORES } from "@/lib/stores";
 
@@ -32,7 +33,7 @@ export default function WhyChoose() {
     return (
         <section className={styles.section} aria-labelledby="why-choose-vapor-aura">
             <div className={styles.container}>
-                <div className={styles.intro}>
+                <div className={styles.intro} data-reveal="">
                     <h2 id="why-choose-vapor-aura" className={styles.title}>
                         Why choose Vapor Aura?
                     </h2>
@@ -43,8 +44,8 @@ export default function WhyChoose() {
                 </div>
 
                 <ul className={styles.list}>
-                    {reasons.map((reason) => (
-                        <li key={reason.title} className={styles.item}>
+                    {reasons.map((reason, i) => (
+                        <li key={reason.title} className={styles.item} data-reveal="" style={{ "--reveal-i": i % 4 } as CSSProperties}>
                             <h3 className={styles.itemTitle}>{reason.title}</h3>
                             <p className={styles.itemText}>{reason.description}</p>
                         </li>

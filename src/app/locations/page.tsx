@@ -60,7 +60,7 @@ export default function Locations() {
                     ))}
                 </div>
 
-                <section className={loc.section} aria-labelledby="areas-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="areas-title">
                     <h2 id="areas-title" className={loc.sectionTitle}>
                         Areas we serve
                     </h2>

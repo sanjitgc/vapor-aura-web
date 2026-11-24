@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import styles from "./Reviews.module.css";
 import { REVIEWS } from "@/lib/reviews";
 import { STORES, getStore, writeReviewUrl } from "@/lib/stores";
@@ -14,7 +15,7 @@ export default function Reviews() {
     return (
         <section className={styles.section} aria-labelledby="reviews-title">
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={styles.header} data-reveal="">
                     <h2 id="reviews-title" className={styles.title}>
                         What customers say
                     </h2>
@@ -24,8 +25,8 @@ export default function Reviews() {
                 </div>
 
                 <ul className={styles.grid}>
-                    {REVIEWS.map((review) => (
-                        <li key={review.name} className={styles.card}>
+                    {REVIEWS.map((review, i) => (
+                        <li key={review.name} className={styles.card} data-reveal="" style={{ "--reveal-i": i % 3 } as CSSProperties}>
                             <Stars />
                             <blockquote className={styles.quote}>
                                 <p>{review.text}</p>

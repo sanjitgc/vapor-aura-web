@@ -16,7 +16,7 @@ export default function Faq() {
         <section className={styles.section} aria-labelledby="faq-title">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className={styles.container}>
-                <div className={styles.intro}>
+                <div className={styles.intro} data-reveal="">
                     <h2 id="faq-title" className={styles.title}>
                         Questions, answered
                     </h2>
@@ -27,7 +27,7 @@ export default function Faq() {
                 </div>
                 <div className={styles.list}>
                     {FAQS.map((f) => (
-                        <details key={f.q} className={styles.item}>
+                        <details key={f.q} className={styles.item} data-reveal="">
                             <summary className={styles.question}>{f.q}</summary>
                             <div className={styles.answer}>
                                 <p>{f.a}</p>

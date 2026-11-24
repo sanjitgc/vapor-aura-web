@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./ContactSection.module.css";
 import Button from "@/components/ui/Button";
 import { submitInquiry } from "@/actions/submitInquiry";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { emailProblem, normalizePhone, PHONE_PROBLEM, type InquiryField } from "@/lib/inquiryValidation";
 import { FaFacebookF, FaInstagram, FaLocationDot } from "react-icons/fa6";
 import { SOCIAL, STORES, mapEmbedUrl, mapsListingUrl, weeklyHours } from "@/lib/stores";
@@ -111,7 +111,7 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
     return (
         <div className={`${styles.main} ${titleAs === "h1" ? styles.asPage : ""}`}>
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={styles.header} data-reveal="">
                     <Title className={styles.title}>{title}</Title>
                     <p className={styles.subtitle}>
                         Questions? Feedback? We want to hear from you.
@@ -119,7 +119,7 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                 </div>
 
                 <div className={styles.content}>
-                    <div className={styles.formColumn}>
+                    <div className={styles.formColumn} data-reveal="">
                         <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <label htmlFor="name" className={styles.label}>Name</label>
@@ -215,8 +215,13 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                     </div>
 
                     <div className={styles.locationsColumn}>
-                        {storeLocations.map((location) => (
-                            <article key={location.slug} className={styles.locationCard} data-store={location.slug}>
+                        {storeLocations.map((location, i) => (
+                            <article
+                                key={location.slug}
+                                className={styles.locationCard}
+                                data-store={location.slug}
+                                data-reveal="" style={{ "--reveal-i": i + 1 } as CSSProperties}
+                            >
                                 <div className={styles.locationCardHeader}>
                                     <FaLocationDot className={styles.locationIcon} aria-hidden="true" />
                                     <h3 className={styles.locationCardTitle}>

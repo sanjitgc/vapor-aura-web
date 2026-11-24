@@ -92,7 +92,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                     </div>
                 </header>
 
-                <section className={loc.section} aria-labelledby="store-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="store-title">
                     <h2 id="store-title" className={loc.sectionTitle}>
                         The store closest to {copy.place}
                     </h2>
@@ -130,7 +130,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                     </div>
                 </section>
 
-                <section className={loc.section} aria-labelledby="carry-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="carry-title">
                     <h2 id="carry-title" className={loc.sectionTitle}>
                         What we carry
                     </h2>
@@ -148,7 +148,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                 </section>
 
                 {reviews.length > 0 && (
-                    <section className={loc.section} aria-labelledby="reviews-title">
+                    <section className={loc.section} data-reveal="" aria-labelledby="reviews-title">
                         <h2 id="reviews-title" className={loc.sectionTitle}>
                             What customers say about the {store.city} store
                         </h2>
@@ -173,7 +173,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                     </section>
                 )}
 
-                <section className={loc.section} aria-labelledby="faq-title">
+                <section className={loc.section} data-reveal="" aria-labelledby="faq-title">
                     <h2 id="faq-title" className={loc.sectionTitle}>
                         Coming from {copy.place}
                     </h2>
@@ -188,7 +188,7 @@ export default function AreaPage({ copy }: { copy: AreaPageCopy }) {
                 </section>
 
                 {others.length > 0 && (
-                    <nav className={loc.section} aria-labelledby="others-title">
+                    <nav className={loc.section} data-reveal="" aria-labelledby="others-title">
                         <h2 id="others-title" className={loc.sectionTitle}>
                             Also near the {store.city} store
                         </h2>
