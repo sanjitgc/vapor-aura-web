@@ -104,7 +104,15 @@ export default function TypingAnswers() {
             const details = e.target;
             if (!(details instanceof HTMLDetailsElement) || !details.hasAttribute("data-typing")) return;
             runs.get(details)?.cancel();
-            if (details.open && motion.matches) play(details);
+            if (!details.open) return;
+            // One answer open at a time. Browsers that know <details name> already do this; this
+            // covers older ones.
+            if (details.name) {
+                for (const other of document.querySelectorAll<HTMLDetailsElement>("details[open]")) {
+                    if (other !== details && other.name === details.name) other.open = false;
+                }
+            }
+            if (motion.matches) play(details);
         };
         document.addEventListener("toggle", onToggle, true);
         return () => document.removeEventListener("toggle", onToggle, true);

@@ -147,7 +147,7 @@ export default function CategoryPage({ copy }: { copy: CategoryPageCopy }) {
                     </h2>
                     <div className={loc.faq}>
                         {copy.faq.map((item) => (
-                            <details key={item.q} className={loc.faqItem} data-typing="">
+                            <details key={item.q} className={loc.faqItem} name="page-faq" data-typing="">
                                 <summary className={loc.faqQuestion}>{item.q}</summary>
                                 <p className={loc.faqAnswer}>{item.a}</p>
                             </details>

@@ -270,7 +270,7 @@ export default function LocationPage({ slug }: { slug: Store["slug"] }) {
                     </h2>
                     <div className={styles.faq}>
                         {copy.faq.map((item) => (
-                            <details key={item.q} className={styles.faqItem} data-typing="">
+                            <details key={item.q} className={styles.faqItem} name="page-faq" data-typing="">
                                 <summary className={styles.faqQuestion}>{item.q}</summary>
                                 <p className={styles.faqAnswer}>{item.a}</p>
                             </details>
