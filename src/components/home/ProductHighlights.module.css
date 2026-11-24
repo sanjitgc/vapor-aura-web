@@ -156,7 +156,7 @@
     }
 
     .section::after {
-        width: 132px;
+        width: 104px;
         right: -14px;
         bottom: -14px;
     }
@@ -195,7 +195,7 @@
 /* Tablets and phones: room kept below the last row so the whole leaf shows clear of text */
 @media (max-width: 899px) {
     .section {
-        padding-bottom: 10rem;
+        padding-bottom: 7.5rem;
     }
 }
 

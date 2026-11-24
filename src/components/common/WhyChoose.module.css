@@ -172,11 +172,11 @@
 /* Tablets and phones: a smaller leaf, with room kept below the content so the whole leaf shows clear of text */
 @media (max-width: 899px) {
     .section {
-        padding-bottom: 10rem;
+        padding-bottom: 7.5rem;
     }
 
     .section::before {
-        width: 132px;
+        width: 104px;
         left: -14px;
         bottom: -14px;
     }

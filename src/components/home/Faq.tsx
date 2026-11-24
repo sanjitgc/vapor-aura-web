@@ -1,4 +1,5 @@
 import { FAQS } from "@/lib/faqs";
+import { STORES } from "@/lib/stores";
 import styles from "./Faq.module.css";
 
 const faqSchema = {
@@ -25,6 +26,7 @@ export default function Faq() {
                         Sachse on Highway 78 and one in Irving on Royal Lane, open around the clock.
                     </p>
                 </div>
+
                 <div className={styles.list}>
                     {FAQS.map((f) => (
                         <details key={f.q} className={styles.item} name="faq" data-typing="" data-reveal="">
@@ -39,6 +41,19 @@ export default function Faq() {
                             </div>
                         </details>
                     ))}
+                </div>
+
+                <div className={styles.help} data-reveal="">
+                    <h3 className={styles.helpTitle}>Still have a question?</h3>
+                    <p className={styles.helpText}>Call either store and we&apos;ll answer it, or check stock before you drive over.</p>
+                    <div className={styles.helpCalls}>
+                        {STORES.map((store) => (
+                            <a key={store.slug} href={store.tel} className={styles.helpCall}>
+                                <span>Call {store.city}</span>
+                                {store.phone}
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
