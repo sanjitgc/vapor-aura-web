@@ -121,9 +121,33 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                 <div className={styles.content}>
                     <div className={styles.formColumn} data-reveal="">
                         <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="name" className={styles.label}>Name</label>
-                            <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required maxLength={100} />
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="name" className={styles.label}>Name</label>
+                                <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required maxLength={100} />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="phone" className={styles.label}>Phone (optional)</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    className={styles.input}
+                                    placeholder="(214) 501-3222"
+                                    maxLength={25}
+                                    autoComplete="tel"
+                                    inputMode="tel"
+                                    aria-invalid={fieldErrors.phone ? true : undefined}
+                                    aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+                                    onBlur={(e) => checkField("phone", e.currentTarget)}
+                                    onChange={(e) => recheck("phone", e.currentTarget)}
+                                />
+                                {fieldErrors.phone && (
+                                    <p id="phone-error" className={styles.fieldError}>
+                                        {fieldErrors.phone}
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
                         <div className={styles.formGroup}>
@@ -149,51 +173,29 @@ export default function ContactSection({ titleAs = "h2", title = "Get in touch" 
                             )}
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="phone" className={styles.label}>Phone (optional)</label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                className={styles.input}
-                                placeholder="(214) 501-3222"
-                                maxLength={25}
-                                autoComplete="tel"
-                                inputMode="tel"
-                                aria-invalid={fieldErrors.phone ? true : undefined}
-                                aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
-                                onBlur={(e) => checkField("phone", e.currentTarget)}
-                                onChange={(e) => recheck("phone", e.currentTarget)}
-                            />
-                            {fieldErrors.phone && (
-                                <p id="phone-error" className={styles.fieldError}>
-                                    {fieldErrors.phone}
-                                </p>
-                            )}
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="store" className={styles.label}>Which store?</label>
+                                <select id="store" name="store" className={styles.select} defaultValue="Either">
+                                    <option value="Either">Either store</option>
+                                    <option value="Sachse">Sachse</option>
+                                    <option value="Irving">Irving</option>
+                                </select>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="subject" className={styles.label}>Subject</label>
+                                <select id="subject" name="subject" className={styles.select} required>
+                                    <option value="General Inquiry">General inquiry</option>
+                                    <option value="Store Experience">Store experience</option>
+                                    <option value="Product Request">Product request</option>
+                                    <option value="Careers">Careers</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="store" className={styles.label}>Which store?</label>
-                            <select id="store" name="store" className={styles.select} defaultValue="Either">
-                                <option value="Either">Either store</option>
-                                <option value="Sachse">Sachse</option>
-                                <option value="Irving">Irving</option>
-                            </select>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <label htmlFor="subject" className={styles.label}>Subject</label>
-                            <select id="subject" name="subject" className={styles.select} required>
-                                <option value="General Inquiry">General inquiry</option>
-                                <option value="Store Experience">Store experience</option>
-                                <option value="Product Request">Product request</option>
-                                <option value="Careers">Careers</option>
-                            </select>
-                        </div>
-
-                        <div className={styles.formGroup}>
+                        <div className={`${styles.formGroup} ${styles.messageGroup}`}>
                             <label htmlFor="message" className={styles.label}>Message</label>
-                            <textarea id="message" name="message" className={styles.textarea} rows={5} placeholder="How can we help?" required maxLength={5000}></textarea>
+                            <textarea id="message" name="message" className={styles.textarea} rows={3} placeholder="How can we help?" required maxLength={5000}></textarea>
                         </div>
 
                         {/* Spam trap: hidden from people, filled in by bots */}
